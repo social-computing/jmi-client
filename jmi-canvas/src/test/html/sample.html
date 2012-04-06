@@ -53,6 +53,7 @@
 
 <script>
 var breadcrumbTitles = { shortTitle: 'Carte principale', longTitle: '' };
+var map;
 function breadcrumbTitlesFunc(event) {
 	if( event.type === JMI.Map.event.EMPTY) {
 		return {shortTitle: 'Sorry, the map is empty. Does the feed contains categories?', longTitle: 'Sorry, the map is empty. Does the feed contains categories?'};
@@ -77,7 +78,7 @@ function getParams() {
 function GoMap() {
 	var parameters = getParams();
 	parameters.analysisProfile= 'GlobalProfile';
-	var map = JMI.Map({
+	map = JMI.Map({
 				parent: 'map', 
 				swf: '/jmi-canvas/src/main/swf/jmi-flex-1.0-SNAPSHOT.swf', 
 				touchMenuDelay : 1000,
@@ -130,13 +131,12 @@ function JMIF_Center(map, args) {
 	map.compute( parameters);
 }
 function image() {
-	document.location.href = document.getElementById('map').JMI.getImage("image/png", 200, 200, true);
+	document.location.href = map.getImage("image/png", 200, 200, true);
 };
 function data() {
-	document.location.href = document.getElementById('map').JMI.getData();
+	document.location.href = map.getData();
 };
 function search(value) {
-	var map = document.getElementById('map').JMI;
 	var res1 = map.attributes.match(value,['NAME']);	
 	var res2 = map.links.match(value,['REC_NAME']);	
 	document.getElementById('res').innerHTML = res1.length + ' attribute(s) found / ' + res2.length + ' link(s) found'; 
@@ -155,7 +155,7 @@ function search(value) {
 <div>
 <div id="breadcrumb">&nbsp;</div>
 <div id="map" style="border:1px solid black ;width: 640px ;height: 480px; " ></div>
-<button onclick="document.getElementById('map').JMI.resize(900,480);">Resize</button>
+<button onclick="map.resize(900,480);">Resize</button>
 <button onclick="image();">Image</button>
 <button onclick="data();">Data</button>
 <input onkeyup="search(this.value)"/><span id="res"></span>

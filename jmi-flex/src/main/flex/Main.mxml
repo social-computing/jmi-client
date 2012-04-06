@@ -74,7 +74,7 @@
 				ExternalInterface.addCallback( "uploadAsImage", uploadAsImage);
 				ExternalInterface.addCallback( "getImage", getImage);
 				ExternalInterface.addCallback( "getAttributesCount", getAttributesCount);
-				ExternalInterface.addCallback( "getAttribute", getAttribute);
+				ExternalInterface.addCallback( "getJmiAttribute", getAttribute); // Jmi because conflict with IE 8.0 and < 
 				ExternalInterface.addCallback( "getLinksCount", getLinksCount);
 				ExternalInterface.addCallback( "getLink", getLink);
 				ExternalInterface.addCallback( "getSelections", getSelections);

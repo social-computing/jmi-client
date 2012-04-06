@@ -75,6 +75,9 @@ JMI.components.SwfMap = (function() {
 				return this.swfmap.getImage(mime, width, height, keepProportions);
 			}
 		},
+		resize: function(width, height) {
+			// Not implemented
+		},
 		showSelection: function(selection) {
 			if( this.swfmap) {
 				this.swfmap.showSelection(selection);
@@ -104,7 +107,7 @@ JMI.components.SwfMap = (function() {
 				count = this.swfmap.getAttributesCount();
 				for( i = 0; i < count; ++i) {
 					o = new JMI.components.Attribute(i);
-					swfO = this.swfmap.getAttribute(i);
+					swfO = this.swfmap.getJmiAttribute(i);
 					for(p in swfO) {
 						if(p && (p.charAt(0) !== '_')) {
 							o[p] = swfO[p]; 
