@@ -61,7 +61,7 @@ JMI.script.BagZone = ( function() {
 					// float dir = 0.f,
 					var stp = 0.25 * JMI.script.Base.Pi2;
 					// isLeft || isRight
-					if(isLeft || (this.bounds.x + this.bounds.width > applet.width)) {
+					if(isLeft || (this.bounds.x + this.bounds.width > applet.size.width)) {
 						this.stp = JMI.script.Base.Pi2 / (nbSubZones << 1);
 
 						if(isLeft) {
@@ -75,7 +75,7 @@ JMI.script.BagZone = ( function() {
 				}
 
 				// isLeft || isRight
-				if(isLeft || (this.bounds.x + this.bounds.width > applet.width)) {
+				if(isLeft || (this.bounds.x + this.bounds.width > applet.size.width)) {
 					this.flags |= isLeft ? JMI.script.ActiveZone.SIDE_BIT | JMI.script.ActiveZone.LEFT_BIT : JMI.script.ActiveZone.SIDE_BIT;
 				}
 			}
