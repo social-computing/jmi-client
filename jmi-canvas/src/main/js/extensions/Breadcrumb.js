@@ -4,10 +4,8 @@ JMI.namespace("extensions.Breadcrumb");
 JMI.extensions.Breadcrumb = ( function() {
 
 	var Breadcrumb = function(parent,map,parameters) {
-		// IE 6, 7 & 8 not yest supported (event problems) attachEvent, etc...
-		if( navigator.userAgent.indexOf('MSIE 6') > 0 || navigator.userAgent.indexOf('MSIE 7') > 0 || navigator.userAgent.indexOf('MSIE 8') > 0) {
-			return;
-		}
+		// IE 6, 7 & 8 not yest supported (event problems) attachEvent, etc... => simplified breadcrumb 
+		this.badIe = navigator.userAgent.indexOf('MSIE 6') > 0 || navigator.userAgent.indexOf('MSIE 7') > 0 || navigator.userAgent.indexOf('MSIE 8') > 0;
 		this.crumbs = [];
 		this.counter = 0;
 		this.namingFunc = parameters && parameters.namingFunc ? parameters.namingFunc : this.defaultNaming;
@@ -80,8 +78,17 @@ JMI.extensions.Breadcrumb = ( function() {
 		display: function() {
 			var i, lu = document.createElement('lu');
 			lu.className = 'jmi-breadcrumb';
-			for( i = 0; i < this.crumbs.length; ++i) {
-				lu.appendChild( this.getCrumb(this.crumbs[i], i === this.crumbs.length-1));
+			if( !this.badIe) {
+				for( i = 0; i < this.crumbs.length; ++i) {
+					lu.appendChild( this.getCrumb(this.crumbs[i], i === this.crumbs.length-1));
+				}
+			}
+			else {
+				if( this.crumbs.length > 0) {
+					var c = document.createElement('li'), crumb = this.crumbs[this.crumbs.length-1];
+					c.innerHTML = !crumb.error && !crumb.empty ? crumb.longTitle : crumb.shortTitle;
+					lu.appendChild(c);
+				}				
 			}
 			if(this.parent.firstChild) {
 				this.parent.removeChild(this.parent.firstChild);
@@ -103,39 +110,41 @@ JMI.extensions.Breadcrumb = ( function() {
 			a.innerHTML = last && !crumb.error && !crumb.empty ? crumb.longTitle : crumb.shortTitle;
 			a.title = crumb.longTitle;
 			a.crumb = crumb;
-			a.addEventListener('click', function(event) {
-				event.preventDefault();
-				if( !event.target.crumb.error && !event.target.crumb.empty) {
-					do {
-						cur = breadcrumb.crumbs.pop();
-						if( cur.thumbnail) {
-							document.body.removeChild(cur.thumbnail);
-							delete cur.thumbnail;
-						}
-					} while( cur !== event.target.crumb);
-					event.target.crumb.self = true;
-					breadcrumb.crumbs.push(event.target.crumb);
-					breadcrumb.map.compute(event.target.crumb.params);
-				}
-			}, false);
-			//a.addEventListener('dblclick', applet.menuHandler, false);
-			a.addEventListener('mouseover', function(event) {
-				event.preventDefault();
-				var crumb = event.target.crumb;
-				if( crumb.thumbnail && !crumb.error && !crumb.empty) {
-					var p = JMI.util.ImageUtil.AbsPosition(crumb.li);
-					crumb.thumbnail.style.top = (p.y + crumb.li.offsetHeight) + 'px';
-					crumb.thumbnail.style.left = p.x + 'px';
-					crumb.thumbnail.style.visibility = '';
-				}
-			}, false);
-			a.addEventListener('mouseout', function(event) {
-				event.preventDefault();
-				var crumb = event.target.crumb;
-				if( crumb.thumbnail) {
-					crumb.thumbnail.style.visibility = 'hidden';
-				}
-			}, false);
+			if( a.addEventListener) {
+				a.addEventListener('click', function(event) {
+					event.preventDefault();
+					if( !event.target.crumb.error && !event.target.crumb.empty) {
+						do {
+							cur = breadcrumb.crumbs.pop();
+							if( cur.thumbnail) {
+								document.body.removeChild(cur.thumbnail);
+								delete cur.thumbnail;
+							}
+						} while( cur !== event.target.crumb);
+						event.target.crumb.self = true;
+						breadcrumb.crumbs.push(event.target.crumb);
+						breadcrumb.map.compute(event.target.crumb.params);
+					}
+				}, false);
+				//a.addEventListener('dblclick', applet.menuHandler, false);
+				a.addEventListener('mouseover', function(event) {
+					event.preventDefault();
+					var crumb = event.target.crumb;
+					if( crumb.thumbnail && !crumb.error && !crumb.empty) {
+						var p = JMI.util.ImageUtil.AbsPosition(crumb.li);
+						crumb.thumbnail.style.top = (p.y + crumb.li.offsetHeight) + 'px';
+						crumb.thumbnail.style.left = p.x + 'px';
+						crumb.thumbnail.style.visibility = '';
+					}
+				}, false);
+				a.addEventListener('mouseout', function(event) {
+					event.preventDefault();
+					var crumb = event.target.crumb;
+					if( crumb.thumbnail) {
+						crumb.thumbnail.style.visibility = 'hidden';
+					}
+				}, false);
+			}
 			c.appendChild(a);
 			return c;
 		},
