@@ -14,14 +14,16 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 
---><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.socialcomputing.jmi.jmi</groupId>
-  <artifactId>jmi</artifactId>
+  <groupId>com.socialcomputing.jmi.jmi-client</groupId>
+  <artifactId>jmi-client</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>Just Map It</name>
+  <name>Just Map It! - Client parent maven module</name>
   <url>http://www.just-map-it.com/</url>
   
   <modules>
@@ -29,11 +31,7 @@
     <module>jmi-flex-lib</module>
     <module>jmi-flex</module>
     <module>jmi-flex-demo</module>
-    <module>jmi-viadeo</module>
-    
-    <!-- Server -->
-    <module>jmi-server</module>
-    <module>jmi-server-connector-utils</module>
+    <module>jmi-canvas</module>
   </modules>
 
   <repositories>
@@ -85,13 +83,12 @@
     </pluginRepository>
   </pluginRepositories>
   
-  
   <properties>
-    <applet.version>${project.version}</applet.version>
     <jetty.version>8.0.0.M2</jetty.version>
     <jersey.version>1.5</jersey.version>
     <flexmojos.version>4.0-SNAPSHOT</flexmojos.version>
     <flex-framework.version>4.5.0.17689</flex-framework.version>
     <flex.sdk.version>4.5.0.17689</flex.sdk.version>
+    <flex.unit.version>4.1.0-RC2</flex.unit.version>
   </properties>
 </project>

@@ -1,17 +1,34 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2008 Marvin Herman Froeder
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>com.socialcomputing.jmi.jmi</groupId>
-    <artifactId>jmi</artifactId>
+    <groupId>com.socialcomputing.jmi.jmi-client</groupId>
+    <artifactId>jmi-client</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
   
-  <groupId>com.socialcomputing.jmi.jmi</groupId>
   <artifactId>jmi-canvas</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <name>Just Map It - Canvas client</name>
+  <name>Just Map It! - Canvas</name>
   <url>http://www.just-map-it.com</url>
+  <packaging>jar</packaging>
   
   <pluginRepositories>
     <pluginRepository>
@@ -21,76 +38,37 @@
     </pluginRepository>
   </pluginRepositories>
  
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
-
-
   <build>
-   <!--extensions>
-      <extension>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>javascript-maven-plugin</artifactId>
-        <version>2.0.0-SNAPSHOT</version>
-      </extension>
-    </extensions>
-	<plugins>
-	  <plugin>
-	    <groupId>org.codehaus.mojo</groupId>
-	    <artifactId>jslint-maven-plugin</artifactId>
-	    <version>1.0.1</version>
-        <configuration>
-		  <excludes>
-		    <exclude>**/namespace.js</exclude>
-		    <exclude>**/swfobject.js</exclude>
-			<exclude>**/json_sans_eval.js</exclude>
-		  </excludes>
-		  <allowOneVarStatementPerFunction>false</allowOneVarStatementPerFunction>
-		  <disallowBitwiseOperators>false</disallowBitwiseOperators>
-		  <failOnIssues>false</failOnIssues>
-        </configuration>
-      </plugin>
-	</plugins-->
-
-    <!--resources>  
-      <resource>  
-         <directory>target/jmi</directory>
-		 <filtering>true</filtering>
-      </resource>  
-    </resources-->  
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>net.alchim31.maven</groupId>
-          <artifactId>yuicompressor-maven-plugin</artifactId>
-          <version>1.2</version>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-    <plugins>
+    <plugins>   
+      <!-- 
+          Yahoo UI Compressor : 
+             * compress
+             * obfuscate
+             * validate (jslint)
+      -->
       <plugin>
         <groupId>net.alchim31.maven</groupId>
         <artifactId>yuicompressor-maven-plugin</artifactId>
-        <version>1.2</version>
+        <version>${yui.compressor.version}</version>
         <executions>
           <execution>
             <goals>
-			  <goal>jslint</goal>
+              <goal>jslint</goal>
               <goal>compress</goal>
             </goals>
           </execution>
         </executions>        
         <configuration>
           <nosuffix>true</nosuffix>
-		  <sourceDirectory>src/main/js</sourceDirectory>
-		  <outputDirectory>target/jmi</outputDirectory>
-		  <excludes>
-			<exclude>**/*.jon</exclude>
-		  </excludes>
+          <sourceDirectory>src/main/js</sourceDirectory>
+          <outputDirectory>target/classes/jmi-client</outputDirectory>
+          <excludes>
+            <exclude>**/*.json</exclude>
+          </excludes>
           <aggregations>
             <aggregation>
               <insertNewLine>true</insertNewLine>
-              <output>target/jmi/jmi-client.js</output>
+              <output>target/classes/jmi-client/jmi-client.js</output>
               <includes>
                 <include>jmi.js</include>
                 <include>lib/*.js</include>
@@ -103,19 +81,65 @@
           </aggregations>
         </configuration>
       </plugin>
-       <plugin>
+
+      <!-- Copy flex client application to swf directory -->
+      <plugin>
+        <groupId>org.sonatype.flexmojos</groupId>
+        <artifactId>flexmojos-maven-plugin</artifactId>
+        <version>${flexmojos.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>copy-flex-resources</goal>
+            </goals>
+            <configuration>
+                <webappDirectory>target/classes/jmi-client/swf</webappDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Jar creation configuration -->
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
         <version>2.4</version>
         <configuration>
-		  <directory>target/jmi</directory>
+	      <directory>target/classes/</directory>
           <includes>
-            <include>jmi-client.js</include>
-            <include>jmi-client.css</include>
-            <include>arrow-right.png</include>
+            <include>jmi-client/jmi-client.js</include>
+            <include>jmi-client/css/*</include>
+            <include>jmi-client/images/*</include>
+            <include>jmi-client/swf/*</include>
           </includes>
         </configuration>
       </plugin>
+      
+      <!-- Assembly plugin to generate the source and the dist zip archives -->
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.3</version>
+        <configuration>
+          <descriptors>
+            <descriptor>src/main/assembly/min.xml</descriptor>
+            <descriptor>src/main/assembly/src.xml</descriptor>
+          </descriptors>
+        </configuration>
+        <executions>
+          <execution>
+            <id>package-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>attached</goal>
+            </goals>
+          </execution>
+        </executions>         
+      </plugin>      
     </plugins>
   </build>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <yui.compressor.version>1.3.0</yui.compressor.version>
+  </properties>  
 </project>
