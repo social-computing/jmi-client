@@ -60,7 +60,7 @@ JMI.Map = function(params) {
 
 	// Opera doesn't fully support canvas
 	if((!params.client || params.client === JMI.Map.CANVAS) && JMI.canvas() && !window.opera) {
-		return new JMI.components.CanvasMap(divParent, server, touchMenuDelay, backgroundColor);
+		return new JMI.components.CanvasMap(divParent, server, touchMenuDelay, backgroundColor, params.watermark);
 	}
 	if(!params.client || params.client === JMI.Map.SWF) {
 		if(!params.swf) {

@@ -3,7 +3,7 @@ JMI.namespace("components.CanvasMap");
 
 JMI.components.CanvasMap = (function() {
 
-	var CanvasMap = function(parent, server, touchMenuDelay, backgroundColor) {
+	var CanvasMap = function(parent, server, touchMenuDelay, backgroundColor, watermarkParams) {
 		this.isTouchInterface = JMI.components.CanvasMap.IsTouchInterface();
 		this.type = JMI.Map.CANVAS;
 		this.requester = new JMI.components.MapRequester(this, server);
@@ -53,6 +53,9 @@ JMI.components.CanvasMap = (function() {
 		this.backDrawingCanvas.style.visibility = 'hidden';
 		this.backDrawingContext = this.backDrawingCanvas.getContext("2d");
 		
+		// Watermark
+		this.watermark = new JMI.script.Watermark(watermarkParams);
+		
 		// Event listeners
 		if( !this.isTouchInterface) {
 			this.drawingCanvas.addEventListener('mousemove', this.mouseMoveHandler, false);
@@ -83,6 +86,15 @@ JMI.components.CanvasMap = (function() {
         constructor: JMI.components.CanvasMap,
 		
 		compute: function(jmiparams) {
+			var filterColor = this.ready && this.planContainer.map.env.filterColor ? this.planContainer.map.env.filterColor : '#ffffff';
+			this.backDrawingContext.drawImage(this.restDrawingCanvas, 0, 0);
+			JMI.util.ImageUtil.filterImage(this.backDrawingContext, this.size, filterColor);
+			if( this.watermark) {
+				this.watermark.render(this, this.backDrawingContext);
+			}
+			this.renderShape(this.backDrawingCanvas, this.size.width, this.size.height);
+			
+			this.ready = false;
 			this.dispatchEvent({map: this, type: JMI.Map.event.START, params: jmiparams});
 			this.requester.getMap(jmiparams.map, jmiparams);
 		},
@@ -128,14 +140,18 @@ JMI.components.CanvasMap = (function() {
 			else {
 				this.planContainer = JMI.script.PlanContainer.fromJSON( value);
 			}
-			if( this.planContainer.hasOwnProperty( "error")) {
+			if( true && this.planContainer.hasOwnProperty( "error")) {
 				// Server error
 				document.body.style.cursor = 'default';
+				this.renderWatermark();
+				this.invalidate();
 				this.dispatchEvent({map: this, type: JMI.Map.event.ERROR, message: this.planContainer.error});
 			}
 			else if( !this.planContainer.hasOwnProperty( 'map') || !this.planContainer.map.hasOwnProperty( 'plan')) {
 				// Empty map
 				document.body.style.cursor = 'default';
+				this.renderWatermark();
+				this.invalidate();
 				this.dispatchEvent({ map: this, type: JMI.Map.event.EMPTY});
 			}
 			else {
@@ -150,14 +166,13 @@ JMI.components.CanvasMap = (function() {
 				this.planContainer.map.plan.init();
 				this.planContainer.map.plan.resize(this.size);
 				this.planContainer.map.plan.init();
+				this.renderWatermark();
 				this.ready = true;
 				document.body.style.cursor = 'default';
 
 				this.initApiObjects();
 				this.invalidate();
-				if(this.ready) {
-					this.dispatchEvent({map: this, type:JMI.Map.event.READY});
-				}
+				this.dispatchEvent({map: this, type:JMI.Map.event.READY});
 			}
 		},
 		getData: function() {
@@ -169,7 +184,6 @@ JMI.components.CanvasMap = (function() {
 			}
 			return null;
 		},
-		
 		invalidate: function() {
 			this.renderShape(this.restDrawingCanvas, this.size.width, this.size.height);
 		},		
@@ -191,6 +205,11 @@ JMI.components.CanvasMap = (function() {
 			JMI.util.ImageUtil.clear(this.curDrawingCanvas, this.curDrawingContext);
 			JMI.util.ImageUtil.clear(this.drawingCanvas, this.drawingContext);
 		},
+		renderWatermark: function() {
+			if( this.watermark) {
+				this.watermark.render(this, this.restDrawingContext);
+			}
+		},
 		mouseMoveHandler: function(event) {
 			if (this instanceof HTMLCanvasElement) {
 				event.preventDefault();
@@ -199,6 +218,11 @@ JMI.components.CanvasMap = (function() {
 				this.JMI.curPos.y = mousePosition.y;
 				if (this.JMI.ready) {
 					this.JMI.planContainer.map.plan.updateZoneAt(this.JMI.curPos);
+				}
+				if ( !this.JMI.ready || !this.JMI.planContainer.map.plan.curSat) {
+					if( this.JMI.watermark) {
+						this.JMI.watermark.hover(this.JMI,this.JMI.curPos);
+					}
 				}
 			}
 		},
@@ -216,6 +240,11 @@ JMI.components.CanvasMap = (function() {
 				{
 					this.JMI.planContainer.map.plan.updateZoneAt( mousePosition);
 					this.JMI.planContainer.map.plan.curSat.execute( this.JMI, this.JMI.planContainer.map.plan.curZone, mousePosition, JMI.script.Satellite.CLICK_VAL, new JMI.script.Point( event.pageX, event.pageY));
+				}
+				if ( !this.JMI.ready || !this.JMI.planContainer.map.plan.curSat) {
+					if( this.JMI.watermark) {
+						this.JMI.watermark.click(this.JMI,mousePosition);
+					}
 				}
 			}
 		},
@@ -454,8 +483,8 @@ JMI.components.CanvasMap = (function() {
 			this.dispatchEvent( {map: this, type: JMI.Map.event.NAVIGATE, url: actionStr, target: target});
 			window.open( actionStr, target);
 		},
-		openSoCom: function ( e) {
-			window.open( "http://www.social-computing.com", "_blank");
+		openJMI: function ( e) {
+			window.open( "http://www.just-map-it.com", "_blank");
 		},
 		getImage: function(mime, width, height, keepProportions) {
 			var copy = document.createElement("canvas"),

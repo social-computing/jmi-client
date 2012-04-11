@@ -11,6 +11,7 @@ package com.socialcomputing.wps.components
 	import com.socialcomputing.wps.script.LinkZone;
 	import com.socialcomputing.wps.script.Plan;
 	import com.socialcomputing.wps.script.Satellite;
+	import com.socialcomputing.wps.script.Watermark;
 	import com.socialcomputing.wps.util.controls.ImageUtil;
 	
 	import flash.display.Bitmap;
@@ -85,6 +86,8 @@ package com.socialcomputing.wps.components
 		private var _backDrawingSurface:Sprite; 
 		private var _curDrawingSurface:Sprite;
 		
+		private var watermark:Watermark;
+		
 		/*
 		 * API
 		 */
@@ -123,16 +126,19 @@ package com.socialcomputing.wps.components
 			this.addEventListener(ResizeEvent.RESIZE, resizeHandler);
 			this.addEventListener(NavigateEvent.NAVIGATE, navigateHandler);
 			
+			// Watermark
+			this.watermark = new Watermark(null);
+			
 			var wpsMenu:ContextMenu = new ContextMenu();
 			wpsMenu.hideBuiltInItems();
-			var menuItem:ContextMenuItem = new ContextMenuItem("powered by Just Map It! - Social Computing");
+			var menuItem:ContextMenuItem = new ContextMenuItem("powered by Just Map It!");
 			menuItem.addEventListener( ContextMenuEvent.MENU_ITEM_SELECT, openSoCom);
 			wpsMenu.customItems.push( menuItem);
 			this.contextMenu = wpsMenu;
 		}
 		
-		private function openSoCom( e:ContextMenuEvent):void {
-			navigateToURL( new URLRequest( "http://www.social-computing.com"), "_blank");
+		public function openSoCom( e:ContextMenuEvent):void {
+			navigateToURL( new URLRequest( "http://www.just-map-it.com"), "_blank");
 		}
 		
 		public function get backDrawingSurface():Sprite
@@ -194,6 +200,17 @@ package com.socialcomputing.wps.components
 		public function set curPos(pos:Point):void {
 			_curPos = pos;
 		}
+		public function preCompute():void {
+			var filterColor:uint = this.ready && this.env.m_filterCol ? this.env.m_filterCol.getColor().color : -1;
+			ImageUtil.copy(this.restDrawingSurface, backDrawingSurface);
+			ImageUtil.filterImage(this.backDrawingSurface, this.size, filterColor);
+			if( this.watermark) {
+				this.watermark.render(this, this.backDrawingSurface);
+			}
+			this.renderShape(this.backDrawingSurface, this.size.width, this.size.height);
+			
+			this._ready = false;
+		}
 		
 		public function get dataProvider():Object
 		{
@@ -244,11 +261,17 @@ package com.socialcomputing.wps.components
 			if( this._dataProvider.hasOwnProperty( "error")) {
 				// Server error
 				CursorManager.removeBusyCursor();
+				this.renderWatermark();
+				this.invalidateProperties();
+				this.invalidateDisplayList();
 				dispatchEvent(new StatusEvent(StatusEvent.ERROR, this._dataProvider.error));
 			}
 			else if( !this._dataProvider.hasOwnProperty( "plan")) {
 				// Empty map
 				CursorManager.removeBusyCursor();
+				this.renderWatermark();
+				this.invalidateProperties();
+				this.invalidateDisplayList();
 				dispatchEvent(new Event( Map.EMPTY));
 			}
 			else {
@@ -275,6 +298,7 @@ package com.socialcomputing.wps.components
 					dispatchEvent(new StatusEvent(StatusEvent.ERROR, error.message));
 					trace(error.getStackTrace());	
 				}
+				this.renderWatermark();
 				CursorManager.removeBusyCursor();
 				
 				/*
@@ -308,6 +332,12 @@ package com.socialcomputing.wps.components
 			dispatchEvent(new StatusEvent( StatusEvent.STATUS, message));
 		}
 		
+		private function renderWatermark():void {
+			if( this.watermark) {
+				this.watermark.render(this, this.restDrawingSurface);
+			}
+		}
+		
 		public function mouseOverHandler(event:MouseEvent):void {
 			mouseMoveHandler( event);
 		}
@@ -322,6 +352,11 @@ package com.socialcomputing.wps.components
 			if(ready) {
 				_dataProvider.plan.updateZoneAt(this.curPos);
 			}
+			if ( !ready || !this.plan.m_curSat) {
+				if( this.watermark) {
+					this.watermark.hover(this,this.curPos);
+				}
+			}
 		}
 		
 		public function mouseClickHandler(event:MouseEvent):void {
@@ -332,6 +367,11 @@ package com.socialcomputing.wps.components
 				point.y = event.localY;
 				plan.updateZoneAt( point);
 				plan.m_curSat.execute( this, plan.m_curZone, point, Satellite.CLICK_VAL);
+			}
+			if ( !this.ready || !this.plan.m_curSat) {
+				if( this.watermark) {
+					this.watermark.click(this,this.curPos);
+				}
 			}
 		}
 		

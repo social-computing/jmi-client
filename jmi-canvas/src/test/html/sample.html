@@ -33,6 +33,7 @@
 <script type="text/javascript" src="/jmi-canvas/src/main/js/script/Token.js"></script>
 <script type="text/javascript" src="/jmi-canvas/src/main/js/script/Transfo.js"></script>
 <script type="text/javascript" src="/jmi-canvas/src/main/js/script/VContainer.js"></script>
+<script type="text/javascript" src="/jmi-canvas/src/main/js/script/Watermark.js"></script>
 
 <script type="text/javascript" src="/jmi-canvas/src/main/js/util/ImageUtil.js"></script>
 <script type="text/javascript" src="/jmi-canvas/src/main/js/util/EventManager.js"></script>
@@ -80,8 +81,9 @@ function GoMap() {
 	parameters.analysisProfile= 'GlobalProfile';
 	map = JMI.Map({
 				parent: 'map', 
-				swf: '/jmi-canvas/src/main/resources/jmi-client/swf/jmi-flex-1.0-SNAPSHOT.swf', 
-				touchMenuDelay : 1000
+				swf: '/jmi-canvas/src/main/resources/jmi-client/swf/jmi-flex-1.0-SNAPSHOT.swf',
+				watermark: {fontSize: 14} 
+				//touchMenuDelay : 1000
     			//server: 'http://localhost:8080/jmi-server/',
 				//server: 'http://server.just-map-it.com/', 
 				//client: JMI.Map.SWF

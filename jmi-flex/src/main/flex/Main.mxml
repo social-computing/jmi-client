@@ -101,6 +101,7 @@
 			
 			private function computeMap(initial:Boolean, parameters:Object):void {
 				showWaiter( initial);
+				map.preCompute();
 				getPlanResult.token = this.planService.getPlan(parameters.wpsplanname, map.width, map.height, parameters);
 			}
 			
