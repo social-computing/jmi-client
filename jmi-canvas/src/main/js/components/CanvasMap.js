@@ -86,6 +86,8 @@ JMI.components.CanvasMap = (function() {
         constructor: JMI.components.CanvasMap,
 		
 		compute: function(jmiparams) {
+			this.hideMenu();
+				
 			var filterColor = this.ready && this.planContainer.map.env.filterColor ? this.planContainer.map.env.filterColor : '#ffffff';
 			this.backDrawingContext.drawImage(this.restDrawingCanvas, 0, 0);
 			JMI.util.ImageUtil.filterImage(this.backDrawingContext, this.size, filterColor);
