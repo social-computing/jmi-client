@@ -298,7 +298,6 @@ package com.socialcomputing.wps.components
 					dispatchEvent(new StatusEvent(StatusEvent.ERROR, error.message));
 					trace(error.getStackTrace());	
 				}
-				this.renderWatermark();
 				CursorManager.removeBusyCursor();
 				
 				/*
@@ -332,7 +331,7 @@ package com.socialcomputing.wps.components
 			dispatchEvent(new StatusEvent( StatusEvent.STATUS, message));
 		}
 		
-		private function renderWatermark():void {
+		public function renderWatermark():void {
 			if( this.watermark) {
 				this.watermark.render(this, this.restDrawingSurface);
 			}

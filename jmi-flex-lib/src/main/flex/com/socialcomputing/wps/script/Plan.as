@@ -207,6 +207,7 @@ package com.socialcomputing.wps.script  {
 			paintZones(restDrawingSurface, m_nodes, m_nodesCnt, true, Satellite.TIP_TYP, false, true );
 			paintZones(restDrawingSurface, m_nodes, m_nodesCnt, true, Satellite.SEL_TYP, false, true );
 			
+			this.m_applet.renderWatermark();
         }
 
 		

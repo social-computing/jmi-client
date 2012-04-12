@@ -187,6 +187,8 @@ JMI.script.Plan = ( function() {
 			this.paintZones(restDrawingContext, this.nodes, this.nodesCnt, true, JMI.script.Satellite.BASE_TYP, true, true);
 			this.paintZones(restDrawingContext, this.nodes, this.nodesCnt, true, JMI.script.Satellite.TIP_TYP, false, true);
 			this.paintZones(restDrawingContext, this.nodes, this.nodesCnt, true, JMI.script.Satellite.SEL_TYP, false, true);
+			
+			this.applet.renderWatermark();
 		},
 		/*
 		 * When the mouse move, the mouse cursor can hover some specific zones on the plan that need to be refreshed

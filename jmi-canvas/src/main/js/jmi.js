@@ -64,7 +64,7 @@ JMI.Map = function(params) {
 	}
 	if(!params.client || params.client === JMI.Map.SWF) {
 		if(!params.swf) {
-			throw 'JMI client: swf path is not set';
+			params.swf = './jmi-client/swf/jmi-flex-1.0-SNAPSHOT.swf';
 		}
 		return new JMI.components.SwfMap(divParent, server, params.swf, backgroundColor);
 	}

@@ -166,7 +166,6 @@ JMI.components.CanvasMap = (function() {
 				this.planContainer.map.plan.init();
 				this.planContainer.map.plan.resize(this.size);
 				this.planContainer.map.plan.init();
-				this.renderWatermark();
 				this.ready = true;
 				document.body.style.cursor = 'default';
 
