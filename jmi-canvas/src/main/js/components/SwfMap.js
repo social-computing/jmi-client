@@ -3,10 +3,11 @@ JMI.namespace("components.SwfMap");
 
 JMI.components.SwfMap = (function() {
 
-	var SwfMap = function(parent, server, swf, backgroundColor) {
+	var SwfMap = function(parent, server, clientUrl, backgroundColor) {
 		this.type = JMI.Map.SWF;
 		this.server = server;
-		this.swf = swf;
+		this.clientUrl = clientUrl;
+		this.swf = clientUrl + 'swf/jmi-flex-1.0-SNAPSHOT.swf';
 		this.backgroundColor = backgroundColor;
 		this.parent = parent;
 		this.parent.JMI = this;
@@ -46,7 +47,7 @@ JMI.components.SwfMap = (function() {
 				};
 				this.parent.innerHTML = '<div id="' + attributes.id + '"><p>Either scripts and active content are not permitted to run or Adobe Flash Player version 10.0 or greater is not installed.</p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash Player" /></a></div>';
 				var comp = this;
-				swfobject.embedSWF(this.swf, attributes.id, "100%", "100%", "10.0.0", "expressInstall.swf", 
+				swfobject.embedSWF(this.swf, attributes.id, "100%", "100%", "10.0.0", this.clientUrl + "swf/expressInstall.swf", 
 							this.checkParams(jmiparams), params, attributes,
 							function(res) {
 								if( !res.success) {

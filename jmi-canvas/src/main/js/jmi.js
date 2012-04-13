@@ -39,7 +39,7 @@ JMI.canvas = function() {
 };
 
 JMI.Map = function(params) {
-	var divParent, backgroundColor, server, touchMenuDelay;
+	var divParent, backgroundColor, server, touchMenuDelay, clientUrl;
 	if(!params.parent) {
 		throw 'JMI client: parent id not set';
 	}
@@ -63,10 +63,14 @@ JMI.Map = function(params) {
 		return new JMI.components.CanvasMap(divParent, server, touchMenuDelay, backgroundColor, params.watermark);
 	}
 	if(!params.client || params.client === JMI.Map.SWF) {
-		if(!params.swf) {
-			params.swf = './jmi-client/swf/jmi-flex-1.0-SNAPSHOT.swf';
+		if(!params.clientUrl) {
+			params.clientUrl = './jmi-client/';
 		}
-		return new JMI.components.SwfMap(divParent, server, params.swf, backgroundColor);
+		clientUrl = params.clientUrl;
+		if( clientUrl.charAt(clientUrl.length-1) !== '/') {
+			clientUrl += '/';
+		}
+		return new JMI.components.SwfMap(divParent, server, clientUrl, backgroundColor);
 	}
 	throw 'No JMI client supported';
 };
