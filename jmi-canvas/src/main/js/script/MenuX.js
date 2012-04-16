@@ -65,7 +65,7 @@ JMI.script.MenuX = ( function() {
 					a = document.createElement("a");
 					a.className = 'jmi-menu-arrow';
 					a.href = '';
-					a.innerHTML = labels[j];
+					a.innerHTML = labels[j] + '&nbsp;&nbsp;&nbsp;&nbsp;';
 					a.JMI = applet;
 					a.submenu = el1;
 					
