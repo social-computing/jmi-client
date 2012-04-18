@@ -247,8 +247,11 @@
 					var jsevt:Object = {
 						type : type
 					};
-					if( type == com.socialcomputing.wps.components.events.StatusEvent.ERROR)
+					if( type == com.socialcomputing.wps.components.events.ErrorEvent.ERROR) {
+						jsevt.origin = event.origin;
+						jsevt.code = event.code;
 						jsevt.message = event.status;
+					}
 					else if( type == com.socialcomputing.wps.components.events.StatusEvent.STATUS)
 						jsevt.message = event.status;
 					else if( type == ActionEvent.ACTION) {
@@ -276,7 +279,7 @@
 						ExternalInterface.call(oldfunctionname);
 					if( type == Map.READY)
 						ExternalInterface.call(oldfunctionname);
-					if( type == com.socialcomputing.wps.components.events.StatusEvent.ERROR)
+					if( type == com.socialcomputing.wps.components.events.ErrorEvent.ERROR)
 						ExternalInterface.call(oldfunctionname, event.status);
 					if( type == com.socialcomputing.wps.components.events.StatusEvent.STATUS)
 						ExternalInterface.call(oldfunctionname, event.status);
@@ -291,7 +294,7 @@
     
     <fx:Declarations>
         <s:CallResponder id="getPlanResult"
-						 fault="fireEvent(com.socialcomputing.wps.components.events.StatusEvent.ERROR, errorCallback, {status: event.fault.faultString});"
+						 fault="fireEvent(com.socialcomputing.wps.components.events.ErrorEvent.ERROR, errorCallback, {origin:'CLIENT', code:0, status: event.fault.faultString});"
 						 />
     </fx:Declarations>
 
@@ -302,7 +305,7 @@
 				dataProvider="{getPlanResult.lastResult}" 
 				ready="hideWaiter();fireEvent(Map.READY, readyCallback, null);"
 				empty="hideWaiter();fireEvent(Map.EMPTY, emptyCallback, null);"
-				error="hideWaiter();fireEvent(com.socialcomputing.wps.components.events.StatusEvent.ERROR, errorCallback, event);"
+				error="hideWaiter();fireEvent(com.socialcomputing.wps.components.events.ErrorEvent.ERROR, errorCallback, event);"
 				status="fireEvent(com.socialcomputing.wps.components.events.StatusEvent.STATUS, statusCallback, event);"
 				action="fireEvent(ActionEvent.ACTION, event.action, event);" 
 				navigate="fireEvent(NavigateEvent.NAVIGATE, navigateCallback, event);"

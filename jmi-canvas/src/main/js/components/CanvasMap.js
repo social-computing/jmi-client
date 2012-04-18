@@ -147,7 +147,7 @@ JMI.components.CanvasMap = (function() {
 				document.body.style.cursor = 'default';
 				this.renderWatermark();
 				this.invalidate();
-				this.dispatchEvent({map: this, type: JMI.Map.event.ERROR, message: this.planContainer.error});
+				this.dispatchEvent({map: this, type: JMI.Map.event.ERROR, origin: this.planContainer.origin, code: this.planContainer.code, message: this.planContainer.error});
 			}
 			else if( !this.planContainer.hasOwnProperty( 'map') || !this.planContainer.map.hasOwnProperty( 'plan')) {
 				// Empty map

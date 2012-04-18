@@ -147,3 +147,5 @@ JMI.Map.event.LINK_CLICK = "link_click";
 JMI.Map.event.LINK_DBLECLICK = "link_dblclick";
 JMI.Map.event.LINK_HOVER = "link_hover";
 JMI.Map.event.LINK_LEAVE = "link_leave";
+
+JMI.Map.event.CLIENT_ORIGIN = "CLIENT";

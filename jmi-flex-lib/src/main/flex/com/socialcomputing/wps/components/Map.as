@@ -3,6 +3,7 @@ package com.socialcomputing.wps.components
 	import com.socialcomputing.wps.components.events.ActionEvent;
 	import com.socialcomputing.wps.components.events.AttributeEvent;
 	import com.socialcomputing.wps.components.events.NavigateEvent;
+	import com.socialcomputing.wps.components.events.ErrorEvent;
 	import com.socialcomputing.wps.components.events.StatusEvent;
 	import com.socialcomputing.wps.plan.PlanContainer;
 	import com.socialcomputing.wps.script.ActiveZone;
@@ -42,7 +43,7 @@ package com.socialcomputing.wps.components
 	
 	[Event(name="ready",    type="flash.events.Event")]
 	[Event(name="empty",    type="flash.events.Event")]
-	[Event(name="error",    type="com.socialcomputing.wps.components.events.StatusEvent")]
+	[Event(name="error",    type="com.socialcomputing.wps.components.events.ErrorEvent")]
 	[Event(name="action",   type="com.socialcomputing.wps.components.events.ActionEvent")]
 	[Event(name="navigate", type="com.socialcomputing.wps.components.events.NavigateEvent")]
 	[Event(name="status",   type="com.socialcomputing.wps.components.events.StatusEvent")]
@@ -264,7 +265,7 @@ package com.socialcomputing.wps.components
 				this.renderWatermark();
 				this.invalidateProperties();
 				this.invalidateDisplayList();
-				dispatchEvent(new StatusEvent(StatusEvent.ERROR, this._dataProvider.error));
+				dispatchEvent(new ErrorEvent(this._dataProvider.origin, this._dataProvider.code, this._dataProvider.error));
 			}
 			else if( !this._dataProvider.hasOwnProperty( "plan")) {
 				// Empty map
@@ -295,7 +296,7 @@ package com.socialcomputing.wps.components
 				catch(error:Error) {
 					// Client error
 					CursorManager.removeBusyCursor();
-					dispatchEvent(new StatusEvent(StatusEvent.ERROR, error.message));
+					dispatchEvent(new ErrorEvent("CLIENT", 0, error.message));
 					trace(error.getStackTrace());	
 				}
 				CursorManager.removeBusyCursor();
@@ -328,7 +329,7 @@ package com.socialcomputing.wps.components
 		}
 		
 		public function showStatus(message:String):void {
-			dispatchEvent(new StatusEvent( StatusEvent.STATUS, message));
+			dispatchEvent(new StatusEvent( message));
 		}
 		
 		public function renderWatermark():void {

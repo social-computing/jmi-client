@@ -52,7 +52,7 @@ JMI.components.SwfMap = (function() {
 							function(res) {
 								if( !res.success) {
 									setTimeout( function() {
-										comp.dispatchEvent({map: comp, type: JMI.Map.event.ERROR, message: 'Error creating JMI flash client'});
+										comp.dispatchEvent({map: comp, type: JMI.Map.event.ERROR, origin: JMI.Map.event.CLIENT_ORIGIN, code: 0, message: 'Error creating JMI flash client'});
 									},100);
 								}
 								else {

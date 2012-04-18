@@ -2,17 +2,17 @@ package com.socialcomputing.wps.components.events
 {
 	import flash.events.Event;
 	
-	public class StatusEvent extends Event
+	public class ErrorEvent extends Event
 	{
-		public static const STATUS:String = "status";
+		public static const ERROR:String = "error";
 		
 		private var _status:String;
 		private var _origin:String;
 		private var _code:int;
 		
-		public function StatusEvent(status:String, bubbles:Boolean=false, cancelable:Boolean=false)
+		public function ErrorEvent(origin:String, code:int, status:String, bubbles:Boolean=false, cancelable:Boolean=false)
 		{
-			super(STATUS, bubbles, cancelable);
+			super(ERROR, bubbles, cancelable);
 			this._status = status;
 			this._origin = origin;
 			this._code = code;

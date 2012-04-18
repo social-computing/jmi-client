@@ -28,7 +28,7 @@ JMI.components.MapRequester = (function() {
 					}
 					else { 
 						setTimeout( function() {
-							requester.map.dispatchEvent({map: requester.map, type: JMI.Map.event.ERROR, message: 'Error ' + client.status + ': ' + client.statusText + '\n' + requester.jmiServerUrl + '...'});
+							requester.map.dispatchEvent({map: requester.map, type: JMI.Map.event.ERROR, origin: JMI.Map.event.CLIENT_ORIGIN, message: 'Error ' + client.status + ': ' + client.statusText + '\n' + requester.jmiServerUrl + '...'});
 						},100);
 					}
 				}
@@ -44,14 +44,14 @@ JMI.components.MapRequester = (function() {
 				url = this.addParameter( url, p, parameters[p]);
 			}
 			try {
-				//client.open( "GET", "/jmi-canvas/src/main/resources/feeds2.json", true); 
+				//client.open( "GET", "/jmi-canvas/src/test/resources/Adisseo.json", true); 
 				client.open( "GET", url, true); 
 				client.send();
 			}
 			catch(err) {
 				document.body.style.cursor = 'default';
 				setTimeout( function() {
-					requester.map.dispatchEvent({map: this.map, type: JMI.Map.event.ERROR, message: err + 'Check browser security parameters: allow access data sources across domains.'});
+					requester.map.dispatchEvent({map: this.map, type: JMI.Map.event.ERROR, origin: JMI.Map.event.CLIENT_ORIGIN, message: err + 'Check browser security parameters: allow access data sources across domains.'});
 				},100);
 			}
   		},
