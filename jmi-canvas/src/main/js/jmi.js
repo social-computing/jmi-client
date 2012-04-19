@@ -57,19 +57,16 @@ JMI.Map = function(params) {
 	backgroundColor = params.backgroundColor || divParent.style.backgroundColor;
 	server = params.server || 'http://server.just-map-it.com/';
 	touchMenuDelay = params.touchMenuDelay || 1000;
+	clientUrl = params.clientUrl || '/jmi-client';
+	if( clientUrl.charAt(clientUrl.length-1) !== '/') {
+		clientUrl += '/';
+	}
 
 	// Opera doesn't fully support canvas
 	if((!params.client || params.client === JMI.Map.CANVAS) && JMI.canvas() && !window.opera) {
-		return new JMI.components.CanvasMap(divParent, server, touchMenuDelay, backgroundColor, params.watermark);
+		return new JMI.components.CanvasMap(divParent, server, clientUrl, touchMenuDelay, backgroundColor, params.watermark);
 	}
 	if(!params.client || params.client === JMI.Map.SWF) {
-		if(!params.clientUrl) {
-			params.clientUrl = './jmi-client/';
-		}
-		clientUrl = params.clientUrl;
-		if( clientUrl.charAt(clientUrl.length-1) !== '/') {
-			clientUrl += '/';
-		}
 		return new JMI.components.SwfMap(divParent, server, clientUrl, backgroundColor);
 	}
 	throw 'No JMI client supported';
@@ -77,6 +74,10 @@ JMI.Map = function(params) {
 
 JMI.Map.CANVAS = "canvas";
 JMI.Map.SWF = "swf";
+
+JMI.Map.isMap = function(map) {
+	return map && (map instanceof JMI.components.CanvasMap || map instanceof JMI.components.SwfMap);
+}
 
 JMI.Map.InitApiObjects = function(map) {
 	map.attributes = [];

@@ -27,49 +27,47 @@ JMI.extensions.Breadcrumb = ( function() {
 		} else {
 			throw 'JMI breadcrumb: invalid parent ' + parent;
 		}
-		if( map && !(map instanceof JMI.components.CanvasMap) && !(map instanceof JMI.components.SwfMap)) {
+		if(!JMI.Map.isMap( map)) {
 			throw 'JMI breadcrumb: invalid map ' + map;
 		}
 		this.map = map;
-		if( this.map) {
-			var p, breadcrumb = this;
-			this.map.addEventListener(JMI.Map.event.START, function(event) {
-				var crumb = breadcrumb.crumbs.length > 0 ? breadcrumb.crumbs[breadcrumb.crumbs.length-1] : null;
-				if( crumb && crumb.self) {
-					// Celui qui a été cliqué
-					delete crumb.self;
+		var p, breadcrumb = this;
+		this.map.addEventListener(JMI.Map.event.START, function(event) {
+			var crumb = breadcrumb.crumbs.length > 0 ? breadcrumb.crumbs[breadcrumb.crumbs.length-1] : null;
+			if( crumb && crumb.self) {
+				// Celui qui a été cliqué
+				delete crumb.self;
+			}
+			else {
+				crumb = {};
+				crumb.params = {};
+				for (p in event.params) {
+					crumb.params[p] = event.params[p];
 				}
-				else {
-					crumb = {};
-					crumb.params = {};
-					for (p in event.params) {
-						crumb.params[p] = event.params[p];
-					}
-					breadcrumb.crumbs.push( crumb);
-					breadcrumb.counter++;
-				}
-			} );
-			this.map.addEventListener(JMI.Map.event.EMPTY, function(event) {
-				var crumb = breadcrumb.crumbs[breadcrumb.crumbs.length-1];
-				breadcrumb.getTitles(crumb,event);
-				crumb.empty = true;
-				breadcrumb.display();
-			});
-			this.map.addEventListener(JMI.Map.event.ERROR, function(event) {
-				var crumb = breadcrumb.crumbs[breadcrumb.crumbs.length-1];
-				breadcrumb.getTitles(crumb,event);
-				crumb.error = true;
-				breadcrumb.display();
-			});
-			this.map.addEventListener(JMI.Map.event.READY, function(event) {
-				var crumb = breadcrumb.crumbs[breadcrumb.crumbs.length-1];
-				breadcrumb.getTitles(crumb,event);
-				setTimeout( function() {
-					breadcrumb.checkThumbnail(crumb);
-				}, 10);
-				breadcrumb.display();
-			} );
-		}
+				breadcrumb.crumbs.push( crumb);
+				breadcrumb.counter++;
+			}
+		} );
+		this.map.addEventListener(JMI.Map.event.EMPTY, function(event) {
+			var crumb = breadcrumb.crumbs[breadcrumb.crumbs.length-1];
+			breadcrumb.getTitles(crumb,event);
+			crumb.empty = true;
+			breadcrumb.display();
+		});
+		this.map.addEventListener(JMI.Map.event.ERROR, function(event) {
+			var crumb = breadcrumb.crumbs[breadcrumb.crumbs.length-1];
+			breadcrumb.getTitles(crumb,event);
+			crumb.error = true;
+			breadcrumb.display();
+		});
+		this.map.addEventListener(JMI.Map.event.READY, function(event) {
+			var crumb = breadcrumb.crumbs[breadcrumb.crumbs.length-1];
+			breadcrumb.getTitles(crumb,event);
+			setTimeout( function() {
+				breadcrumb.checkThumbnail(crumb);
+			}, 10);
+			breadcrumb.display();
+		} );
 	};
 
 	Breadcrumb.prototype = {

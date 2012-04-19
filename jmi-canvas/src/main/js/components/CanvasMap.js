@@ -3,7 +3,8 @@ JMI.namespace("components.CanvasMap");
 
 JMI.components.CanvasMap = (function() {
 
-	var CanvasMap = function(parent, server, touchMenuDelay, backgroundColor, watermarkParams) {
+	var CanvasMap = function(parent, server, clientUrl, touchMenuDelay, backgroundColor, watermarkParams) {
+		this.clientUrl = clientUrl;
 		this.isTouchInterface = JMI.components.CanvasMap.IsTouchInterface();
 		this.type = JMI.Map.CANVAS;
 		this.requester = new JMI.components.MapRequester(this, server);
