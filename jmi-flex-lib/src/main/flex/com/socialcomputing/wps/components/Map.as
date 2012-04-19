@@ -265,7 +265,7 @@ package com.socialcomputing.wps.components
 				this.renderWatermark();
 				this.invalidateProperties();
 				this.invalidateDisplayList();
-				dispatchEvent(new ErrorEvent(this._dataProvider.origin, this._dataProvider.code, this._dataProvider.error));
+				dispatchEvent(new ErrorEvent(this._dataProvider.origin, this._dataProvider.code, this._dataProvider.error, this._dataProvider.track));
 			}
 			else if( !this._dataProvider.hasOwnProperty( "plan")) {
 				// Empty map
@@ -296,7 +296,7 @@ package com.socialcomputing.wps.components
 				catch(error:Error) {
 					// Client error
 					CursorManager.removeBusyCursor();
-					dispatchEvent(new ErrorEvent("CLIENT", 0, error.message));
+					dispatchEvent(new ErrorEvent("CLIENT", 0, error.message, 0));
 					trace(error.getStackTrace());	
 				}
 				CursorManager.removeBusyCursor();

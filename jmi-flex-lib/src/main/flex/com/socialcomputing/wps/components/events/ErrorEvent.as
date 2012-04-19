@@ -9,8 +9,9 @@ package com.socialcomputing.wps.components.events
 		private var _status:String;
 		private var _origin:String;
 		private var _code:int;
+		private var _track:int;
 		
-		public function ErrorEvent(origin:String, code:int, status:String, bubbles:Boolean=false, cancelable:Boolean=false)
+		public function ErrorEvent(origin:String, code:int, status:String, track:uint, bubbles:Boolean=false, cancelable:Boolean=false)
 		{
 			super(ERROR, bubbles, cancelable);
 			this._status = status;
@@ -29,6 +30,10 @@ package com.socialcomputing.wps.components.events
 		public function get code():int
 		{
 			return _code;
+		}
+		public function get track():int
+		{
+			return _track;
 		}
 	}
 }

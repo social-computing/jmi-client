@@ -251,6 +251,7 @@
 						jsevt.origin = event.origin;
 						jsevt.code = event.code;
 						jsevt.message = event.status;
+						jsevt.track = event.track;
 					}
 					else if( type == com.socialcomputing.wps.components.events.StatusEvent.STATUS)
 						jsevt.message = event.status;
