@@ -54,3 +54,47 @@ JMI.util.EventManager = ( function() {
 
 	return EventManager;
 }());
+
+// IE 6, 7, 8 compatibility
+JMI.util.EventManager.addEvent = function(object, type, listener, param) {
+	if(object.addEventListener) {
+		object.addEventListener(type, function(e) {
+			listener(e, param);
+		}, false);
+	} else {
+		if(object.attachEvent) {
+			object.attachEvent('on' + type, function(e) {
+				e = JMI.util.EventManager.getEvent(e);
+				listener(e, param);
+			});
+		}
+	}
+};
+
+JMI.util.EventManager.getEvent = function(e) {
+	if(!e) {
+		e = window.event;
+	}
+	// || event
+	if(e.srcElement) {
+		e.target = e.srcElement;
+	}
+	return e;
+};
+
+JMI.util.EventManager.removeEvent = function(object, type, listener) {
+	if(object.removeEventListener) {
+		object.removeEventListener(type, listener, false);
+	} else {
+		object.detachEvent('on' + type, listener);
+	}
+}
+
+JMI.util.EventManager.preventDefault = function(event) {
+	if( event.preventDefault) {
+		event.preventDefault();
+	}
+	else {
+		event.returnValue = false;
+	}
+}

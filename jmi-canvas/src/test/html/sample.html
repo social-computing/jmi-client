@@ -110,8 +110,9 @@ function GoMap() {
 	map.addEventListener(JMI.Map.event.LINK_HOVER, function(event) {
 		document.getElementById('status').innerHTML = event.link._index;
 	} );
-	var breadcrumb = new JMI.extensions.Breadcrumb('breadcrumb',map,{'namingFunc':breadcrumbTitlesFunc,'thumbnail':{}});
+	var breadcrumb = new JMI.extensions.Breadcrumb('breadcrumb',map,{namingFunc:breadcrumbTitlesFunc,thumbnail:{}});
 	var slideshow = new JMI.extensions.Slideshow(map);
+	//var slideshow = new JMI.extensions.Slideshow(map,'slideshow',200,200);
 	map.compute(parameters);
 };
 function JMIF_Navigate(args) {

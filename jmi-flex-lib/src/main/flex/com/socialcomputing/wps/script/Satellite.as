@@ -466,6 +466,7 @@ package com.socialcomputing.wps.script  {
 									point.y = Math.max( point.y - menu.height, 0);
 								menu.move( point.x, point.y);
 								menu.visible = true;
+								applet.currentMenu = menu;
 							}
                         }
 						// Pop a tooltip

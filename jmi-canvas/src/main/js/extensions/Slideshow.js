@@ -23,7 +23,7 @@ JMI.extensions.Slideshow = ( function() {
 			this.slideshow = document.createElement("div");
 			this.slideshow.style.visibility = 'hidden';
 			this.slideshow.style.position = 'absolute';
-			var html= '<ul><li>';
+			var html= '<ul>';
 			for( i = 1; i <= 5; ++i) {
 				html += '<li><img src="' + map.clientUrl + 'images/bulle' + i + '.png"/></li>';
 			}
@@ -68,18 +68,21 @@ JMI.extensions.Slideshow = ( function() {
 				slideShow.slides[i].style.listStyle = 'none';
 				slideShow.slides[i].style.zIndex = 1000;
 			}
-		    // draw first image
+		    // show first slide
 			slideShow.curSlide = 0;
 		    slideShow.slideshow.style.visibility = '';
 		    slideShow.slides[slideShow.curSlide].style.visibility = '';
-		    slideShow.timer = setInterval(function() {
-		    	slideShow.slides[slideShow.curSlide].style.visibility = 'hidden';
-			    slideShow.curSlide++;
-			    if (slideShow.curSlide === slideShow.slides.length) {
-			        slideShow.curSlide = 0;
-			    }
-		    	slideShow.slides[slideShow.curSlide].style.visibility = '';
-		    }, slideShow.interval);
+		    if( slideShow.slides.length > 1) {
+			    slideShow.timer = setInterval(function() {
+			    	var hide = slideShow.curSlide;
+				    slideShow.curSlide++;
+				    if (slideShow.curSlide === slideShow.slides.length) {
+				        slideShow.curSlide = 0;
+				    }
+			    	slideShow.slides[slideShow.curSlide].style.visibility = '';
+			    	slideShow.slides[hide].style.visibility = 'hidden';
+			    }, slideShow.interval);
+			}
 		});
 		this.map.addEventListener(JMI.Map.event.READY, function(event) {
 			slideShow.stop();
@@ -96,9 +99,11 @@ JMI.extensions.Slideshow = ( function() {
 		constructor : JMI.extensions.Slideshow,
 
 		stop: function() {
-			clearInterval(this.timer);
-			delete this.timer;
-		    this.slides[this.curSlide].style.visibility = 'hidden';
+			if( this.timer) {
+				clearInterval(this.timer);
+				delete this.timer;
+			    this.slides[this.curSlide].style.visibility = 'hidden';
+			}
 		}
 	}
 	

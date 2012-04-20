@@ -2,8 +2,8 @@ package com.socialcomputing.wps.components
 {
 	import com.socialcomputing.wps.components.events.ActionEvent;
 	import com.socialcomputing.wps.components.events.AttributeEvent;
-	import com.socialcomputing.wps.components.events.NavigateEvent;
 	import com.socialcomputing.wps.components.events.ErrorEvent;
+	import com.socialcomputing.wps.components.events.NavigateEvent;
 	import com.socialcomputing.wps.components.events.StatusEvent;
 	import com.socialcomputing.wps.plan.PlanContainer;
 	import com.socialcomputing.wps.script.ActiveZone;
@@ -30,6 +30,7 @@ package com.socialcomputing.wps.components
 	import flash.ui.ContextMenuItem;
 	
 	import mx.collections.ArrayCollection;
+	import mx.controls.Menu;
 	import mx.core.UIComponent;
 	import mx.events.MenuEvent;
 	import mx.events.ResizeEvent;
@@ -65,7 +66,8 @@ package com.socialcomputing.wps.components
 		private var _dataProvider:PlanContainer = null;
 		private var _curPos:Point = new Point();
 		private var _ready:Boolean = false;
-
+		private var _currentMenu:Menu = null;
+		
 		/*
 		 *  Specific display elements
 		 */
@@ -138,6 +140,16 @@ package com.socialcomputing.wps.components
 			this.contextMenu = wpsMenu;
 		}
 		
+		public function get currentMenu():Menu
+		{
+			return _currentMenu;
+		}
+
+		public function set currentMenu(value:Menu):void
+		{
+			_currentMenu = value;
+		}
+
 		public function openSoCom( e:ContextMenuEvent):void {
 			navigateToURL( new URLRequest( "http://www.just-map-it.com"), "_blank");
 		}
@@ -202,6 +214,10 @@ package com.socialcomputing.wps.components
 			_curPos = pos;
 		}
 		public function preCompute():void {
+			if( _currentMenu != null) {
+				_currentMenu.hide();
+				_currentMenu = null;
+			}
 			var filterColor:uint = this.ready && this.env.m_filterCol ? this.env.m_filterCol.getColor().color : -1;
 			ImageUtil.copy(this.restDrawingSurface, backDrawingSurface);
 			ImageUtil.filterImage(this.backDrawingSurface, this.size, filterColor);
