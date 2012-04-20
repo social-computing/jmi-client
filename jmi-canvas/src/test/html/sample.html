@@ -51,6 +51,7 @@
 <script type="text/javascript" src="/jmi-canvas/src/main/js/components/Selection.js"></script>
 
 <script type="text/javascript" src="/jmi-canvas/src/main/js/extensions/Breadcrumb.js"></script>
+<script type="text/javascript" src="/jmi-canvas/src/main/js/extensions/Slideshow.js"></script>
 
 <script>
 var breadcrumbTitles = { shortTitle: 'Carte principale', longTitle: '' };
@@ -110,6 +111,7 @@ function GoMap() {
 		document.getElementById('status').innerHTML = event.link._index;
 	} );
 	var breadcrumb = new JMI.extensions.Breadcrumb('breadcrumb',map,{'namingFunc':breadcrumbTitlesFunc,'thumbnail':{}});
+	var slideshow = new JMI.extensions.Slideshow(map);
 	map.compute(parameters);
 };
 function JMIF_Navigate(args) {
@@ -165,6 +167,15 @@ function search(value) {
 <!--menu type='context' id='toto' >
  <menuitem label="powered by Just Map It!" onclick="alert('rotate');"/>
 </menu-->
+</div>
+<div id="slideshow" style="visibility:hidden;">
+	<ul>
+		<li><img src="/jmi-canvas/src/main/resources/jmi-client/images/bulle1.png"/></li>
+		<li><img src="/jmi-canvas/src/main/resources/jmi-client/images/bulle2.png"/></li>
+		<li><img src="/jmi-canvas/src/main/resources/jmi-client/images/bulle3.png"/></li>
+		<li><img src="/jmi-canvas/src/main/resources/jmi-client/images/bulle4.png"/></li>
+		<li><img src="/jmi-canvas/src/main/resources/jmi-client/images/bulle5.png"/></li>
+	</ul>
 </div>
 </body>
 </html>
