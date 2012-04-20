@@ -88,7 +88,7 @@ JMI.util.EventManager.removeEvent = function(object, type, listener) {
 	} else {
 		object.detachEvent('on' + type, listener);
 	}
-}
+};
 
 JMI.util.EventManager.preventDefault = function(event) {
 	if( event.preventDefault) {
@@ -97,4 +97,4 @@ JMI.util.EventManager.preventDefault = function(event) {
 	else {
 		event.returnValue = false;
 	}
-}
+};

@@ -13,7 +13,7 @@ JMI.script.Watermark = (function() {
 		constructor: JMI.script.Watermark,
 		
 		render: function(component,gDrawingContext) {
-			var x, y, meetrics;
+			var x, y, metrics;
 			this.setFont(gDrawingContext,false);
 			metrics = gDrawingContext.measureText(JMI.script.Watermark.LABEL);
 			x = component.size.width - metrics.width - JMI.script.HTMLText.MARGIN;
