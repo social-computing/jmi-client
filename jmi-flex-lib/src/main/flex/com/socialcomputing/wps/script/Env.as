@@ -1,9 +1,6 @@
 package com.socialcomputing.wps.script  {
     import com.socialcomputing.wps.components.Map;
     import com.socialcomputing.wps.util.LoaderEx;
-    
-    import flash.geom.ColorTransform;
-    import flash.utils.Dictionary;
 
 /**
  * <p>Title: Env</p>
@@ -113,9 +110,7 @@ public class Env
 	 * @param needPrint
 	 */
 	public function init(applet:Map, needPrint:Boolean):void {
-        var bkWhite:ColorTransform = new ColorTransform();
-        bkWhite.color = 0xFFFFFF;
-		var bkCol:ColorTransform= needPrint ? bkWhite : m_inCol.getColor();
+		this.m_props._ENV 	 = this.m_props; // Hack for JMI.script.Base.parseString4
 		this.m_applet        = applet;
 		this.m_medias        = new Object();
 		this.m_loaders       = new Array();

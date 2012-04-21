@@ -17,23 +17,22 @@ JMI.script.ColorX = (function() {
      * used in rendering depends on finding the best match given the
      * color space available for a particular output device.  
      */
-	var ColorX = function(color) {
+	var ColorX = function(color,scolor) {
 	    this.color = color;
-	    this.scolor = null;
+	    this.scolor = scolor;
 	};
 	
     ColorX.prototype = {
         constructor: JMI.script.ColorX,
 
         getColor: function(props) {
-            if(this.scolor === null) {
-                return this.toHex();
+            if(this.scolor) {
+                return JMI.script.Base.parseString4(this.scolor, props, false);
+//                var colValue =  (str === null) ? 0 : parseInt(str,10);
+//                return new JMI.script.ColorX(colValue).toHex();
             } 
             else {
-                var str = JMI.script.Base.parseString4(this.scolor, props, false);
-                // TODO : portage, supprimer parseInt et renvoyer un code couleur hexadecimal
-                var colValue =  (str === null) ? 0 : parseInt(str,10);
-                return new JMI.script.ColorX(colValue).toHex();
+                return this.toHex();
             }
         },
         

@@ -117,7 +117,7 @@
 					width = map.width;
 				if( height == -1) 
 					height = map.height;
-				var dummyMap:BitmapData = new BitmapData(width, height, false, map.ready ? map.env.m_inCol.m_color : map.backgroundColor);
+				var dummyMap:BitmapData = new BitmapData(width, height, false, map.ready ? map.env.m_inCol.getColor(map.env.m_props): map.backgroundColor);
 				var matrix:Matrix = new Matrix();
 				if( keepProportions) {
 					var dx:Number = width / map.width;

@@ -91,8 +91,9 @@ JMI.script.Env = (function() {
          * @param needPrint
          */ 
         init: function(applet, needPrint) {
+            this.props._ENV = this.props; // Hack for JMI.script.Base.parseString4
             var bkWhite = "0xFFFFFF";
-            var bkCol = needPrint ? bkWhite : this.inColor.getColor();
+            var bkCol = needPrint ? bkWhite : this.inColor.getColor(this.props);
             this.applet = applet;
             this.medias = {};
             this.loaders = [];

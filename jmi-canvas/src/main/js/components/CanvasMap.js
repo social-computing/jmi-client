@@ -503,7 +503,7 @@ JMI.components.CanvasMap = (function() {
 			copy.width = width;
 			copy.height = height;
 			if( keepProportions) {
-				copyCtx.fillStyle = this.ready ? this.planContainer.map.env.inColor.getColor() : this.backgroundColor;
+				copyCtx.fillStyle = this.ready ? this.planContainer.map.env.inColor.getColor(this.planContainer.map.env.props) : this.backgroundColor;
 				copyCtx.fillRect(0, 0, width, height);
 				
 				dx = width / this.drawingCanvas.width;

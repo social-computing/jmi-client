@@ -5,15 +5,12 @@ package com.socialcomputing.wps.script
 	import com.socialcomputing.wps.util.shapes.RectangleUtil;
 	
 	import flash.display.Sprite;
-	import flash.geom.ColorTransform;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.text.AntiAliasType;
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFormat;
-	
-	import mx.managers.CursorManager;
 
 	public class Watermark
 	{

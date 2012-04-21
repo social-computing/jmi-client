@@ -71,7 +71,7 @@ package com.socialcomputing.wps.components
 		/*
 		 *  Specific display elements
 		 */
-		private var _backgroundColor:int = 0xFFFFFF;
+		private var _backgroundColor:uint = 0xFFFFFF;
 		private var _onScreen:BitmapData;
 		private var _offScreen:BitmapData;
 		private var _drawingSurface:SpriteVisualElement;
@@ -218,7 +218,7 @@ package com.socialcomputing.wps.components
 				_currentMenu.hide();
 				_currentMenu = null;
 			}
-			var filterColor:uint = this.ready && this.env.m_filterCol ? this.env.m_filterCol.getColor().color : -1;
+			var filterColor:uint = this.ready && this.env.m_filterCol ? this.env.m_filterCol.getColor(this.env.m_props) : -1;
 			ImageUtil.copy(this.restDrawingSurface, backDrawingSurface);
 			ImageUtil.filterImage(this.backDrawingSurface, this.size, filterColor);
 			if( this.watermark) {
@@ -414,7 +414,7 @@ package com.socialcomputing.wps.components
 			//trace("resize, new size = (" + this.width + ", " + this.height + ")");
 			this.clear();
 			
-			this._restDrawingSurface.graphics.beginFill(this._ready ? this.env.m_inCol.m_color : this._backgroundColor);
+			this._restDrawingSurface.graphics.beginFill(this._ready ? this.env.m_inCol.getColor(this.env.m_props) : this._backgroundColor);
 			this._restDrawingSurface.graphics.drawRect(0, 0, this.width, this.height);
 			this._restDrawingSurface.graphics.endFill();
 				

@@ -176,7 +176,7 @@ package com.socialcomputing.wps.script  {
                 //renderBitmap( restGfx, m_applet.m_backImgUrl, 0, 0, null );
 			
 			ImageUtil.clear(restDrawingSurface);
-			restDrawingSurface.graphics.beginFill( this.m_applet.env.m_inCol.m_color);
+			restDrawingSurface.graphics.beginFill( this.m_applet.env.m_inCol.getColor(this.m_applet.env.m_props));
 			restDrawingSurface.graphics.drawRect(0, 0, this.m_applet.width, this.m_applet.height);
 			restDrawingSurface.graphics.endFill();
 
@@ -193,7 +193,7 @@ package com.socialcomputing.wps.script  {
             // Filters backImg so it looks ghosted
 			if( this.m_applet.env.m_filterCol != null) {
 				ImageUtil.copy( restDrawingSurface, backDrawingSurface);
-				ImageUtil.filterImage( backDrawingSurface, dim, this.m_applet.env.m_filterCol.getColor().color);
+				ImageUtil.filterImage( backDrawingSurface, dim, this.m_applet.env.m_filterCol.getColor(this.m_applet.env.m_props));
 				// m_applet.renderShape( m_applet.restDrawingSurface, 0, 0); // ??? size
 				//m_applet.env.filterImage(m_applet.backDrawingSurface, dim);
 			}

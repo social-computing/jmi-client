@@ -80,7 +80,7 @@ JMI.script.HTMLText = ( function() {
 			this.rounded = base.getInt(JMI.script.HTMLText.ROUNDED_COL_VAL, zone.props);
 			var color = base.getValue(JMI.script.HTMLText.TEXT_COL_VAL, zone.props);
 			if(color !== null) {
-				this.font.color = color.getColor();
+				this.font.color = color.getColor(zone.props);
 			}
 
 			this.body = new JMI.script.FormatToken();

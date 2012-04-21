@@ -1,8 +1,6 @@
 package com.socialcomputing.wps.script  {
     import com.socialcomputing.wps.components.Map;
-    import com.socialcomputing.wps.util.ApplicationUtil;
     import com.socialcomputing.wps.util.LoaderEx;
-    import com.socialcomputing.wps.util.URLHelper;
     import com.socialcomputing.wps.util.controls.ImageUtil;
     import com.socialcomputing.wps.util.shapes.RectangleUtil;
     
@@ -10,21 +8,18 @@ package com.socialcomputing.wps.script  {
     import flash.display.BitmapData;
     import flash.display.DisplayObject;
     import flash.display.Graphics;
-    import flash.display.Loader;
     import flash.display.LoaderInfo;
     import flash.display.MovieClip;
     import flash.display.PixelSnapping;
     import flash.display.Sprite;
     import flash.events.Event;
     import flash.events.IOErrorEvent;
-    import flash.geom.ColorTransform;
     import flash.geom.Point;
     import flash.geom.Rectangle;
     import flash.net.URLRequest;
     import flash.utils.getDefinitionByName;
     
     import mx.controls.Image;
-    import mx.utils.URLUtil;
     
     /**
      * <p>Title: ShapeX</p>
@@ -270,7 +265,7 @@ package com.socialcomputing.wps.script  {
                 var n:int = points.length;
                 var i:int;
                 var size:Number = Math.round(getShapePos(supZone, transfo, center, p, shapePos));
-                var color:ColorTransform;
+                var color:ColorX;
                 
                 // Manage each case of number of points to draw for this shape
                 switch(n) {
@@ -289,7 +284,7 @@ package com.socialcomputing.wps.script  {
                         
                         color = slice.getColor( Slice.OUT_COL_VAL, zone.m_props);
                         if(color != null) {
-                            s.graphics.lineStyle(1, color.color, 1.0, true);
+                            s.graphics.lineStyle(1, color.getColor(zone.m_props), 1.0, true);
                         }
                         else {
                             // Set an empty line style
@@ -298,7 +293,7 @@ package com.socialcomputing.wps.script  {
                         
                         color = slice.getColor(Slice.IN_COL_VAL, zone.m_props);
                         if(color != null) {
-                            s.graphics.beginFill(color.color);
+                            s.graphics.beginFill(color.getColor(zone.m_props));
                         }
                         s.graphics.drawEllipse(x, y, size, size);
                         s.graphics.endFill();
@@ -317,10 +312,10 @@ package com.socialcomputing.wps.script  {
 						
 						color = slice.getColor(Slice.OUT_COL_VAL, supZone.m_props);
 						if (color != null) {
-							s.graphics.lineStyle(1, color.color, 1.0, true);
+							s.graphics.lineStyle(1, color.getColor(supZone.m_props), 1.0, true);
 						}
                         color = slice.getColor(Slice.IN_COL_VAL, supZone.m_props);
-						if (color != null) s.graphics.beginFill(color.color);
+						if (color != null) s.graphics.beginFill(color.getColor(supZone.m_props));
 						s.graphics.moveTo( poly.xpoints[poly.npoints-1], poly.ypoints[poly.npoints-1]);
 						for( i = 0 ; i < poly.npoints; ++i) {
 							s.graphics.lineTo( poly.xpoints[i], poly.ypoints[i]);

@@ -5,7 +5,6 @@ package com.socialcomputing.wps.script{
     
     import flash.display.Sprite;
     import flash.filters.BlurFilter;
-    import flash.geom.ColorTransform;
     import flash.geom.Point;
     import flash.geom.Rectangle;
     import flash.text.AntiAliasType;
@@ -122,12 +121,13 @@ package com.socialcomputing.wps.script{
         public var m_bounds:Rectangle;
 
 		private var _m_text:String;
-		private var _m_inCol:ColorTransform;
+		private var _m_inCol:ColorX;
 		private var _m_font:TextFormat;
 		private var _m_oneLine:Boolean;
-		private var _m_outCol:ColorTransform;
+		private var _m_outCol:ColorX;
 		private var _m_blur:int;
 		private var _m_rounded:int;
+		private var _m_zoneProps:Array;
 		
 		
 		public function get m_rounded():int
@@ -180,7 +180,7 @@ package com.socialcomputing.wps.script{
 			_m_blur = value;
 		}
 
-        public function get m_inCol():ColorTransform
+        public function get m_inCol():ColorX
         {
             return _m_inCol;
         }
@@ -188,12 +188,12 @@ package com.socialcomputing.wps.script{
         /**
          * Color of the bounding box background.
          */
-        public function set m_inCol(value:ColorTransform):void
+        public function set m_inCol(value:ColorX):void
         {
             _m_inCol = value;
         }
         
-        public function get m_outCol():ColorTransform
+        public function get m_outCol():ColorX
         {
             return _m_outCol;
         }
@@ -201,7 +201,7 @@ package com.socialcomputing.wps.script{
         /**
          * Color of the bounding box border.
          */
-        public function set m_outCol(value:ColorTransform):void
+        public function set m_outCol(value:ColorX):void
         {
             _m_outCol = value;
         }
@@ -222,7 +222,7 @@ package com.socialcomputing.wps.script{
          * @param flags		Default text alignment flags.
          * @param margin	Default margins size.
          */
-        public function initValues(inCol:ColorTransform, outCol:ColorTransform, textCol:int, fontSiz:int, fontStl:int, fontNam:String, blur:int, rounded:int, flags:int, margin:Insets):void
+        public function initValues(inCol:ColorX, outCol:ColorX, textCol:int, fontSiz:int, fontStl:int, fontNam:String, blur:int, rounded:int, flags:int, margin:Insets):void
         {
             m_inCol     = inCol;
             m_outCol    = outCol;
@@ -238,6 +238,7 @@ package com.socialcomputing.wps.script{
 			
 			this.m_font.leftMargin = margin.left;
 			this.m_font.rightMargin = margin.right;
+			this._m_zoneProps = null;//TODO init ?
         }
 		
 		public function init( base:Base, zone:ActiveZone ):void {
@@ -248,9 +249,10 @@ package com.socialcomputing.wps.script{
 			//this.m_blur = base.getInt(BLUR_COL_VAL, zone.m_props);
 			this.m_blur = parseInt( base.parseString(BLUR_COL_VAL, zone.m_props )[0]);
 			this.m_rounded = base.getInt(ROUNDED_COL_VAL, zone.m_props);
-			var color:ColorX = base.getValue( HTMLText.TEXT_COL_VAL, zone.m_props) as ColorX;
+			var color:ColorX = base.getColor(HTMLText.TEXT_COL_VAL, zone.m_props);
 			if( color != null)
-				this._m_font.color = color.m_color;
+				this._m_font.color = color.getColor(zone.m_props);
+			this._m_zoneProps = zone.m_props;
 		}
         
         /**
@@ -372,7 +374,7 @@ package com.socialcomputing.wps.script{
 				s.graphics.lineStyle();
 				if ( m_outCol != null ) {
 					//s.graphics.lineStyle( 2, m_outCol.color);
-					s.graphics.beginFill(m_outCol.color);
+					s.graphics.beginFill(m_outCol.getColor(this._m_zoneProps)); 
 					if( m_rounded == -1)
 						s.graphics.drawRect(pos.x, pos.y, m_bounds.width, m_bounds.height);
 					else
@@ -386,7 +388,7 @@ package com.socialcomputing.wps.script{
 				var matr:Matrix = new Matrix();
 				matr.createGradientBox(m_bounds.width, m_bounds.height * 2, Math.PI / 2, pos.x, pos.y);
                 s.graphics.beginGradientFill(GradientType.LINEAR, colors, alphas, ratios, matr, SpreadMethod.PAD);
-*/				s.graphics.beginFill(m_inCol.color);
+*/				s.graphics.beginFill(m_inCol.getColor(this._m_zoneProps));
 				if( m_rounded == -1)
 					s.graphics.drawRect(pos.x+borderWidth, pos.y+borderWidth, m_bounds.width-2*borderWidth, m_bounds.height-2*borderWidth);
 				else
@@ -398,9 +400,7 @@ package com.socialcomputing.wps.script{
 
 			if ( m_oneLine && m_inCol == null) // draw reflection only for one line boxes
             {
-                var white:ColorTransform = new ColorTransform();
-                white.color = 0xFFFFFF;
-                s.graphics.beginFill(white.color, 0.2);
+                s.graphics.beginFill(0xFFFFFF, 0.2);
 				s.graphics.lineStyle();
                 s.graphics.drawRoundRect(pos.x+borderWidth, pos.y+3+borderWidth, m_bounds.width-2*borderWidth, (m_bounds.height/3)-2*borderWidth, 5, 5);
                 s.graphics.endFill();

@@ -162,7 +162,7 @@ JMI.script.Plan = ( function() {
 			//if (this.applet.backImgUrl != null)
 			//renderBitmap( restGfx, this.applet.backImgUrl, 0, 0, null );
 
-			restDrawingContext.fillStyle = this.applet.planContainer.map.env.inColor.getColor();
+			restDrawingContext.fillStyle = this.applet.planContainer.map.env.inColor.getColor(this.applet.planContainer.map.env.props);
 			restDrawingContext.fillRect(0, 0, dim.width, dim.height);
 
 			// Init Links, Nodes and subNodes.
@@ -176,7 +176,7 @@ JMI.script.Plan = ( function() {
 			// Filters backImg so it looks ghosted
 			if(this.applet.planContainer.map.env.filterColor !== null) {
 				backDrawingContext.drawImage(this.applet.restDrawingCanvas, 0, 0);
-				JMI.util.ImageUtil.filterImage(backDrawingContext, dim, this.applet.planContainer.map.env.filterColor.getColor());
+				JMI.util.ImageUtil.filterImage(backDrawingContext, dim, this.applet.planContainer.map.env.filterColor.getColor(this.applet.planContainer.map.env));
 			}
 
 			// Finish drawing restImg with places parts that are allways visible (tip, sel...)

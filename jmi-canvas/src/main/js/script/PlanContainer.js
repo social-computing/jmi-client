@@ -76,7 +76,7 @@ JMI.script.PlanContainer.fromJSON = function(jsonString) {
 				} else if('Point' === value.cls) {
 					return new JMI.script.Point(value.x, value.y);
 				} else if('ColorX' === value.cls) {
-					return new JMI.script.ColorX(value.color);
+					return new JMI.script.ColorX(value.color,value.scolor);
 				} else if('VContainer' === value.cls) {
 					return new JMI.script.VContainer(value.value, value.bound);
 				} else if('ActiveZone' === value.cls) {

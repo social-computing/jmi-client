@@ -1,6 +1,5 @@
 package com.socialcomputing.wps.script  {
     import flash.display.Sprite;
-    import flash.geom.ColorTransform;
     
     /**
      * <p>Title: Base</p>
@@ -161,10 +160,10 @@ package com.socialcomputing.wps.script  {
          * @return	the Color corresponding to the ColorX field whose index is prop or null if the property doesn't exists or is void.
          * @throws UnsupportedEncodingException 
          */
-        public function getColor(prop:int, props:Array):ColorTransform {
+        public function getColor(prop:int, props:Array):ColorX {
 			var value:Object = getValue(prop, props);
 			if( value is ColorX) {
-				return (value as ColorX).getColor2(props);
+				return (value as ColorX);
 			}
 			return null;	
         }
@@ -195,11 +194,10 @@ package com.socialcomputing.wps.script  {
          */
         public function setColor( s:Sprite, prop:int, props:Array):Boolean // throws UnsupportedEncodingException
         {
-            var color:ColorTransform = getColor( prop, props );
+            var color:ColorX = getColor( prop, props );
             if ( color != null )
             {
-				trace("setting color fill");
-                s.graphics.beginFill( color.color );
+                s.graphics.beginFill( color.getColor(props));
                 return true;
             }
             return false;

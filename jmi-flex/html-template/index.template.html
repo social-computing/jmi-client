@@ -138,7 +138,9 @@ function JMIF_CompleteParameters( parameters) {
             flashvars.wpsplanname = "Json_sample";
             flashvars.analysisProfile = "GlobalProfile";
      		flashvars.invert="false";*/
-			flashvars.wpsserverurl = "http://server.just-map-it.com";
+     		flashvars.kind="film_gender";
+
+/*			flashvars.wpsserverurl = "http://server.just-map-it.com";
 			//flashvars.wpsserverurl = "http://localhost:8080/jmi-server";
 		    flashvars.feedsserverurl = "http://feeds.just-map-it.com";
 			flashvars.wpsplanname = "Feeds";
@@ -146,8 +148,20 @@ function JMIF_CompleteParameters( parameters) {
 			flashvars.site = "";
 			flashvars.track = "";
      		flashvars.invert="false";
-            flashvars.analysisProfile = "GlobalProfile";
-     		flashvars.kind="film_gender";
+            flashvars.analysisProfile = "GlobalProfile";*/
+            
+			flashvars.wpsplanname= 'PolySpot';
+			flashvars.inverted= 'false',
+			flashvars.wpsserverurl = "http://localhost:8080/jmi-server";
+			flashvars.analysisProfile= 'GlobalProfile';
+	    	flashvars.polyspotserverurl= 'http://localhost:8080/web-labs';
+	    	//polyspotserverurl= 'http://labs.just-map-it.com';
+			flashvars.sources= ',1014,';
+			flashvars.fields= ',semantic-theme-label,person-label,organization-organisation-label';
+			flashvars.query= 'wind';
+			flashvars.C1= '#eeeeee';
+			flashvars.jsessionid= '';
+            
      		//flashvars.waiterurl= "preloaderXML2.swf";
      		//flashvars.waiterurl= "logo.png";
      		flashvars.jsessionid= "";

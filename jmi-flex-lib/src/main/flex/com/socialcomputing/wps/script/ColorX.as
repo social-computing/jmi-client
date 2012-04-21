@@ -1,5 +1,5 @@
 package com.socialcomputing.wps.script  {
-    import flash.geom.ColorTransform;
+    
 
     /**
      * <p>Title: ColorX</p>
@@ -23,12 +23,13 @@ package com.socialcomputing.wps.script  {
          * </ul>
          * Warning! Alpha is no more used.
          */
-        public  var m_color:int;
-        public  var m_scolor:String= null;
+        private var m_color:int;
+        private var m_scolor:String= null;
         
         // default constructor
-        public function ColorX( color:int=0) {
+        public function ColorX( color:int, scolor:String) {
             m_color = color;
+			m_scolor = scolor;
         }
         
         /**
@@ -55,22 +56,14 @@ package com.socialcomputing.wps.script  {
          * Convert this ColorX to a java.awt.Color.
          * @return	a new Color equivalent to this.
          */
-        public function getColor():ColorTransform {
-            var color:ColorTransform = new ColorTransform();
-			color.color = m_color;
-			return color;
-        }
-        
-		public function getColor2(props:Array):ColorTransform {
-			var color:ColorTransform = new ColorTransform();
+		public function getColor(props:Array):uint {
             if( m_scolor == null) { 
-				color.color = m_color;
+				return m_color;
 			}
 			else {
 	            var str:String= Base.parseString4( m_scolor, props, false);
-	            color.color = str == null ? 0 : parseInt( str);
+	            return (!str || str.length === 0) ? 0 : parseInt( str.substr(1),16);
 			}
-			return color;
         }
     }
 }
