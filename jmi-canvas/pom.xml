@@ -28,7 +28,9 @@
   <artifactId>jmi-canvas</artifactId>
   <name>Just Map It! - Canvas</name>
   <url>http://www.just-map-it.com</url>
+  <inceptionYear>2010</inceptionYear>
   <packaging>jar</packaging>
+  
   
   <pluginRepositories>
     <pluginRepository>
@@ -122,6 +124,7 @@
             <include>jmi-client/css/*</include>
             <include>jmi-client/images/*</include>
             <include>jmi-client/swf/*</include>
+            <include>jmi-client/*.txt</include>
           </includes>
         </configuration>
       </plugin>
@@ -145,7 +148,7 @@
             </goals>
           </execution>
         </executions>         
-      </plugin>      
+      </plugin>
     </plugins>
   </build>
 

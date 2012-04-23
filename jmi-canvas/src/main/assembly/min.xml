@@ -24,6 +24,7 @@
           <include>css/*</include>
           <include>images/*</include>
           <include>swf/*</include>
+          <include>*.txt</include>
         </includes>
     </fileSet>
   </fileSets>
