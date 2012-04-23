@@ -103,6 +103,7 @@ JMI.extensions.Slideshow = ( function() {
 				clearInterval(this.timer);
 				delete this.timer;
 			    this.slides[this.curSlide].style.visibility = 'hidden';
+		    	this.slideshow.style.visibility = 'hidden';
 			}
 		}
 	}
