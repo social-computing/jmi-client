@@ -3,11 +3,11 @@ JMI.namespace("components.CanvasMap");
 
 JMI.components.CanvasMap = (function() {
 
-	var CanvasMap = function(parent, server, clientUrl, touchMenuDelay, backgroundColor, watermarkParams) {
+	var CanvasMap = function(parent, server, method, clientId, clientUrl, touchMenuDelay, backgroundColor, watermarkParams) {
+		this.type = JMI.Map.CANVAS;
 		this.clientUrl = clientUrl;
 		this.isTouchInterface = JMI.components.CanvasMap.IsTouchInterface();
-		this.type = JMI.Map.CANVAS;
-		this.requester = new JMI.components.MapRequester(this, server);
+		this.requester = new JMI.components.MapRequester(this, server, method, clientId);
 		this.backgroundColor = backgroundColor;
 		this.touchMenuDelay = touchMenuDelay;
 		this.curPos = new JMI.script.Point();
@@ -148,7 +148,7 @@ JMI.components.CanvasMap = (function() {
 				document.body.style.cursor = 'default';
 				this.renderWatermark();
 				this.invalidate();
-				this.dispatchEvent({map: this, type: JMI.Map.event.ERROR, origin: this.planContainer.origin, code: this.planContainer.code, track: this.planContainer.track});
+				this.dispatchEvent({map: this, type: JMI.Map.event.ERROR, origin: this.planContainer.origin, code: this.planContainer.code, message: this.planContainer.error, track: this.planContainer.track});
 			}
 			else if( !this.planContainer.hasOwnProperty( 'map') || !this.planContainer.map.hasOwnProperty( 'plan')) {
 				// Empty map

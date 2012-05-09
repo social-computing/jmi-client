@@ -3,12 +3,14 @@ JMI.namespace("components.MapRequester");
 
 JMI.components.MapRequester = (function() {
 	
-	var MapRequester = function( map, jmiServerUrl) {
+	var MapRequester = function( map, jmiServerUrl, method, clientId) {
 		if( !map || !(map instanceof JMI.components.CanvasMap)) {
 			throw('map component is not set');
 		}
 		this.map = map;
 		this.jmiServerUrl = jmiServerUrl || 'http://server.just-map-it.com/';
+		this.method = method;
+		this.clientId = clientId;
 	};
 	
 	MapRequester.prototype = {
@@ -18,7 +20,7 @@ JMI.components.MapRequester = (function() {
 			
 			var client = new XMLHttpRequest(),
 				requester = this,
-				p, url;
+				p, url, urlparams;
 			document.body.style.cursor = 'wait';
 			client.onreadystatechange = function() {
 				if( this.readyState === 4) {
@@ -37,16 +39,23 @@ JMI.components.MapRequester = (function() {
 			if( url.charAt(url.length - 1) !== '/') {
 				url += '/';
 			}
-			url += 'services/engine/0/' + name + '.json?';
-			url = this.addParameter( url, 'width', this.map.size.width);
-			url = this.addParameter( url, 'height', this.map.size.height);
+			url += 'services/engine/' + this.clientId + '/' + name + '.json';
+			urlparams = this.addParameter( '', 'width', this.map.size.width);
+			urlparams = this.addParameter( urlparams, 'height', this.map.size.height);
 			for( p in parameters) {
-				url = this.addParameter( url, p, parameters[p]);
+				urlparams = this.addParameter( urlparams, p, parameters[p]);
 			}
 			try {
-				//client.open( "GET", "/jmi-canvas/src/test/resources/Adisseo.json", true); 
-				client.open( "GET", url, true); 
-				client.send();
+				if( this.method === 'GET') {
+					//client.open( "GET", "/jmi-canvas/src/test/resources/Adisseo.json", true); 
+					client.open( 'GET', url + '?' + urlparams, true); 
+					client.send();
+				}
+				else { // POST
+					client.open( 'POST', url, true); 
+					client.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+					client.send(urlparams);
+				}
 			}
 			catch(err) {
 				document.body.style.cursor = 'default';
@@ -57,7 +66,7 @@ JMI.components.MapRequester = (function() {
   		},
 	
 		addParameter: function( url, param, value, first) {
-			if( url.charAt(url.length - 1) !== '?') {
+			if(url.length > 0) {
 				url = url + '&';
 			}
 			url = url + param + '=' + encodeURIComponent( value);

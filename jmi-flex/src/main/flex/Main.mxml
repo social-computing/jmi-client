@@ -31,9 +31,13 @@
             protected function onCreationComplete(event:FlexEvent):void {
 				// Reading application properties
 				var serverURL:String = this.checkApplicationParameter("wpsserverurl");
+				var method:String = FlexGlobals.topLevelApplication.parameters["method"];
+				if( method == null) {
+					method = "GET";
+				}
 				this.checkApplicationParameter("wpsplanname");
 				var parameters:Object = FlexGlobals.topLevelApplication.parameters;
-				this.waiterUrl = FlexGlobals.topLevelApplication.parameters["waiterurl"]
+				this.waiterUrl = FlexGlobals.topLevelApplication.parameters["waiterurl"];
 
 				// Security Sandbox
 				if( FlexGlobals.topLevelApplication.parameters.hasOwnProperty( "allowDomain")) {
@@ -84,7 +88,7 @@
 				ExternalInterface.addCallback( "setSelection", setSelection);
 				
 				// Initialising service
-				this.planService = new PlanService(serverURL);
+				this.planService = new PlanService(serverURL,method);
 				computeMap( true, parameters);
             }
 			

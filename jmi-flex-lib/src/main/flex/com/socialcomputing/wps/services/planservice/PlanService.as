@@ -21,14 +21,14 @@ package com.socialcomputing.wps.services.planservice
 		private static var restSerializationFilter:JSONSerializationFilter = new JSONSerializationFilter();
 
 		// Initialize service control
-		public function PlanService(baseURL:String) {
+		public function PlanService(baseURL:String, method:String="GET") {
 			super(baseURL);
 			var operations:Array = new Array();
 			var operation:mx.rpc.http.Operation;
 
 			operation = new mx.rpc.http.Operation(null, "getPlan");
 			operation.url = "services/engine/{client}/{name}.json";
-			operation.method = "GET";
+			operation.method = method;
 
 			operation.serializationFilter = restSerializationFilter;
 			operation.properties = new Object();

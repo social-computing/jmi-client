@@ -119,7 +119,7 @@ JMI.extensions.Breadcrumb = ( function() {
 			JMI.util.EventManager.addEvent(a, 'mouseover', function(event) {
 				JMI.util.EventManager.preventDefault(event);
 				var crumb = event.target.crumb;
-				if( crumb.thumbnail && !crumb.error && !crumb.empty) {
+				if( crumb && crumb.thumbnail && !crumb.error && !crumb.empty) {
 					var p = JMI.util.ImageUtil.AbsPosition(crumb.li);
 					crumb.thumbnail.style.top = (p.y + crumb.li.offsetHeight) + 'px';
 					crumb.thumbnail.style.left = p.x + 'px';
@@ -129,7 +129,7 @@ JMI.extensions.Breadcrumb = ( function() {
 			JMI.util.EventManager.addEvent(a, 'mouseout', function(event) {
 				JMI.util.EventManager.preventDefault(event);
 				var crumb = event.target.crumb;
-				if( crumb.thumbnail) {
+				if( crumb && crumb.thumbnail) {
 					crumb.thumbnail.style.visibility = 'hidden';
 				}
 			}, crumb);

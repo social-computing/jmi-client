@@ -106,7 +106,7 @@ JMI.extensions.Slideshow = ( function() {
 		    	this.slideshow.style.visibility = 'hidden';
 			}
 		}
-	}
+	};
 	
 	return Slideshow;
 }());

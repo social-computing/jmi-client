@@ -39,7 +39,7 @@ JMI.canvas = function() {
 };
 
 JMI.Map = function(params) {
-	var divParent, backgroundColor, server, touchMenuDelay, clientUrl;
+	var divParent, backgroundColor, server, method, touchMenuDelay, clientUrl, clientId;
 	if(!params.parent) {
 		throw 'JMI client: parent id not set';
 	}
@@ -61,13 +61,15 @@ JMI.Map = function(params) {
 	if( clientUrl.charAt(clientUrl.length-1) !== '/') {
 		clientUrl += '/';
 	}
+	method = params.method || 'GET';
+	clientId = params.client || 0;
 
 	// Opera doesn't fully support canvas
 	if((!params.client || params.client === JMI.Map.CANVAS) && JMI.canvas() && !window.opera) {
-		return new JMI.components.CanvasMap(divParent, server, clientUrl, touchMenuDelay, backgroundColor, params.watermark);
+		return new JMI.components.CanvasMap(divParent, server, method, clientId, clientUrl, touchMenuDelay, backgroundColor, params.watermark);
 	}
 	if(!params.client || params.client === JMI.Map.SWF) {
-		return new JMI.components.SwfMap(divParent, server, clientUrl, backgroundColor);
+		return new JMI.components.SwfMap(divParent, server, method, clientId, clientUrl, backgroundColor);
 	}
 	throw 'No JMI client supported';
 };

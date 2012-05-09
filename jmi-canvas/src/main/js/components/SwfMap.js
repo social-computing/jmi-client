@@ -3,9 +3,11 @@ JMI.namespace("components.SwfMap");
 
 JMI.components.SwfMap = (function() {
 
-	var SwfMap = function(parent, server, clientUrl, backgroundColor) {
+	var SwfMap = function(parent, server, method, clientId, clientUrl, backgroundColor) {
 		this.type = JMI.Map.SWF;
 		this.server = server;
+		this.method = method;
+		this.clientId = clientId;
 		this.clientUrl = clientUrl;
 		this.swf = clientUrl + 'swf/jmi-flex-1.0-SNAPSHOT.swf';
 		this.backgroundColor = backgroundColor;
@@ -28,6 +30,7 @@ JMI.components.SwfMap = (function() {
 			jmiparams.mainCallback = 'JMI.components.SwfMap.mainCallback';
 			jmiparams.wpsplanname = jmiparams.map;
 			jmiparams.wpsserverurl = this.server;
+			jmiparams.method = this.method;
 			return jmiparams;
 		},	
 		compute: function(jmiparams) {
