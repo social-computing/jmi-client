@@ -61,12 +61,12 @@ function breadcrumbTitlesFunc(event) {
 		return {shortTitle: 'Sorry, the map is empty. Does the feed contains categories?', longTitle: 'Sorry, the map is empty. Does the feed contains categories?'};
 	}
 	if( event.type === JMI.Map.event.ERROR) {
-		return {shortTitle: 'Sorry, an error occured. Is this URL correct?', longTitle: 'Sorry, an error occured. Error: ' + event.message};
+		return {shortTitle: 'Sorry, an error occured: '  + event.message, longTitle: 'Sorry, an error occured. Error: ' + event.message};
 	}
 	return breadcrumbTitles;
 }
 function getParams() {
-	var p = {
+	return {
 		map: 'Feeds',
 		invert: 'false',
     	feedsserverurl: 'http://feeds.just-map-it.com',
@@ -75,7 +75,17 @@ function getParams() {
 		jsessionid: '',
 		site: ''
     };
-    return p;
+	/*return {
+		map: 'PolySpot',
+		inverted: 'false',
+    	polyspotserverurl: 'http://localhost:8080/web-labs',
+    	//polyspotserverurl: 'http://labs.just-map-it.com',
+		sources: ',1014,',
+		fields: ',semantic-theme-label,person-label,organization-organisation-label',
+		query: 'wind',
+		//C1: '#eeeeee',
+		jsessionid: ''
+    };*/
 };
 function GoMap() {
 	var parameters = getParams();
@@ -83,9 +93,10 @@ function GoMap() {
 	map = JMI.Map({
 				parent: 'map', 
 				clientUrl: '/jmi-canvas/src/main/resources/jmi-client',
-				watermark: {fontSize: 14}
+				watermark: {fontSize: 14},
+				method: 'POST'
 				//touchMenuDelay : 1000
-    			//server: 'http://localhost:8080/jmi-server/',
+    			//server: 'http://localhost:8080/jmi-server/'
 				//server: 'http://server.just-map-it.com/', 
 				//client: JMI.Map.SWF
 			});
@@ -111,8 +122,8 @@ function GoMap() {
 		document.getElementById('status').innerHTML = event.link._index;
 	} );
 	var breadcrumb = new JMI.extensions.Breadcrumb('breadcrumb',map,{namingFunc:breadcrumbTitlesFunc,thumbnail:{}});
-	var slideshow = new JMI.extensions.Slideshow(map);
-	//var slideshow = new JMI.extensions.Slideshow(map,'slideshow',200,200);
+	//var slideshow = new JMI.extensions.Slideshow(map);
+	var slideshow = new JMI.extensions.Slideshow(map,'slideshow',200,200,600);
 	map.compute(parameters);
 };
 function JMIF_Navigate(args) {
@@ -171,11 +182,9 @@ function search(value) {
 </div>
 <div id="slideshow" style="visibility:hidden;">
 	<ul>
-		<li><img src="/jmi-canvas/src/main/resources/jmi-client/images/bulle1.png"/></li>
-		<li><img src="/jmi-canvas/src/main/resources/jmi-client/images/bulle2.png"/></li>
-		<li><img src="/jmi-canvas/src/main/resources/jmi-client/images/bulle3.png"/></li>
-		<li><img src="/jmi-canvas/src/main/resources/jmi-client/images/bulle4.png"/></li>
-		<li><img src="/jmi-canvas/src/main/resources/jmi-client/images/bulle5.png"/></li>
+		<li>Hello</li>
+		<li>Hello World!</li>
+		<li>PPPPPPPPPP PPPPPPPPPPPPPPP!</li>
 	</ul>
 </div>
 </body>
