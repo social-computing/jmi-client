@@ -96,8 +96,8 @@ ul.jmi-menu {
 }
 
 .jmi-breadcrumb li:hover {
+	background:url(../images/arrow-right.png) no-repeat center left #B2DDFF;
 	color:#aaaaaa;
-	background:#B2DDFF;
 	}
 
 .jmi-breadcrumb li a { 
