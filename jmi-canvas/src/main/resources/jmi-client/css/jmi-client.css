@@ -125,3 +125,17 @@ ul.jmi-menu {
 	border-style:solid;
 	border-width:1px;
 	}
+	
+.jmi-snapshot { 
+	display:inline;
+ 	margin: 0;
+	vertical-align:middle;
+}
+
+.jmi-snapshot a { 
+ 	padding: 0 5px 0 5px;
+}
+
+.jmi-snapshot a:hover { 
+	background:#B2DDFF;
+}

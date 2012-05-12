@@ -76,6 +76,14 @@ JMI.components.SwfMap = (function() {
 		},
 		getImage: function(mime, width, height, keepProportions) {
 			if( this.swfmap) {
+				width = width || this.size.width;
+				height = height || this.size.height;
+				if( keepProportions === undefined) {
+					keepProportions = true;
+				}
+				if ( width === this.size.width && height === this.size.width) {
+					keepProportions = false; // same => direct copy
+				}
 				return this.swfmap.getImage(mime, width, height, keepProportions);
 			}
 		},
