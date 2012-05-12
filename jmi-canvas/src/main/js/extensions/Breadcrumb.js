@@ -42,6 +42,9 @@ JMI.extensions.Breadcrumb = ( function() {
 		if( !this.snapshot.img) {
 			this.snapshot.img = this.map.clientUrl + '/images/snapshot_icon.png';
 		}
+		if( !this.snapshot.title) {
+			this.snapshot.title = 'Snapshot';
+		}
 		var p, breadcrumb = this;
 		this.map.addEventListener(JMI.Map.event.START, function(event) {
 			var crumb = breadcrumb.crumbs.length > 0 ? breadcrumb.crumbs[breadcrumb.crumbs.length-1] : null;
@@ -193,12 +196,14 @@ JMI.extensions.Breadcrumb = ( function() {
 				a = document.createElement('a'),
 				img = document.createElement('img');
 			img.src = this.snapshot.img;
-			a.title = 'Snapshot';
+			a.title = this.snapshot.title;
 			JMI.util.EventManager.addEvent(a, 'click', function(event, crumb) {
 				JMI.util.EventManager.preventDefault(event);
 				if( !crumb.error && !crumb.empty) {
+					//document.location.href = this.map.getImage('image/png');
 					var w = window.open();
-					w.document.write('<img src="'+this.map.getImage('image/png')+'"/>');				}
+					w.document.write('<img src="'+crumb.map.getImage('image/png')+'"/>');
+				}
 			}, this);
 			s.className = 'jmi-snapshot';
 			a.appendChild(img);
