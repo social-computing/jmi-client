@@ -70,7 +70,8 @@ function getParams() {
 	return {
 		map: 'SpreadSheet',
 		invert: 'false',
-    	spreadsheetserverurl: 'http://localhost:8080/web-labs',
+    	//spreadsheetserverurl: 'http://localhost:8080/web-labs',
+    	spreadsheetserverurl: 'http://labs.just-map-it.com',
 		sheetUrl: 'http://www.social-computing.com/feed/',
 		inverted: false,
 		data: '{"entities":[{"id":1,"name":"France","attributes":[{"id":2,"p":8}]},{"id":2,"name":"Espagne ","attributes":[{"id":1},{"id":2},{"id":3}]},{"id":3,"name":"Italie","attributes":[{"id":3}]}],"attributes":[{"id":1,"name":"Europe"},{"id":2,"name":"hjkh"},{"id":3,"name":"hkhjk"}]}'
@@ -102,10 +103,10 @@ function GoMap() {
 	map = JMI.Map({
 				parent: 'map', 
 				clientUrl: '/jmi-canvas/src/main/resources/jmi-client',
-				watermark: {fontSize: 14},
+				watermark: {fontSize: 14}
 				//method: 'POST'
 				//touchMenuDelay : 1000
-    			server: 'http://localhost:8080/jmi-server/'
+    			//server: 'http://localhost:8080/jmi-server/'
 				//server: 'http://server.just-map-it.com/', 
 				//client: JMI.Map.SWF
 			});
@@ -132,7 +133,7 @@ function GoMap() {
 	} );
 	var breadcrumb = new JMI.extensions.Breadcrumb('breadcrumb',map,{namingFunc:breadcrumbTitlesFunc,thumbnail:{}});
 	//var slideshow = new JMI.extensions.Slideshow(map);
-	var slideshow = new JMI.extensions.Slideshow(map,'slideshow',200,200,600);
+	//var slideshow = new JMI.extensions.Slideshow(map,'slideshow',200,200,600);
 	map.compute(parameters);
 };
 function JMIF_Navigate(args) {
