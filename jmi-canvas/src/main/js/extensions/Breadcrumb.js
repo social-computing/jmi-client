@@ -197,6 +197,7 @@ JMI.extensions.Breadcrumb = ( function() {
 				img = document.createElement('img');
 			img.src = this.snapshot.img;
 			a.title = this.snapshot.title;
+			a.href = '';
 			JMI.util.EventManager.addEvent(a, 'click', function(event, crumb) {
 				JMI.util.EventManager.preventDefault(event);
 				if( !crumb.error && !crumb.empty) {
@@ -207,8 +208,8 @@ JMI.extensions.Breadcrumb = ( function() {
 			}, this);
 			s.className = 'jmi-snapshot';
 			a.appendChild(img);
-			s.appendChild(a);
-			return s;
+			//s.appendChild(a);
+			return a;
 		}
 	};
 

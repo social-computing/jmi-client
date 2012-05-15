@@ -85,6 +85,7 @@ ul.jmi-menu {
 .jmi-breadcrumb {
 	font-family:Helvetica, Verdana, sans-serif;	
 	font-size:12px;	
+	vertical-align:middle;
  	display:inline;
    }
 
@@ -106,15 +107,6 @@ ul.jmi-menu {
  	list-style:none;
  }
  
-.jmi-breadcrumb li:hover a {
-	color:#343434;
-	background:#B2DDFF;
-	}
-
-.jmi-breadcrumb li a:hover {
-	color:#343434;
-	}
-
 .jmi-breadcrumb-thumbnail {
 	border-style:none;
 	padding-top: 1px;
@@ -129,13 +121,9 @@ ul.jmi-menu {
 .jmi-snapshot { 
 	display:inline;
  	margin: 0;
+}
+
+.jmi-snapshot a,img { 
+ 	padding: 0 2px 0 2px;
 	vertical-align:middle;
-}
-
-.jmi-snapshot a { 
- 	padding: 0 5px 0 5px;
-}
-
-.jmi-snapshot a:hover { 
-	background:#B2DDFF;
 }
