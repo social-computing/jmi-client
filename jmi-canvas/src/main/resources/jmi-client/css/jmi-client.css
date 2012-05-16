@@ -126,4 +126,5 @@ ul.jmi-menu {
 .jmi-snapshot a,img { 
  	padding: 0 2px 0 2px;
 	vertical-align:middle;
+	border:0;
 }
