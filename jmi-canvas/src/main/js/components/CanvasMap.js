@@ -529,30 +529,17 @@ JMI.components.CanvasMap = (function() {
 			this.attributes.length = 0;
 			this.links.length = 0;
 			this.nodes.length = 0;
-			for (i = 0; i < this.planContainer.map.plan.nodesCnt; ++i) {
+			for (i = 0; i < this.planContainer.map.plan.nodes.length; ++i) {
 				z = this.planContainer.map.plan.nodes[i];
-				o1 = new JMI.components.Node(i);
+				//o1 = new JMI.components.Node(i);
 				o2 = new JMI.components.Attribute(i);
-				this.nodes.push( o1);
-				o1.attributes.push( o2);
+				//this.nodes.push( o1);
+				//o1.attributes.push( o2);
 				this.attributes.push( o2);
-				o2.node = o1;
+				//o2.node = o1;
 				for(p in z.props) {
 					if(p && (p.charAt(0) !== '_')) {
 						o2[p] = z.props[p]; 
-					}
-				}
-				var sz = z.subZones;
-				for( j = 0; sz && j < sz.length; ++j) {
-					z = sz[j];
-					o3 = new JMI.components.Attribute(i);
-					this.attributes.push( o3);
-					o1.attributes.push( o3);
-					o3.node = o1;
-					for(p in z.props) {
-						if(p && (p.charAt(0) !== '_')) {
-							o3[p] = z.props[p]; 
-						}
 					}
 				}
 			}
