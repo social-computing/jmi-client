@@ -97,7 +97,7 @@ JMI.extensions.Breadcrumb = ( function() {
 				this.parent.removeChild(this.parent.firstChild);
 			}
 			this.parent.appendChild(lu);
-			if( !this.badIe) {
+			if( !this.badIe && !this.crumbs[this.crumbs.length-1].error && !this.crumbs[this.crumbs.length-1].empty) {
 				this.parent.appendChild(this.getSnapshotButton());
 			}
 		},
