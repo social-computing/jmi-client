@@ -73,6 +73,7 @@
 				
 				// for js calls
 				ExternalInterface.addCallback( "compute", compute);
+				ExternalInterface.addCallback( "isReady", isReady);
 				ExternalInterface.addCallback( "getProperty", getProperty);
 				ExternalInterface.addCallback( "getArrayProperty", getArrayProperty);
 				ExternalInterface.addCallback( "uploadAsImage", uploadAsImage);
@@ -109,6 +110,9 @@
 				getPlanResult.token = this.planService.getPlan(parameters.wpsplanname, map.width, map.height, parameters);
 			}
 			
+			public function isReady():Boolean{
+				return this.map.ready;
+			}
 			public function getProperty( name:String):Object {
 				return this.map.getProperty( name);
 			}

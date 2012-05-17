@@ -23,15 +23,19 @@ JMI.components.SwfMap = (function() {
     SwfMap.prototype = {
         constructor: JMI.components.SwfMap,
 
-		checkParams: function(jmiparams) {
-			if (!jmiparams.hasOwnProperty('allowDomain')) {
-				jmiparams.allowDomain = '*';
+		checkParams: function(jmiparams,esc) {
+			var params = {};
+        	for (var n in jmiparams) {
+        		params[n] = esc ? escape(jmiparams[n]) : jmiparams[n];
+        	}
+			if (!params.hasOwnProperty('allowDomain')) {
+				params.allowDomain = '*';
 			}
-			jmiparams.mainCallback = 'JMI.components.SwfMap.mainCallback';
-			jmiparams.wpsplanname = jmiparams.map;
-			jmiparams.wpsserverurl = this.server;
-			jmiparams.method = this.method;
-			return jmiparams;
+			params.mainCallback = 'JMI.components.SwfMap.mainCallback';
+			params.wpsplanname = params.map;
+			params.wpsserverurl = this.server;
+			params.method = this.method;
+			return params;
 		},	
 		compute: function(jmiparams) {
 			this.dispatchEvent({map: this, type: JMI.Map.event.START, params: jmiparams});
@@ -51,7 +55,7 @@ JMI.components.SwfMap = (function() {
 				this.parent.innerHTML = '<div id="' + attributes.id + '"><p>Either scripts and active content are not permitted to run or Adobe Flash Player version 10.0 or greater is not installed.</p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash Player" /></a></div>';
 				var comp = this;
 				swfobject.embedSWF(this.swf, attributes.id, "100%", "100%", "10.0.0", this.clientUrl + "swf/expressInstall.swf", 
-							this.checkParams(jmiparams), params, attributes,
+							this.checkParams(jmiparams,true), params, attributes,
 							function(res) {
 								if( !res.success) {
 									setTimeout( function() {
@@ -66,8 +70,14 @@ JMI.components.SwfMap = (function() {
 				);
 			}
 			else {
-				this.swfmap.compute(this.checkParams(jmiparams));
+				this.swfmap.compute(this.checkParams(jmiparams,false));
 			}
+		},
+		isReady: function() {
+			if( this.swfmap) {
+				return this.swfmap.isReady();
+			}
+			return false;			
 		},
 		getProperty: function(name) {
 			if( this.swfmap) {

@@ -180,6 +180,9 @@ JMI.components.CanvasMap = (function() {
 		getData: function() {
 			return this.planContainer;
 		},
+		isReady: function() {
+			return this.ready;
+		},
 		getProperty: function( name) {
 			if( this.planContainer && this.planContainer.map && this.planContainer.map.env.props[name]) {
 				return this.planContainer.map.env.props[name];
