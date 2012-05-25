@@ -127,12 +127,18 @@ JMI.components.SwfMap = (function() {
 				this.attributes.length = 0;
 				this.links.length = 0;
 				count = this.swfmap.getAttributesCount();
+				var swf = this.swfmap;
 				for( i = 0; i < count; ++i) {
 					o = new JMI.components.Attribute(i);
 					swfO = this.swfmap.getJmiAttribute(i);
 					for(p in swfO) {
 						if(p && (p.charAt(0) !== '_')) {
 							o[p] = swfO[p]; 
+							o.watch(p, function(prop, oldValue, newValue) {
+								alert( prop + "=>" + newValue);
+								//swf.setJmiAttributeProperty(i, prop, newValue);
+							    return newValue;
+							});
 						}
 					}
 					this.attributes.push( o);
@@ -144,6 +150,11 @@ JMI.components.SwfMap = (function() {
 					for(p in swfO) {
 						if(p && (p.charAt(0) !== '_')) {
 							o[p] = swfO[p]; 
+							o.watch(p, function(prop, oldValue, newValue) {
+								alert( prop + "=>" + newValue);
+								//swf.setJmiAttributeProperty(i, prop, newValue);
+							    return newValue;
+							});
 						}
 					}
 					this.links.push( o);

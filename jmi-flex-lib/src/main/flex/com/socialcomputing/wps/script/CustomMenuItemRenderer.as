@@ -17,7 +17,6 @@ package com.socialcomputing.wps.script {
 				if( this.data.hasOwnProperty("size"))
 					this.setStyle("fontSize", this.data.size);
             }
-            
         }
     }
 }

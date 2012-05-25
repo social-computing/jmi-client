@@ -12,7 +12,7 @@ ul.jmi-menu {
 	border:1px solid #666;
 	padding: 0;
 	margin:0;	
-  }
+}
 
 .jmi-menu li { 
 	color:#aaaaaa;
@@ -20,17 +20,25 @@ ul.jmi-menu {
 	text-decoration:none;
  	text-align: left;
  	list-style: none;
-	padding: 0 15px 0 15px;
+	padding: 0 15px 0 20px;
 	margin-bottom:5px;
 	margin-top:5px;
-	}
+}
+
+.jmi-menu li.jmi-menu-item-checked { 
+	background:url(../images/check.png) no-repeat center left;
+}
+
+.jmi-menu li.jmi-menu-item-checked:hover { 
+	background:url(../images/check.png) no-repeat center left #B2DDFF;
+}
 
 .jmi-menu a.jmi-menu-arrow  { 
 	background:url(../images/arrow-right.png) no-repeat center right;
-	}
+}
 
 .jmi-menu a.jmi-menu-arrow:hover  { 
-	background:url(../images/arrow-right.png) no-repeat center right;
+	background:url(../images/arrow-right.png) no-repeat center right #B2DDFF;
 	}
 
 .jmi-menu li:hover {

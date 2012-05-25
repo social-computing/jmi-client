@@ -140,26 +140,22 @@ JMI.script.MenuX = ( function() {
 			var parts = this.getString(JMI.script.MenuX.TEXT_VAL, zone.props).split(JMI.script.Base.SEP);
 			var title = parts[0];
 			var url = parts.length > 1 ? (parts[1]===''? null :parts[1]): null;
-			var redir = parts.length > 2 ? parts[2] : null;
-			//itemStr;
+			var checked = parts.length > 2 ? parts[2] : null;
 			var font = this.getTextFormat(zone.props);
-			var its = this.parseString3(title, zone.props);
+			var titles = this.parseString3(title, zone.props);
 			var urls = url !== null ? this.parseString3(url, zone.props) : null;
-			var redirs = redir !== null ? this.parseString3(redir, zone.props) : urls;
-			//MenuItem    item;
-			var i;
-			var n = its.length;
-			var m = redirs !== null ? redirs.length : 0;
+			var checkeds = checked !== null ? this.parseString3(checked, zone.props) : null;
+			var i, n = titles.length, m = checkeds !== null ? checkeds.length : 0;
 
 			if(j === -1) {
 				for( i = 0; i < n; i++) {
-					this.addItem(applet, dst, its[i], redirs !== null ? redirs[i] : null, font);
+					this.addItem(applet, dst, titles[i], urls !== null ? urls[i] : null, checkeds !== null ? checkeds[i] : null, font);
 				}
 			} else {
 				i = m - 1 < j ? m - 1 : j;
 				j = n - 1 < j ? n - 1 : j;
 				if(i >= 0 && j >= 0) {
-					this.addItem(applet, dst, its[j], redirs !== null ? redirs[i] : null, font);
+					this.addItem(applet, dst, titles[j], urls !== null ? urls[i] : null, checkeds !== null ? checkeds[i] : null, font);
 				}
 			}
 
@@ -173,7 +169,7 @@ JMI.script.MenuX = ( function() {
 		 * @param url		Adress to go (including Javascript) when this is selected.
 		 * @param font		TypeFace of the label.
 		 */
-		addItem : function(applet,menu, title, url, font) {
+		addItem : function(applet,menu, title, url, checked, font) {
 			var a, item = document.createElement("li");
 			if(url === null && title === "-") {
 				//item.type = "separator";
@@ -193,6 +189,9 @@ JMI.script.MenuX = ( function() {
 						JMI.script.MenuX.hideSubMenu(event.target.parentNode.parentNode);
 					});
 					a.JMI = applet;
+					if( checked === 'true') {
+						item.className = 'jmi-menu-item-checked';
+					}
 					item.appendChild(a);
 				}
 				else {

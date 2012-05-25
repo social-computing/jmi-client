@@ -153,22 +153,19 @@ package com.socialcomputing.wps.script  {
             var parts:Array 	= getString( TEXT_VAL, zone.m_props ).split( SEP);
             var title:String	= parts[0];
             var url:String      = parts.length > 1? parts[1] : null;
-            var redir:String    = parts.length > 2? parts[2] : null;
-            //itemStr;
+            var checked:String    = parts.length > 2? parts[2] : null;
             var font:TextFormat= this.getTextFormat( zone.m_props);
-            var items:Vector.<String>	= parseString3( title, zone.m_props);
+            var titles:Vector.<String>	= parseString3( title, zone.m_props);
             var urls:Vector.<String>   	= url != null && url.length > 0 ? parseString3( url, zone.m_props) : null;
-            var redirs:Vector.<String>  = redir != null && redir.length > 0? parseString3( redir, zone.m_props) : urls;
-            //MenuItem    item;
-            var i:int;
-            var n:int	= items.length;
-            var m:int		= redirs != null ? redirs.length : 0;
+            var checkeds:Vector.<String>  = checked != null && checked.length > 0? parseString3( checked, zone.m_props) : null;
+
+            var i:int, n:int = titles.length, m:int = checkeds != null ? checkeds.length : 0;
             
             if ( j == -1)
             {
                 for ( i = 0; i < n; i ++ )
                 {
-                    addItem( dst, items[i], redirs != null ? redirs[i] : null, font );
+                    addItem( dst, titles[i], urls != null ? urls[i] : null, checkeds != null ? checkeds[i] : null, font );
                 }
             }
             else
@@ -176,7 +173,7 @@ package com.socialcomputing.wps.script  {
                 i	= m - 1< j ? m - 1: j;
                 j	= n - 1< j ? n - 1: j;
                 if( i >= 0 && j >= 0)
-                    addItem( dst, items[j], redirs != null ? redirs[i] : null, font );
+                    addItem( dst, titles[j], urls != null ? urls[i] : null, checkeds != null ? checkeds[i] : null, font );
             }
             
             return n > 0;
@@ -190,7 +187,7 @@ package com.socialcomputing.wps.script  {
          * @param url		Adress to go (including Javascript) when this is selected.
          * @param font		TypeFace of the label.
          */
-        private function addItem( menu:ArrayCollection, title:String, url:String, font:TextFormat):void {
+        private function addItem( menu:ArrayCollection, title:String, url:String, checked:String, font:TextFormat):void {
             var item:Object = new Object();
             if( url == null && title == "-") {
 				item.type = "separator";	
@@ -198,6 +195,12 @@ package com.socialcomputing.wps.script  {
 				item.label = title;
 				if ( url != null )
 					item.action = url;
+				if ( checked != null ) {
+					item.type = "check";
+					item.toggled = checked == "true";
+					//var params:Array = [];
+					//dispatchEvent( new ActionEvent( "_", params));
+				}
                 if ( font != null) {
 					item.bold = font.bold;
 					item.italic = font.italic;

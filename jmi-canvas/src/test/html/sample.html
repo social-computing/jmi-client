@@ -67,7 +67,7 @@ function breadcrumbTitlesFunc(event) {
 }
 function getParams() {
 	
-/*	return {
+	return {
 		map: 'GoogleVisualization',
 		invert: 'false',
     	//spreadsheetserverurl: 'http://localhost:8080/web-labs',
@@ -75,9 +75,9 @@ function getParams() {
 		source: 'TEST',
 		sourceId: 'Franck',
 		inverted: false,
-		data: '{"entities":[{"id":1,"name":"France","attributes":[{"id":2,"p":8}]},{"id":2,"name":"Espagne ","attributes":[{"id":1},{"id":2},{"id":3}]},{"id":3,"name":"Italie","attributes":[{"id":3}]}],"attributes":[{"id":1,"name":"Europe"},{"id":2,"name":"hjkh"},{"id":3,"name":"hkhjk"}]}'
-    };*/
-	return {
+		data: '{"entities":[{"id":1,"name":"France","attributes":[{"id":2,"p":8}]},{"id":2,"name":"Espagne ","attributes":[{"id":1},{"id":2},{"id":3}]},{"id":3,"name":"Italie","attributes":[{"id":3}]}],"attributes":[{"id":1,"name":"Europe","checked":true},{"id":2,"name":"Asie","checked":false},{"id":3,"name":"Afrique","checked":false}]}'
+    };
+	/*return {
 		map: 'Feeds',
 		invert: 'false',
     	feedsserverurl: 'http://feeds.just-map-it.com',
@@ -85,7 +85,7 @@ function getParams() {
 		track: '',
 		jsessionid: '',
 		site: ''
-    };
+    };*/
 	/*return {
 		map: 'PolySpot',
 		inverted: 'false',
@@ -104,12 +104,12 @@ function GoMap() {
 	map = JMI.Map({
 				parent: 'map', 
 				clientUrl: '/jmi-canvas/src/main/resources/jmi-client',
-				watermark: {fontSize: 14}
 				//method: 'POST'
 				//touchMenuDelay : 1000
-    			//server: 'http://localhost:8080/jmi-server/'
+    			server: 'http://localhost:8080/jmi-server/',
 				//server: 'http://server.just-map-it.com/', 
 				//client: JMI.Map.SWF
+				watermark: {fontSize: 14}
 			});
 	map.addEventListener(JMI.Map.event.STATUS, function(event) {
 		//document.getElementById('status').innerHTML = event.message;
@@ -156,6 +156,9 @@ function JMIF_Center(map, args) {
 	parameters.feed = args[2];
 	parameters.analysisProfile = "DiscoveryProfile";
 	map.compute( parameters);
+}
+function JMIF_Check(map, args) {
+	alert(args[0]);
 }
 function image() {
 	document.location.href = map.getImage("image/png", 200, 200, true);
