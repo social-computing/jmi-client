@@ -195,6 +195,8 @@ package com.socialcomputing.wps.script  {
 				item.label = title;
 				if ( url != null )
 					item.action = url;
+				else
+					item.enabled = false;
 				if ( checked != null ) {
 					item.type = "check";
 					item.toggled = checked == "true";

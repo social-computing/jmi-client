@@ -195,7 +195,11 @@ JMI.script.MenuX = ( function() {
 					item.appendChild(a);
 				}
 				else {
-					item.innerHTML = title;
+					a = document.createElement("a");
+					a.innerHTML = title;
+					a.className = 'jmi-menu-item-disabled';
+					item.appendChild(a);
+					//item.innerHTML = title;
 					item.addEventListener('mouseover', function(event) {
 						JMI.script.MenuX.hideSubMenu(event.target.parentNode);
 					});
