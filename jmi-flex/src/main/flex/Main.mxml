@@ -80,8 +80,10 @@
 				ExternalInterface.addCallback( "getImage", getImage);
 				ExternalInterface.addCallback( "getAttributesCount", getAttributesCount);
 				ExternalInterface.addCallback( "getJmiAttribute", getAttribute); // Jmi because conflict with IE 8.0 and < 
+				ExternalInterface.addCallback( "setJmiAttributeProperty", setJmiAttributeProperty); // Jmi because conflict with IE 8.0 and < 
 				ExternalInterface.addCallback( "getLinksCount", getLinksCount);
 				ExternalInterface.addCallback( "getLink", getLink);
+				ExternalInterface.addCallback( "setJmiLinkProperty", setJmiLinkProperty);
 				ExternalInterface.addCallback( "getSelections", getSelections);
 				ExternalInterface.addCallback( "showSelection", showSelection);
 				ExternalInterface.addCallback( "clearSelection", clearSelection);
@@ -158,6 +160,10 @@
 				}
 				return attribute;
 			}
+			public function setJmiAttributeProperty(index:int,prop:String,value:Object):void {
+				if(map.plan != null && index < map.plan.m_nodes.length)
+					map.plan.m_nodes[index].m_props[prop] = value;
+			}
 			public function getLinksCount():int {
 				return map.plan == null ? 0 : map.plan.m_links.length;
 			}
@@ -171,6 +177,10 @@
 						link[o] = zone.m_props[o];
 				}
 				return link;
+			}
+			public function setJmiLinkProperty(index:int,prop:String,value:Object):void {
+				if(map.plan != null && index < map.plan.m_nodes.length)
+					map.plan.m_nodes[index].m_props[prop] = value;
 			}
 			public function getSelections():Object {
 				return map.env == null ? null : map.env.m_selections;

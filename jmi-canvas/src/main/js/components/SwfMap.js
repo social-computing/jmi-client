@@ -135,8 +135,8 @@ JMI.components.SwfMap = (function() {
 						if(p && (p.charAt(0) !== '_')) {
 							o[p] = swfO[p]; 
 							o.watch(p, function(prop, oldValue, newValue) {
-								alert( prop + "=>" + newValue);
-								//swf.setJmiAttributeProperty(i, prop, newValue);
+								// Change in API object => change in internal object
+								swf.setJmiAttributeProperty(this._index, prop, newValue);
 							    return newValue;
 							});
 						}
@@ -151,8 +151,8 @@ JMI.components.SwfMap = (function() {
 						if(p && (p.charAt(0) !== '_')) {
 							o[p] = swfO[p]; 
 							o.watch(p, function(prop, oldValue, newValue) {
-								alert( prop + "=>" + newValue);
-								//swf.setJmiAttributeProperty(i, prop, newValue);
+								// Change in API object => change in internal object
+								swf.setJmiLinkProperty(this._index, prop, newValue);
 							    return newValue;
 							});
 						}

@@ -528,7 +528,7 @@ JMI.components.CanvasMap = (function() {
 		},
 		initApiObjects: function(nodeFields, entityAttProps, entityLinkProps) {
 			// Manque les entités
-			var i, j, o1, o2, o3, p, z;
+			var i, j, o1, o2, o3, p, z, comp = this;
 			this.attributes.length = 0;
 			this.links.length = 0;
 			this.nodes.length = 0;
@@ -543,6 +543,11 @@ JMI.components.CanvasMap = (function() {
 				for(p in z.props) {
 					if(p && (p.charAt(0) !== '_')) {
 						o2[p] = z.props[p]; 
+						// Change in API object => change in internal object
+						o2.watch(p, function(prop, oldValue, newValue) {
+							comp.planContainer.map.plan.nodes[this._index].props[prop] = newValue;
+						    return newValue;
+						});
 					}
 				}
 			}
@@ -553,6 +558,11 @@ JMI.components.CanvasMap = (function() {
 				for(p in z.props) {
 					if(p && (p.charAt(0) !== '_')) {
 						o1[p] = z.props[p]; 
+						// Change in API object => change in internal object
+						o1.watch(p, function(prop, oldValue, newValue) {
+							comp.planContainer.map.plan.links[this._index].props[prop] = newValue;
+						    return newValue;
+						});
 					}
 				}
 			}

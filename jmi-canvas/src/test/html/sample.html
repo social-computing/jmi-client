@@ -158,7 +158,9 @@ function JMIF_Center(map, args) {
 	map.compute( parameters);
 }
 function JMIF_Check(map, args) {
-	alert(args[0]);
+	var pattern = new RegExp('\\b' + args[0] + '\\b'); 
+	var res = map.attributes.match(pattern,['ID']);	
+	res[0].CHECKED = !res[0].CHECKED;
 }
 function image() {
 	document.location.href = map.getImage("image/png", 200, 200, true);
