@@ -174,6 +174,7 @@ JMI.script.MenuX = ( function() {
 			if(url === null && title === "-") {
 				//item.type = "separator";
 				a = document.createElement("hr");
+				item.className = 'jmi-menu-item-disabled';
 				item.appendChild(a);
 				a.addEventListener('mouseover', function(event) {
 					JMI.script.MenuX.hideSubMenu(event.target.parentNode.parentNode);
@@ -197,7 +198,7 @@ JMI.script.MenuX = ( function() {
 				else {
 					a = document.createElement("a");
 					a.innerHTML = title;
-					a.className = 'jmi-menu-item-disabled';
+					item.className = 'jmi-menu-item-disabled';
 					item.appendChild(a);
 					//item.innerHTML = title;
 					item.addEventListener('mouseover', function(event) {

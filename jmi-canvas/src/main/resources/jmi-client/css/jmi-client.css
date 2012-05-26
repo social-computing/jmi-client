@@ -16,6 +16,7 @@ ul.jmi-menu {
 
 .jmi-menu li { 
 	color:#aaaaaa;
+	background:#ffffff;
 	display:list-item;
 	text-decoration:none;
  	text-align: left;
@@ -53,11 +54,13 @@ ul.jmi-menu {
 	padding: 0 15px 0 15px;
 }
 
-.jmi-menu li a.jmi-menu-item-disabled { 
+.jmi-menu li.jmi-menu-item-disabled, li.jmi-menu-item-disabled a { 
 	color:#aaaaaa;
+	background:#ffffff;
 	cursor: default;
+	font-style: italic;
 }
- 
+
 .jmi-menu ul li:first-child a {
 	-moz-border-radius-topleft: 4px;
 	-moz-border-radius-topright: 4px;
