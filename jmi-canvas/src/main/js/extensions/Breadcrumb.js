@@ -109,47 +109,57 @@ JMI.extensions.Breadcrumb = ( function() {
 		},
 		getCrumb: function(crumb,last) {
 			var c = document.createElement('li'),
-				a = document.createElement('a'),
-				breadcrumb = this, cur;
+				breadcrumb = this, cur, t;
 			crumb.li = c;
-			a.href = '';
-			a.innerHTML = last && !crumb.error && !crumb.empty ? crumb.longTitle : crumb.shortTitle;
-			a.title = crumb.longTitle;
-			a.crumb = crumb;
-			JMI.util.EventManager.addEvent(a, 'click', function(event) {
-				JMI.util.EventManager.preventDefault(event);
-				if( !event.target.crumb.error && !event.target.crumb.empty) {
-					do {
-						cur = breadcrumb.crumbs.pop();
-						if( cur.thumbnail) {
-							document.body.removeChild(cur.thumbnail);
-							delete cur.thumbnail;
-						}
-					} while( cur !== event.target.crumb);
-					event.target.crumb.self = true;
-					breadcrumb.crumbs.push(event.target.crumb);
-					breadcrumb.map.compute(event.target.crumb.params);
-				}
-			}, crumb);
-			//a.addEventListener('dblclick', applet.menuHandler, false);
-			JMI.util.EventManager.addEvent(a, 'mouseover', function(event) {
-				JMI.util.EventManager.preventDefault(event);
-				var crumb = event.target.crumb;
-				if( crumb && crumb.thumbnail && !crumb.error && !crumb.empty) {
-					var p = JMI.util.ImageUtil.AbsPosition(crumb.li);
-					crumb.thumbnail.style.top = (p.y + crumb.li.offsetHeight) + 'px';
-					crumb.thumbnail.style.left = p.x + 'px';
-					crumb.thumbnail.style.visibility = '';
-				}
-			}, crumb);
-			JMI.util.EventManager.addEvent(a, 'mouseout', function(event) {
-				JMI.util.EventManager.preventDefault(event);
-				var crumb = event.target.crumb;
-				if( crumb && crumb.thumbnail) {
-					crumb.thumbnail.style.visibility = 'hidden';
-				}
-			}, crumb);
-			c.appendChild(a);
+			c.href = '';
+			if( last && !crumb.error && !crumb.empty) {
+				c.innerHTML = crumb.longTitle;
+				c.title = c.innerText || c.textContent;
+			}
+			else {
+				c.innerHTML = crumb.shortTitle;
+				t = document.createElement('li'); // Temporary, needed for text extraction
+				t.innerHTML = crumb.longTitle;
+				c.title = t.innerText || t.textContent;
+			}
+			//c.innerHTML = last && !crumb.error && !crumb.empty ? crumb.longTitle : crumb.shortTitle;
+			//c.title = last && !crumb.error && !crumb.empty ? crumb.longTitle : crumb.shortTitle;
+			c.crumb = crumb;
+			if( !crumb.error && !crumb.empty) {
+				JMI.util.EventManager.addEvent(c, 'click', function(event) {
+					JMI.util.EventManager.preventDefault(event);
+					if( !event.target.crumb.error && !event.target.crumb.empty) {
+						do {
+							cur = breadcrumb.crumbs.pop();
+							if( cur.thumbnail) {
+								document.body.removeChild(cur.thumbnail);
+								delete cur.thumbnail;
+							}
+						} while( cur !== event.target.crumb);
+						event.target.crumb.self = true;
+						breadcrumb.crumbs.push(event.target.crumb);
+						breadcrumb.map.compute(event.target.crumb.params);
+					}
+				}, crumb);
+				//c.addEventListener('dblclick', applet.menuHandler, false);
+				JMI.util.EventManager.addEvent(c, 'mouseover', function(event) {
+					JMI.util.EventManager.preventDefault(event);
+					var crumb = event.target.crumb;
+					if( crumb && crumb.thumbnail && !crumb.error && !crumb.empty) {
+						var p = JMI.util.ImageUtil.AbsPosition(crumb.li);
+						crumb.thumbnail.style.top = (p.y + crumb.li.offsetHeight) + 'px';
+						crumb.thumbnail.style.left = p.x + 'px';
+						crumb.thumbnail.style.visibility = '';
+					}
+				}, crumb);
+				JMI.util.EventManager.addEvent(c, 'mouseout', function(event) {
+					JMI.util.EventManager.preventDefault(event);
+					var crumb = event.target.crumb;
+					if( crumb && crumb.thumbnail) {
+						crumb.thumbnail.style.visibility = 'hidden';
+					}
+				}, crumb);
+			}
 			return c;
 		},
 		defaultNaming: function(event) {
