@@ -98,7 +98,12 @@ JMI.components.SwfMap = (function() {
 			}
 		},
 		resize: function(width, height) {
-			// Not implemented
+			if( this.swfmap) {
+				width = width || this.parent.clientWidth;
+				height = height || this.parent.clientHeight;
+				this.swfmap.style.width = width + 'px';
+				this.swfmap.style.height = height + 'px';
+			}
 		},
 		showSelection: function(selection) {
 			if( this.swfmap) {
@@ -134,11 +139,11 @@ JMI.components.SwfMap = (function() {
 					for(p in swfO) {
 						if(p && (p.charAt(0) !== '_')) {
 							o[p] = swfO[p]; 
-							o.watch(p, function(prop, oldValue, newValue) {
+							/*o.watch(p, function(prop, oldValue, newValue) {
 								// Change in API object => change in internal object
 								swf.setJmiAttributeProperty(this._index, prop, newValue);
 							    return newValue;
-							});
+							});*/
 						}
 					}
 					this.attributes.push( o);
@@ -150,11 +155,11 @@ JMI.components.SwfMap = (function() {
 					for(p in swfO) {
 						if(p && (p.charAt(0) !== '_')) {
 							o[p] = swfO[p]; 
-							o.watch(p, function(prop, oldValue, newValue) {
+							/*o.watch(p, function(prop, oldValue, newValue) {
 								// Change in API object => change in internal object
 								swf.setJmiLinkProperty(this._index, prop, newValue);
 							    return newValue;
-							});
+							});*/
 						}
 					}
 					this.links.push( o);
