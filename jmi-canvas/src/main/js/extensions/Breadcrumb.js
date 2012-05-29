@@ -45,6 +45,19 @@ JMI.extensions.Breadcrumb = ( function() {
 		if( !this.snapshot.title) {
 			this.snapshot.title = 'Snapshot';
 		}
+		this.fullscreen = parameters && parameters.fullscreen;
+		if( this.fullscreen) {
+			this.fullscreen = parameters.fullscreen;
+		}
+		else {
+			this.fullscreen = {};
+		}
+		if( !this.fullscreen.img) {
+			this.fullscreen.img = this.map.clientUrl + '/images/fullscreen_icon.png';
+		}
+		if( !this.fullscreen.title) {
+			this.fullscreen.title = 'Full screen mode';
+		}
 		var p, breadcrumb = this;
 		this.map.addEventListener(JMI.Map.event.START, function(event) {
 			var crumb = breadcrumb.crumbs.length > 0 ? breadcrumb.crumbs[breadcrumb.crumbs.length-1] : null;
@@ -99,6 +112,9 @@ JMI.extensions.Breadcrumb = ( function() {
 			this.parent.appendChild(lu);
 			if( !this.badIe && !this.crumbs[this.crumbs.length-1].error && !this.crumbs[this.crumbs.length-1].empty) {
 				this.parent.appendChild(this.getSnapshotButton());
+			}
+			if( !this.crumbs[this.crumbs.length-1].error && !this.crumbs[this.crumbs.length-1].empty) {
+				//this.parent.appendChild(this.getFullscreenButton());
 			}
 		},
 		flush: function() {
@@ -218,7 +234,53 @@ JMI.extensions.Breadcrumb = ( function() {
 			}, this);
 			s.className = 'jmi-snapshot';
 			a.appendChild(img);
-			//s.appendChild(a);
+			return a;
+		},
+		getFullscreenButton: function() {
+			var s = document.createElement('div'),
+				a = document.createElement('a'),
+				img = document.createElement('img');
+			img.src = this.fullscreen.img;
+			a.title = this.fullscreen.title;
+			a.href = '';
+			JMI.util.EventManager.addEvent(a, 'click', function(event, crumb) {
+				JMI.util.EventManager.preventDefault(event);
+				if( !crumb.error && !crumb.empty) {
+/*					crumb.savedStyle = {};
+					crumb.savedStyle.position = crumb.map.parent.style.position;
+					crumb.map.parent.style.position = 'absolute';
+					crumb.savedStyle.border = crumb.map.parent.style.border;
+					crumb.map.parent.style.border = '0';
+					crumb.savedStyle.top = crumb.map.parent.style.top;
+					crumb.map.parent.style.top = window.pageYOffset;
+					crumb.savedStyle.left = crumb.map.parent.style.left;
+					crumb.map.parent.style.left = window.pageXOffset;
+					crumb.savedStyle.width = crumb.map.parent.style.width;
+					crumb.map.parent.style.width = '100%';
+					crumb.savedStyle.height = crumb.map.parent.style.height;
+					crumb.map.parent.style.height = '100%';*/
+					crumb.savedClassName = crumb.map.parent.className;
+					crumb.map.parent.className = 'jmi-fullscreen';
+					crumb.map.resize(crumb.map.parent.clientWidth, crumb.map.parent.clientHeight);
+					crumb.savedStyle.onkeydown = document.onkeydown;
+					document.onkeydown = function(evt) {
+					    evt = evt || window.event;
+					    if (evt.keyCode == 27) {
+							/*crumb.map.parent.style.position = crumb.savedStyle.position;
+							crumb.map.parent.style.border = crumb.savedStyle.border;
+							crumb.map.parent.style.top = crumb.savedStyle.top;
+							crumb.map.parent.style.left = crumb.savedStyle.left;
+							crumb.map.parent.style.width = crumb.savedStyle.width;
+							crumb.map.parent.style.height = crumb.savedStyle.height;*/
+							crumb.map.parent.className = crumb.savedClassName;
+							crumb.map.resize(crumb.map.parent.clientWidth, crumb.map.parent.clientHeight);
+							document.onkeydown = crumb.savedStyle.onkeydown;
+					    }
+					};					
+				}
+			}, this);
+			s.className = 'jmi-fullscreen';
+			a.appendChild(img);
 			return a;
 		}
 	};
