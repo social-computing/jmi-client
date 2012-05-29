@@ -42,6 +42,7 @@
 <script type="text/javascript" src="/jmi-canvas/src/main/js/components/CanvasMap.js"></script>
 
 <script type="text/javascript" src="/jmi-canvas/src/main/js/lib/swfobject.js"></script>
+<script type="text/javascript" src="/jmi-canvas/src/main/js/lib/object-watch.js"></script>
 <script type="text/javascript" src="/jmi-canvas/src/main/js/components/SwfMap.js"></script>
 
 <script type="text/javascript" src="/jmi-canvas/src/main/js/components/Attribute.js"></script>
@@ -67,7 +68,7 @@ function breadcrumbTitlesFunc(event) {
 }
 function getParams() {
 	
-	/*return {
+	return {
 		map: 'GoogleVisualization',
 		invert: 'false',
     	//spreadsheetserverurl: 'http://localhost:8080/web-labs',
@@ -76,8 +77,8 @@ function getParams() {
 		sourceId: 'Franck',
 		inverted: false,
 		data: '{"entities":[{"id":1,"name":"France","attributes":[{"id":2,"p":8}]},{"id":2,"name":"Espagne ","attributes":[{"id":1},{"id":2},{"id":3}]},{"id":3,"name":"Italie","attributes":[{"id":3}]}],"attributes":[{"id":1,"name":"Europe","checked":true},{"id":2,"name":"Asie","checked":false},{"id":3,"name":"Afrique","checked":false}]}'
-    };*/
-	return {
+    };
+	/*return {
 		map: 'Feeds',
 		invert: 'false',
     	feedsserverurl: 'http://feeds.just-map-it.com',
@@ -85,7 +86,7 @@ function getParams() {
 		track: '',
 		jsessionid: '',
 		site: ''
-    };
+    };*/
 	/*return {
 		map: 'PolySpot',
 		inverted: 'false',
@@ -106,7 +107,7 @@ function GoMap() {
 				clientUrl: '/jmi-canvas/src/main/resources/jmi-client',
 				//method: 'POST'
 				//touchMenuDelay : 1000
-    			//server: 'http://localhost:8080/jmi-server/',
+    			server: 'http://localhost:8080/jmi-server/',
 				//server: 'http://server.just-map-it.com/', 
 				//client: JMI.Map.SWF,
 				watermark: {fontSize: 14}

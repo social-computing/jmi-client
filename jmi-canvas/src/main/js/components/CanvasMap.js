@@ -546,10 +546,10 @@ JMI.components.CanvasMap = (function() {
 					if(p && (p.charAt(0) !== '_')) {
 						o2[p] = z.props[p]; 
 						// Change in API object => change in internal object
-						/*o2.watch(p, function(prop, oldValue, newValue) {
+						o2.watch(p, function(prop, oldValue, newValue) {
 							comp.planContainer.map.plan.nodes[this._index].props[prop] = newValue;
 						    return newValue;
-						});*/
+						});
 					}
 				}
 			}
@@ -561,10 +561,10 @@ JMI.components.CanvasMap = (function() {
 					if(p && (p.charAt(0) !== '_')) {
 						o1[p] = z.props[p]; 
 						// Change in API object => change in internal object
-						/*o1.watch(p, function(prop, oldValue, newValue) {
+						o1.watch(p, function(prop, oldValue, newValue) {
 							comp.planContainer.map.plan.links[this._index].props[prop] = newValue;
 						    return newValue;
-						});*/
+						});
 					}
 				}
 			}
