@@ -11,7 +11,7 @@ JMI.components.Link = ( function() {
 	Link.prototype = {
 		constructor : JMI.components.Link,
 
-		setPropertty: function(name,value) {
+		setProperty: function(name,value) {
 			this[name] = value;
 			map._setLinkProperty(this._index, name, value);
 		}

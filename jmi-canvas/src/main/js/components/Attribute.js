@@ -11,7 +11,7 @@ JMI.components.Attribute = ( function() {
 	Attribute.prototype = {
 		constructor : JMI.components.Attribute,
 		
-		setPropertty: function(name,value) {
+		setProperty: function(name,value) {
 			this[name] = value;
 			map._setAttributeProperty(this._index, name, value);
 		}
