@@ -9,7 +9,7 @@
  */
 
 // object.watch
-if (!Object.prototype.watch) {
+if (Object.defineProperty && !Object.prototype.watch) {
 	Object.defineProperty(Object.prototype, "watch", {
 		  enumerable: false
 		, configurable: true
@@ -40,7 +40,7 @@ if (!Object.prototype.watch) {
 }
 
 // object.unwatch
-if (!Object.prototype.unwatch) {
+if (Object.defineProperty && !Object.prototype.unwatch) {
 	Object.defineProperty(Object.prototype, "unwatch", {
 		  enumerable: false
 		, configurable: true

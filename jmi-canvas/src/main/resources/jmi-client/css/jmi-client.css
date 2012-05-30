@@ -98,7 +98,9 @@ ul.jmi-menu {
 
 .jmi-breadcrumb li { 
  	background:url(../images/arrow-right.png) no-repeat center left;
- 	display:inline-block;
+ 	display:inline;
+ 	list-style:none;
+ 	text-align:left;
  	padding: 2px 2px 2px 10px;
  	margin: 0 10px 0 0;
 }
@@ -109,10 +111,9 @@ ul.jmi-menu {
 	color:#343434;
 	}
 
-.jmi-breadcrumb li a { 
+.jmi-breadcrumb li.a { 
 	color:#343434;
 	text-decoration:underline;
- 	list-style:none;
  }
  
 .jmi-breadcrumb-thumbnail {

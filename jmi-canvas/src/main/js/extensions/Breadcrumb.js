@@ -246,33 +246,23 @@ JMI.extensions.Breadcrumb = ( function() {
 			JMI.util.EventManager.addEvent(a, 'click', function(event, crumb) {
 				JMI.util.EventManager.preventDefault(event);
 				if( !crumb.error && !crumb.empty) {
-/*					crumb.savedStyle = {};
-					crumb.savedStyle.position = crumb.map.parent.style.position;
-					crumb.map.parent.style.position = 'absolute';
-					crumb.savedStyle.border = crumb.map.parent.style.border;
-					crumb.map.parent.style.border = '0';
-					crumb.savedStyle.top = crumb.map.parent.style.top;
-					crumb.map.parent.style.top = window.pageYOffset;
-					crumb.savedStyle.left = crumb.map.parent.style.left;
-					crumb.map.parent.style.left = window.pageXOffset;
-					crumb.savedStyle.width = crumb.map.parent.style.width;
-					crumb.map.parent.style.width = '100%';
-					crumb.savedStyle.height = crumb.map.parent.style.height;
-					crumb.map.parent.style.height = '100%';*/
-					crumb.savedClassName = crumb.map.parent.className;
-					crumb.map.parent.className = 'jmi-fullscreen';
-					crumb.map.resize(crumb.map.parent.clientWidth, crumb.map.parent.clientHeight);
+					crumb.savedStyle = {};
+					var cssProp, icss, cssProps = ['position', 'border', 'top', 'left', 'width', 'height'],
+						newCssProps = ['absolute', '0', '0', '0', '100%', '100%'];
+					for( icss in cssProps) {
+						cssProp = cssProps[icss];
+						crumb.savedStyle[cssProp] = crumb.map.parent.style[cssProp];
+						crumb.map.parent.style[cssProp] = newCssProps[icss];
+					}
+					crumb.map.resize();
 					crumb.savedStyle.onkeydown = document.onkeydown;
 					document.onkeydown = function(evt) {
 					    evt = evt || window.event;
 					    if (evt.keyCode == 27) {
-							/*crumb.map.parent.style.position = crumb.savedStyle.position;
-							crumb.map.parent.style.border = crumb.savedStyle.border;
-							crumb.map.parent.style.top = crumb.savedStyle.top;
-							crumb.map.parent.style.left = crumb.savedStyle.left;
-							crumb.map.parent.style.width = crumb.savedStyle.width;
-							crumb.map.parent.style.height = crumb.savedStyle.height;*/
-							crumb.map.parent.className = crumb.savedClassName;
+							for( icss in cssProps) {
+								cssProp = cssProps[icss];
+								crumb.map.parent.style[cssProp] = crumb.savedStyle[cssProp];
+							}
 							crumb.map.resize(crumb.map.parent.clientWidth, crumb.map.parent.clientHeight);
 							document.onkeydown = crumb.savedStyle.onkeydown;
 					    }
