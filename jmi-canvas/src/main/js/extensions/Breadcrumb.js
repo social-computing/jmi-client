@@ -247,7 +247,7 @@ JMI.extensions.Breadcrumb = ( function() {
 				JMI.util.EventManager.preventDefault(event);
 				if( !crumb.error && !crumb.empty) {
 					crumb.fullscreen.savedStyle = {};
-					var cssProp, cssProps = {position:'absolute', border:'0', 
+					var cssProp, cssProps = {position:'absolute', border:'0', zIndex:99,
 								top:'0', left:'0', 
 								width:document.body.clientWidth-1+'px', height:document.body.clientHeight-1+'px'
 								//width:window.innerWidth-10+'px', height:window.innerHeight-2+'px'
