@@ -189,6 +189,16 @@ JMI.components.CanvasMap = (function() {
 			}
 			return null;
 		},
+		_setAttributeProperty: function(index,name,value) {
+			if( this.planContainer && this.planContainer.map) {
+				this.planContainer.map.plan.nodes[index].props[name] = value;
+			}
+		},
+		_setLinkProperty: function(index,name,value) {
+			if( this.planContainer && this.planContainer.map) {
+				this.planContainer.map.plan.links[index].props[name] = value;
+			}
+		},
 		invalidate: function() {
 			this.renderShape(this.restDrawingCanvas, this.size.width, this.size.height);
 		},		

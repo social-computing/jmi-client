@@ -13,7 +13,7 @@ JMI.components.Link = ( function() {
 
 		setPropertty: function(name,value) {
 			this[name] = value;
-			map.planContainer.map.plan.links[this._index].props[name] = value;
+			map._setLinkProperty(this._index, name, value);
 		}
 	};
 

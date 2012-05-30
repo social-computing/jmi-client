@@ -13,7 +13,7 @@ JMI.components.Attribute = ( function() {
 		
 		setPropertty: function(name,value) {
 			this[name] = value;
-			map.planContainer.map.plan.nodes[this._index].props[name] = value;
+			map._setAttributeProperty(this._index, name, value);
 		}
 	};
 

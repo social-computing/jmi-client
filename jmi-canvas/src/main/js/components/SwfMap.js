@@ -84,6 +84,16 @@ JMI.components.SwfMap = (function() {
 				return this.swfmap.getProperty(name);
 			}
 		},
+		_setAttributeProperty: function(index,name,value) {
+			if( this.swfmap) {
+				this.swfmap.setJmiAttributeProperty(index, name, value);
+			}
+		},
+		_setLinkProperty: function(index,name,value) {
+			if( this.swfmap) {
+				this.swfmap.setJmiLinkProperty(index, name, value);
+			}
+		},
 		getImage: function(mime, width, height, keepProportions) {
 			if( this.swfmap) {
 				width = width || this.size.width;
