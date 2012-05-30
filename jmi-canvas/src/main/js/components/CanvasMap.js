@@ -31,6 +31,7 @@ JMI.components.CanvasMap = (function() {
 
 		// Menu
 		this.divMenu = document.createElement("div");
+		this.divMenu.className = 'jmi-menu';
 		this.divMenu.style.visibility = 'hidden';
 		this.divMenu.style.position = 'absolute';
 		document.body.appendChild(this.divMenu);

@@ -2,6 +2,7 @@
 	font-family:Helvetica, Verdana, sans-serif;	
 	font-size:12px;	
  	white-space:nowrap;
+ 	z-index:100;
    }
 
 ul.jmi-menu {
