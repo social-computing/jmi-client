@@ -99,8 +99,6 @@ JMI.components.SwfMap = (function() {
 		},
 		resize: function(width, height) {
 			if( this.swfmap) {
-				width = width || this.parent.clientWidth;
-				height = height || this.parent.clientHeight;
 				this.swfmap.style.width = width + 'px';
 				this.swfmap.style.height = height + 'px';
 			}

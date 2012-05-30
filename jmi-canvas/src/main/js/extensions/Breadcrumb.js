@@ -113,8 +113,8 @@ JMI.extensions.Breadcrumb = ( function() {
 			if( !this.badIe && !this.crumbs[this.crumbs.length-1].error && !this.crumbs[this.crumbs.length-1].empty) {
 				this.parent.appendChild(this.getSnapshotButton());
 			}
-			if( !this.crumbs[this.crumbs.length-1].error && !this.crumbs[this.crumbs.length-1].empty) {
-				//this.parent.appendChild(this.getFullscreenButton());
+			if( this.map.type === JMI.Map.CANVAS && !this.crumbs[this.crumbs.length-1].error && !this.crumbs[this.crumbs.length-1].empty) {
+				this.parent.appendChild(this.getFullscreenButton());
 			}
 		},
 		flush: function() {
@@ -246,25 +246,23 @@ JMI.extensions.Breadcrumb = ( function() {
 			JMI.util.EventManager.addEvent(a, 'click', function(event, crumb) {
 				JMI.util.EventManager.preventDefault(event);
 				if( !crumb.error && !crumb.empty) {
-					crumb.savedStyle = {};
-					var cssProp, icss, cssProps = ['position', 'border', 'top', 'left', 'width', 'height'],
-						newCssProps = ['absolute', '0', '0', '0', '100%', '100%'];
-					for( icss in cssProps) {
-						cssProp = cssProps[icss];
-						crumb.savedStyle[cssProp] = crumb.map.parent.style[cssProp];
-						crumb.map.parent.style[cssProp] = newCssProps[icss];
+					crumb.fullscreen.savedStyle = {};
+					var cssProp, cssProps = {position:'absolute', border:'0', 
+								top:'0', left:'0', 
+								width:document.body.clientWidth-1+'px', height:document.body.clientHeight-1+'px'
+								//width:window.innerWidth-10+'px', height:window.innerHeight-2+'px'
+								};
+					for( cssProp in cssProps) {
+						crumb.fullscreen.savedStyle[cssProp] = crumb.map.parent.style[cssProp];
+						crumb.map.parent.style[cssProp] = cssProps[cssProp];
 					}
-					crumb.map.resize();
-					crumb.savedStyle.onkeydown = document.onkeydown;
+					crumb.map.resize(crumb.map.parent.clientWidth, crumb.map.parent.clientHeight);
+					crumb.fullscreen.savedStyle.onkeydown = document.onkeydown;
+					JMI.util.EventManager.addEvent(crumb.map.parent, 'dblclick', JMI.extensions.Breadcrumb.restoreNormalScreen, crumb);
 					document.onkeydown = function(evt) {
 					    evt = evt || window.event;
 					    if (evt.keyCode == 27) {
-							for( icss in cssProps) {
-								cssProp = cssProps[icss];
-								crumb.map.parent.style[cssProp] = crumb.savedStyle[cssProp];
-							}
-							crumb.map.resize(crumb.map.parent.clientWidth, crumb.map.parent.clientHeight);
-							document.onkeydown = crumb.savedStyle.onkeydown;
+					    	JMI.extensions.Breadcrumb.restoreNormalScreen( null, crumb);
 					    }
 					};					
 				}
@@ -277,3 +275,13 @@ JMI.extensions.Breadcrumb = ( function() {
 
 	return Breadcrumb;
 }());
+
+JMI.extensions.Breadcrumb.restoreNormalScreen = function(event, crumb) {
+	var cssProp;
+	for( cssProp in crumb.fullscreen.savedStyle) {
+		crumb.map.parent.style[cssProp] = crumb.fullscreen.savedStyle[cssProp];
+	}
+	crumb.map.resize(crumb.map.parent.clientWidth, crumb.map.parent.clientHeight);
+	document.onkeydown = crumb.fullscreen.savedStyle.onkeydown;
+	JMI.util.EventManager.removeEvent(crumb.map.parent, 'dblclick', JMI.extensions.Breadcrumb.restoreNormalScreen);
+}

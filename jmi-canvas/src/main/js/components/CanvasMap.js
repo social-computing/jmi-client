@@ -340,8 +340,6 @@ JMI.components.CanvasMap = (function() {
 			}
 		},
 		resize: function(width, height){
-			width = width || this.parent.clientWidth;
-			height = height || this.parent.clientHeight;
 			this.clear();
 
 			this.size.width = width; 
