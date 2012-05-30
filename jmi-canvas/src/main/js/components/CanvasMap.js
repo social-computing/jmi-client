@@ -535,7 +535,7 @@ JMI.components.CanvasMap = (function() {
 			for (i = 0; i < this.planContainer.map.plan.nodes.length; ++i) {
 				z = this.planContainer.map.plan.nodes[i];
 				//o1 = new JMI.components.Node(i);
-				o2 = new JMI.components.Attribute(i);
+				o2 = new JMI.components.Attribute(this,i);
 				//this.nodes.push( o1);
 				//o1.attributes.push( o2);
 				this.attributes.push( o2);
@@ -543,30 +543,16 @@ JMI.components.CanvasMap = (function() {
 				for(p in z.props) {
 					if(p && (p.charAt(0) !== '_')) {
 						o2[p] = z.props[p]; 
-						// Change in API object => change in internal object
-						if( o2.watch) { 
-							o2.watch(p, function(prop, oldValue, newValue) {
-								comp.planContainer.map.plan.nodes[this._index].props[prop] = newValue;
-							    return newValue;
-							});
-						}
 					}
 				}
 			}
 			for (i = 0; i < this.planContainer.map.plan.links.length; ++i) {
 				z = this.planContainer.map.plan.links[i];
-				o1 = new JMI.components.Link(i);
+				o1 = new JMI.components.Link(this,i);
 				this.links.push(o1);
 				for(p in z.props) {
 					if(p && (p.charAt(0) !== '_')) {
 						o1[p] = z.props[p]; 
-						// Change in API object => change in internal object
-						if( o1.watch) { 
-							o1.watch(p, function(prop, oldValue, newValue) {
-								comp.planContainer.map.plan.links[this._index].props[prop] = newValue;
-							    return newValue;
-							});
-						}
 					}
 				}
 			}

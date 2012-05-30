@@ -132,36 +132,22 @@ JMI.components.SwfMap = (function() {
 				count = this.swfmap.getAttributesCount();
 				var swf = this.swfmap;
 				for( i = 0; i < count; ++i) {
-					o = new JMI.components.Attribute(i);
+					o = new JMI.components.Attribute(this,i);
 					swfO = this.swfmap.getJmiAttribute(i);
 					for(p in swfO) {
 						if(p && (p.charAt(0) !== '_')) {
 							o[p] = swfO[p]; 
-							if( o.watch) { 
-								o.watch(p, function(prop, oldValue, newValue) {
-									// Change in API object => change in internal object
-									swf.setJmiAttributeProperty(this._index, prop, newValue);
-								    return newValue;
-								});
-							}
 						}
 					}
 					this.attributes.push( o);
 				}
 				count = this.swfmap.getLinksCount();
 				for( i = 0; i < count; ++i) {
-					o = new JMI.components.Link(i);
+					o = new JMI.components.Link(this,i);
 					swfO = this.swfmap.getLink(i);
 					for(p in swfO) {
 						if(p && (p.charAt(0) !== '_')) {
 							o[p] = swfO[p];
-							if( o.watch) { 
-								o.watch(p, function(prop, oldValue, newValue) {
-									// Change in API object => change in internal object
-									swf.setJmiLinkProperty(this._index, prop, newValue);
-								    return newValue;
-								});
-							}
 						}
 					}
 					this.links.push( o);

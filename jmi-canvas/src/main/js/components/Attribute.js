@@ -3,13 +3,18 @@ JMI.namespace("components.Attribute");
 
 JMI.components.Attribute = ( function() {
 
-	var Attribute = function(index) {
+	var Attribute = function(map,index) {
+		this._map = map;
 		this._index = index;
 	};
 
 	Attribute.prototype = {
-		constructor : JMI.components.Attribute
+		constructor : JMI.components.Attribute,
 		
+		setPropertty: function(name,value) {
+			this[name] = value;
+			map.planContainer.map.plan.nodes[this._index].props[name] = value;
+		}
 	};
 
 	return Attribute;
