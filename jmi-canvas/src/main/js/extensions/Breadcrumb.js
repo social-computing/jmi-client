@@ -58,6 +58,9 @@ JMI.extensions.Breadcrumb = ( function() {
 		if( !this.fullscreen.title) {
 			this.fullscreen.title = 'Full screen mode';
 		}
+		this.fullscreen.div = document.createElement("div");
+		this.fullscreen.div.style.position = 'absolute';
+		this.fullscreen.div.style.visibility = 'hidden';
 		var p, breadcrumb = this;
 		this.map.addEventListener(JMI.Map.event.START, function(event) {
 			var crumb = breadcrumb.crumbs.length > 0 ? breadcrumb.crumbs[breadcrumb.crumbs.length-1] : null;
@@ -243,20 +246,31 @@ JMI.extensions.Breadcrumb = ( function() {
 			img.src = this.fullscreen.img;
 			a.title = this.fullscreen.title;
 			a.href = '';
+			document.body.appendChild(this.fullscreen.div);
 			JMI.util.EventManager.addEvent(a, 'click', function(event, crumb) {
 				JMI.util.EventManager.preventDefault(event);
 				if( !crumb.error && !crumb.empty) {
 					crumb.fullscreen.savedStyle = {};
 					var cssProp, cssProps = {position:'absolute', border:'0', zIndex:99,
-								top:'0', left:'0', 
-								width:document.body.clientWidth-1+'px', height:document.body.clientHeight-1+'px'
-								//width:window.innerWidth-10+'px', height:window.innerHeight-2+'px'
-								};
+								top:0, left:0, 
+								width:(window.innerWidth-10)+'px', 
+								height:(window.innerHeight-10)+'px'
+						};
 					for( cssProp in cssProps) {
 						crumb.fullscreen.savedStyle[cssProp] = crumb.map.parent.style[cssProp];
 						crumb.map.parent.style[cssProp] = cssProps[cssProp];
+						crumb.fullscreen.div.style[cssProp] = cssProps[cssProp];
 					}
-					crumb.map.resize(crumb.map.parent.clientWidth, crumb.map.parent.clientHeight);
+					crumb.fullscreen.div.style.top = window.pageYOffset+'px';
+					crumb.fullscreen.div.style.left = window.pageXOffset+'px';
+					// Save child position
+					crumb.fullscreen.savedParent = crumb.map.parent.parentNode;
+					crumb.fullscreen.savedNextSibling = crumb.map.parent.nextSibling;
+					crumb.map.resize(crumb.fullscreen.div.clientWidth, crumb.fullscreen.div.clientHeight);
+					crumb.map.parent.parentNode.removeChild(crumb.map.parent);
+					crumb.fullscreen.div.appendChild(crumb.map.parent);
+					crumb.fullscreen.div.style.visibility = '';
+
 					crumb.fullscreen.savedStyle.onkeydown = document.onkeydown;
 					JMI.util.EventManager.addEvent(crumb.map.parent, 'dblclick', JMI.extensions.Breadcrumb.restoreNormalScreen, crumb);
 					document.onkeydown = function(evt) {
@@ -278,10 +292,18 @@ JMI.extensions.Breadcrumb = ( function() {
 
 JMI.extensions.Breadcrumb.restoreNormalScreen = function(event, crumb) {
 	var cssProp;
+	document.onkeydown = crumb.fullscreen.savedStyle.onkeydown;
+	JMI.util.EventManager.removeEvent(crumb.map.parent, 'dblclick', JMI.extensions.Breadcrumb.restoreNormalScreen);
 	for( cssProp in crumb.fullscreen.savedStyle) {
 		crumb.map.parent.style[cssProp] = crumb.fullscreen.savedStyle[cssProp];
 	}
 	crumb.map.resize(crumb.map.parent.clientWidth, crumb.map.parent.clientHeight);
-	document.onkeydown = crumb.fullscreen.savedStyle.onkeydown;
-	JMI.util.EventManager.removeEvent(crumb.map.parent, 'dblclick', JMI.extensions.Breadcrumb.restoreNormalScreen);
+	crumb.fullscreen.div.style.zIndex = -1;
+	crumb.fullscreen.div.style.visibility = 'hidden';
+	if( crumb.fullscreen.savedNextSibling == null) {
+		crumb.fullscreen.savedParent.appendChild(crumb.map.parent);
+	}
+	else {
+		crumb.fullscreen.savedParent.insertBefore(crumb.map.parent,crumb.fullscreen.savedNextSibling);
+	}
 }
