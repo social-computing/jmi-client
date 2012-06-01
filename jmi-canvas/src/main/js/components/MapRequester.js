@@ -52,7 +52,7 @@ JMI.components.MapRequester = (function() {
 						}
 						else { 
 							setTimeout( function() {
-								requester.map.dispatchEvent({map: requester.map, type: JMI.Map.event.ERROR, origin: JMI.Map.event.CLIENT_ORIGIN, message: 'Error ' + client.status + ': ' + client.statusText + '\n' + requester.jmiServerUrl + '...'});
+								requester.map.dispatchEvent({map: requester.map, type: JMI.Map.event.ERROR, origin: JMI.Map.event.CLIENT_ORIGIN, message: 'Error ' + client.status + ': ' + client.statusText + '<br/>' + requester.jmiServerUrl + '...'});
 							},100);
 						}
 					}
@@ -83,7 +83,12 @@ JMI.components.MapRequester = (function() {
 			catch(err) {
 				document.body.style.cursor = 'default';
 				setTimeout( function() {
-					requester.map.dispatchEvent({map: this.map, type: JMI.Map.event.ERROR, origin: JMI.Map.event.CLIENT_ORIGIN, message: err + 'Check browser security parameters: allow access data sources across domains.'});
+					if( navigator.userAgent.indexOf('MSIE') > 0) {
+						requester.map.dispatchEvent({map: requester.map, type: JMI.Map.event.ERROR, origin: JMI.Map.event.CLIENT_ORIGIN, message: err + '<a href="http://www.just-map-it.com/p/ie-security.html" target="_blank" title="allow access data sources across domains">Check Internet Explorer security parameters</a>.'});
+					}
+					else {
+						requester.map.dispatchEvent({map: requester.map, type: JMI.Map.event.ERROR, origin: JMI.Map.event.CLIENT_ORIGIN, message: err});
+					}
 				},100);
 			}
   		},
