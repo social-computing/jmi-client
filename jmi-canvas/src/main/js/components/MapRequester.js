@@ -17,24 +17,47 @@ JMI.components.MapRequester = (function() {
 		constructor: JMI.components.MapRequester,
 		
 		getMap: function(name, parameters) {
-			
+
+			// http://blogs.msdn.com/b/ieinternals/archive/2010/05/13/xdomainrequest-restrictions-limitations-and-workarounds.aspx
+			// var client = window.XDomainRequest ? new XDomainRequest() : new XMLHttpRequest(),
+			// Trop de limitations: abandonné (pas de header, pas de cookie, etc...)
 			var client = new XMLHttpRequest(),
 				requester = this,
 				p, url, urlparams;
 			document.body.style.cursor = 'wait';
-			client.onreadystatechange = function() {
-				if( this.readyState === 4) {
+/*			if( window.XDomainRequest) {
+				client.onload = function() {
 					document.body.style.cursor = 'default';
-					if( this.status === 200) {
-						requester.map.setData( client.responseText);
+					requester.map.setData( client.responseText);
+				};
+				client.onerror = function() {
+					document.body.style.cursor = 'default';
+					setTimeout( function() {
+						requester.map.dispatchEvent({map: requester.map, type: JMI.Map.event.ERROR, origin: JMI.Map.event.CLIENT_ORIGIN, message: 'Error ' + requester.jmiServerUrl + '...'});
+					},100);
+				};
+				client.ontimeout = function() {
+					document.body.style.cursor = 'default';
+					setTimeout( function() {
+						requester.map.dispatchEvent({map: requester.map, type: JMI.Map.event.ERROR, origin: JMI.Map.event.CLIENT_ORIGIN, message: 'Timeout ' + requester.jmiServerUrl + '...'});
+					},100);
+				};
+			}
+			else {*/
+				client.onreadystatechange = function() {
+					if( this.readyState === 4) {
+						document.body.style.cursor = 'default';
+						if( this.status === 200) {
+							requester.map.setData( client.responseText);
+						}
+						else { 
+							setTimeout( function() {
+								requester.map.dispatchEvent({map: requester.map, type: JMI.Map.event.ERROR, origin: JMI.Map.event.CLIENT_ORIGIN, message: 'Error ' + client.status + ': ' + client.statusText + '\n' + requester.jmiServerUrl + '...'});
+							},100);
+						}
 					}
-					else { 
-						setTimeout( function() {
-							requester.map.dispatchEvent({map: requester.map, type: JMI.Map.event.ERROR, origin: JMI.Map.event.CLIENT_ORIGIN, message: 'Error ' + client.status + ': ' + client.statusText + '\n' + requester.jmiServerUrl + '...'});
-						},100);
-					}
-				}
-			}; 
+				}; 
+//			}
 			url = this.jmiServerUrl;
 			if( url.charAt(url.length - 1) !== '/') {
 				url += '/';
