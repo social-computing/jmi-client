@@ -266,6 +266,8 @@ JMI.extensions.Breadcrumb = ( function() {
 					// Save child position
 					crumb.fullscreen.savedParent = crumb.map.parent.parentNode;
 					crumb.fullscreen.savedNextSibling = crumb.map.parent.nextSibling;
+					crumb.fullscreen.savedCanvasWidth = crumb.map.size.width;
+					crumb.fullscreen.savedCanvasHeight = crumb.map.size.height;
 					crumb.map.resize(crumb.fullscreen.div.clientWidth, crumb.fullscreen.div.clientHeight);
 					crumb.map.parent.parentNode.removeChild(crumb.map.parent);
 					crumb.fullscreen.div.appendChild(crumb.map.parent);
@@ -297,8 +299,12 @@ JMI.extensions.Breadcrumb.restoreNormalScreen = function(event, crumb) {
 	for( cssProp in crumb.fullscreen.savedStyle) {
 		crumb.map.parent.style[cssProp] = crumb.fullscreen.savedStyle[cssProp];
 	}
-	crumb.map.resize(crumb.map.parent.clientWidth, crumb.map.parent.clientHeight);
+	crumb.map.resize(crumb.fullscreen.savedCanvasWidth, crumb.fullscreen.savedCanvasHeight);
 	crumb.fullscreen.div.style.zIndex = -1;
+	crumb.fullscreen.div.style.top = 0;
+	crumb.fullscreen.div.style.left = 0;
+	crumb.fullscreen.div.style.width = 0;
+	crumb.fullscreen.div.style.height = 0;
 	crumb.fullscreen.div.style.visibility = 'hidden';
 	if( crumb.fullscreen.savedNextSibling == null) {
 		crumb.fullscreen.savedParent.appendChild(crumb.map.parent);
