@@ -304,15 +304,12 @@ JMI.script.Satellite = ( function() {
 								applet.divMenu.appendChild( menu);
 								var x = absPosition.x,
 									y = absPosition.y;
-								/*menu.show(point.x, point.y);
-								menu.visible = false;
-								if(point.x + menu.width > applet.width) {
-									point.x = Math.max(point.x - menu.width, 0);
+								if(x + applet.divMenu.clientWidth > window.innerWidth) {
+									x = Math.max(x - applet.divMenu.clientWidth, 0);
 								}
-								if(point.y + menu.height > applet.height) {
-									point.y = Math.max(point.y - menu.height, 0);
+								if(y + applet.divMenu.clientHeight > window.innerHeight) {
+									y = Math.max(y - applet.divMenu.clientHeight, 0);
 								}
-								menu.move(point.x, point.y);*/
 								applet.divMenu.style.top = y + 'px';
 								applet.divMenu.style.left = x + 'px';
 								applet.divMenu.style.visibility = '';
