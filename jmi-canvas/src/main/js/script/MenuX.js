@@ -136,30 +136,32 @@ JMI.script.MenuX = ( function() {
 		 * @return			True if this item is not empty. This is used in the recursive process and is useless for the main call.
 		 * @throws UnsupportedEncodingException
 		 */
-		parseItem : function(applet, dst, zone, j) {
+		parseItem : function(applet, dst, zone, k) {
 			var parts = this.getString(JMI.script.MenuX.TEXT_VAL, zone.props).split(JMI.script.Base.SEP);
-			var title = parts[0];
-			var url = parts.length > 1 ? (parts[1]===''? null :parts[1]): null;
-			var checked = parts.length > 2 ? parts[2] : null;
+			var titlePart = parts[0], i;
+			var urlPart = parts.length > 1 ? (parts[1]===''? null :parts[1]): null;
+			var checkedPart = parts.length > 2 ? parts[2] : null;
 			var font = this.getTextFormat(zone.props);
-			var titles = this.parseString3(title, zone.props);
-			var urls = url !== null ? this.parseString3(url, zone.props) : null;
-			var checkeds = checked !== null ? this.parseString3(checked, zone.props) : null;
-			var i, n = titles.length, m = checkeds !== null ? checkeds.length : 0;
+			var titles = this.parseString3(titlePart, zone.props);
+			var urls = urlPart !== null ? this.parseString3(urlPart, zone.props) : null;
+			var checkeds = checkedPart !== null ? this.parseString3(checkedPart, zone.props) : null;
+			var title, url, checked;
 
-			if(j === -1) {
-				for( i = 0; i < n; i++) {
-					this.addItem(applet, dst, titles[i], urls !== null ? urls[i] : null, checkeds !== null ? checkeds[i] : null, font);
+			if(k === -1) {
+				for( i = 0; i < titles.length; i++) {
+					title = titles[i];
+					url = urls === null ? null : i > urls.length -1 ? urls[0] : urls[i];
+					checked = checkeds === null ? null : i> checkeds.length -1 ? checkeds[0] : checkeds[i];
+					this.addItem(applet, dst, title, url, checked, font);
 				}
 			} else {
-				i = m - 1 < j ? m - 1 : j;
-				j = n - 1 < j ? n - 1 : j;
-				if(i >= 0 && j >= 0) {
-					this.addItem(applet, dst, titles[j], urls !== null ? urls[i] : null, checkeds !== null ? checkeds[i] : null, font);
-				}
+				title = k > titles.length -1 ? titles[0] : titles[k];
+				url = urls === null ? null : k > urls.length -1 ? urls[0] : urls[k];
+				checked = checkeds === null ? null : k > checkeds.length -1 ? checkeds[0] : checkeds[k];
+				this.addItem(applet, dst, title, url, checked, font);
 			}
 
-			return n > 0;
+			return titles.length > 0;
 		},
 		/**
 		 * Creates a new MenuItem, add it to a Menu and store the URL to call inside.
