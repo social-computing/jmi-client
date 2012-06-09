@@ -133,6 +133,32 @@ JMI.Map.MatchFields = function(o,str,fields) {
 	}
 };
 
+JMI.Map.BuildApiObjects = function(map, parameters) {
+	// [[[ID, REC_ID], [NAME, REC_NAME]], [[ID, POSS_ID], [NAME, POSS_NAME]]]
+	// parameters[0] : attributes fields, parameters[0][0] is id
+	// parameters[1] : links fields, parameters[1][0] is id
+	var objects = {}, i, j;
+	for(i = 0; i < map.attributes.length; ++i) {
+		var att = map.attributes[i];
+		for(j = 0; j < parameters[0].length; ++j) {
+			for(k = 0; k < att[parameters[0][j][1]].length; ++k) {
+				var obj = objects[att[parameters[0][0][1]][k]];
+				if( !obj) {
+					obj = {};
+					objects[att[parameters[0][0][1]][k]] = obj;
+				}
+				if( !obj[parameters[0][j][0]]) {
+					obj[parameters[0][j][0]] = att[parameters[0][j][1]][k];
+				}
+			}
+		}
+	}
+	map.objects = [];
+	for(i in objects) {
+		map.objects.push( i);
+	}
+};
+
 JMI.namespace("Map.event");
 
 JMI.Map.event.START = "start";

@@ -8,8 +8,9 @@ JMI.extensions.Breadcrumb = ( function() {
 		this.badIe = navigator.userAgent.indexOf('MSIE 6') > 0 || navigator.userAgent.indexOf('MSIE 7') > 0;
 		this.crumbs = [];
 		this.counter = 0;
-		this.namingFunc = parameters && parameters.namingFunc ? parameters.namingFunc : this.defaultNaming;
-		this.thumbnail = parameters && parameters.thumbnail && !this.badIe;
+		parameters = parameters || {};
+		this.namingFunc = parameters.namingFunc;
+		this.thumbnail = parameters.thumbnail && !this.badIe;
 		if( this.thumbnail) {
 			this.thumbnail = parameters.thumbnail;
 			this.thumbnail.width = this.thumbnail.width || 200;
@@ -32,26 +33,16 @@ JMI.extensions.Breadcrumb = ( function() {
 			throw 'JMI breadcrumb: invalid map ' + map;
 		}
 		this.map = map;
-		this.snapshot = parameters && parameters.snapshot;
-		if( this.snapshot) {
-			this.snapshot = parameters.snapshot;
-		}
-		else {
-			this.snapshot = {};
-		}
+		// Snapshot
+		this.snapshot = parameters.snapshot || {};
 		if( !this.snapshot.img) {
 			this.snapshot.img = this.map.clientUrl + '/images/snapshot_icon.png';
 		}
 		if( !this.snapshot.title) {
 			this.snapshot.title = 'Snapshot';
 		}
-		this.fullscreen = parameters && parameters.fullscreen;
-		if( this.fullscreen) {
-			this.fullscreen = parameters.fullscreen;
-		}
-		else {
-			this.fullscreen = {};
-		}
+		// Fullscreen
+		this.fullscreen = parameters.fullscreen || {};
 		if( !this.fullscreen.img) {
 			this.fullscreen.img = this.map.clientUrl + '/images/fullscreen_icon.png';
 		}
@@ -61,6 +52,17 @@ JMI.extensions.Breadcrumb = ( function() {
 		this.fullscreen.div = document.createElement("div");
 		this.fullscreen.div.style.position = 'absolute';
 		this.fullscreen.div.style.visibility = 'hidden';
+		// Report
+		this.report = parameters.report || {};
+		if( !this.report.img) {
+			this.report.img = this.map.clientUrl + '/images/report_icon.png';
+		}
+		if( !this.report.title) {
+			this.report.title = 'Report';
+		}
+		// Customs Commands
+		this.commands = parameters.commands || {};
+		
 		var p, breadcrumb = this;
 		this.map.addEventListener(JMI.Map.event.START, function(event) {
 			var crumb = breadcrumb.crumbs.length > 0 ? breadcrumb.crumbs[breadcrumb.crumbs.length-1] : null;
@@ -118,6 +120,25 @@ JMI.extensions.Breadcrumb = ( function() {
 			}
 			if( this.map.type === JMI.Map.CANVAS && !this.crumbs[this.crumbs.length-1].error && !this.crumbs[this.crumbs.length-1].empty) {
 				this.parent.appendChild(this.getFullscreenButton());
+			}
+			if( !this.crumbs[this.crumbs.length-1].error && !this.crumbs[this.crumbs.length-1].empty) {
+				//this.parent.appendChild(this.getReportButton());
+			}
+			if( !this.crumbs[this.crumbs.length-1].error && !this.crumbs[this.crumbs.length-1].empty) {
+				for( command in this.commands) {
+					var a = document.createElement('a'),
+						img = document.createElement('img');
+					img.src = command.img;
+					a.title = command.title;
+					a.href = '';
+					command.crumb = this;
+					JMI.util.EventManager.addEvent(a, 'click', function(event, command) {
+						JMI.util.EventManager.preventDefault(event);
+						command.doCommand(crumb.map);
+					}, command);
+					a.appendChild(img);
+					this.parent.appendChild(a);
+				}
 			}
 		},
 		flush: function() {
@@ -195,7 +216,7 @@ JMI.extensions.Breadcrumb = ( function() {
 		getTitles: function(crumb,event) {
 			var res;
 			if( !crumb.self && !crumb.shortTitle) {
-				res = this.namingFunc(event);
+				res = this.namingFunc(event,this.defaultNaming(event));
 				if( res.shortTitle) {
 					crumb.shortTitle = res.shortTitle;
 					crumb.longTitle = crumb.shortTitle;
@@ -284,6 +305,46 @@ JMI.extensions.Breadcrumb = ( function() {
 				}
 			}, this);
 			s.className = 'jmi-fullscreen';
+			a.appendChild(img);
+			return a;
+		},
+		getReportButton: function() {
+			var a = document.createElement('a'),
+				img = document.createElement('img');
+			img.src = this.report.img;
+			a.title = this.report.title;
+			a.href = '';
+			JMI.util.EventManager.addEvent(a, 'click', function(event, crumb) {
+				JMI.util.EventManager.preventDefault(event);
+				if( !crumb.error && !crumb.empty) {
+					var w = window.open(), doc = w.document, 
+						attributes, objects, i, j;
+					doc.write('<link rel="stylesheet" type="text/css" href="/jmi-canvas/src/main/resources/jmi-client/css/jmi-client.css" />');
+					doc.write('<div class="jmi-report">');
+					doc.write('<h1>' + crumb.crumbs[crumb.crumbs.length-1].longTitle + '</h1>');
+					doc.write('<div><img src="'+crumb.map.getImage('image/png',595,500,true)+'"/></div>');
+					doc.write('<div><ul>');
+					attributes = crumb.map.attributes.slice(0); // Copy table
+					attributes.sort( function(a, b){
+						return a.NAME.localeCompare(b.NAME);
+					});
+					for(i = 0; i < attributes.length; ++i) {
+						doc.write('<div class="jmi-report-attribute"><li>' + attributes[i].NAME);
+						objects = attributes[i].POSS_ID.slice(0); // Copy table
+						objects.sort( function(a, b){
+							return a.localeCompare(b);
+						});
+						doc.write('<ul>');
+						for(j = 0; j < objects.length; ++j) {
+							doc.write('<li>' + objects[j]);
+							doc.write('</li>');
+						}
+						doc.write('</ul>');
+						doc.write('</li></div>');
+					}
+					doc.write('</ul></div>');
+				}
+			}, this);
 			a.appendChild(img);
 			return a;
 		}
