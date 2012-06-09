@@ -64,9 +64,8 @@ function breadcrumbTitlesFunc(event) {
 		return {shortTitle: 'Sorry, an error occured: '  + event.message, longTitle: 'Sorry, an error occured. Error: ' + event.message};
 	}
 	return breadcrumbTitles;
-}
-function getParams() {
-	
+};
+function getVisualization() {
 	return {
 		map: 'GoogleVisualization',
 		invert: 'false',
@@ -77,7 +76,9 @@ function getParams() {
 		inverted: false,
 		data: '{"entities":[{"id":1,"name":"France","attributes":[{"id":2,"p":8}]},{"id":2,"name":"Espagne ","attributes":[{"id":1},{"id":2},{"id":3}]},{"id":3,"name":"Italie","attributes":[{"id":3}]}],"attributes":[{"id":1,"name":"Europe","checked":true},{"id":2,"name":"Asie","checked":false},{"id":3,"name":"Afrique","checked":false}]}'
     };
-	/*return {
+};
+function getFeeds() {
+	return {
 		map: 'Feeds',
 		invert: 'false',
     	feedsserverurl: 'http://feeds.just-map-it.com',
@@ -85,8 +86,10 @@ function getParams() {
 		track: '',
 		jsessionid: '',
 		site: ''
-    };*/
-	/*return {
+    };
+  };
+function getPolyspot() {
+	return {
 		map: 'PolySpot',
 		inverted: 'false',
     	polyspotserverurl: 'http://localhost:8080/web-labs',
@@ -96,8 +99,15 @@ function getParams() {
 		query: 'wind',
 		//C1: '#eeeeee',
 		jsessionid: ''
-    };*/
+    }
 };
+function getParams() {
+	var params = getFeeds();
+	//var params = getVisualization();
+	//var params = getPolyspot();
+	params.debugFile = "/jmi-canvas/src/test/resources/deezer3.json";	
+	return params;
+} 
 function GoMap() {
 	var parameters = getParams();
 	parameters.analysisProfile= 'GlobalProfile';
@@ -122,6 +132,7 @@ function GoMap() {
 	} );
 	map.addEventListener(JMI.Map.event.READY, function(event) {
 		document.getElementById('status').innerHTML = event.map.type;
+		//JMI.Map.BuildApiObjects(event.map, [[['ID', 'POSS_ID'], ['NAME', 'POSS_NAME']],[['ID', 'REC_ID'], ['NAME', 'REC_NAME']]]);
 	} );
 	map.addEventListener(JMI.Map.event.ATTRIBUTE_CLICK, function(event) {
 		//alert( event.attribute.props.NAME);
@@ -185,19 +196,12 @@ function search(value) {
 		<li>element 1</li>
 		<li>element 2</li>
 		<li>element 1</li>
-		<li>element 2</li>
-		<li>element 1</li>
-		<li>element 2</li>
-		<li>element 1</li>
-		<li>element 2</li>
-		<li>element 1</li>
-		<li>element 2</li>
 	</ul>
 </div>
 <div>
 <div id="breadcrumb">&nbsp;</div>
 <div id="map" style="border:1px solid black ;width: 640px ;height: 480px; " ></div>
-<button onclick="map.resize(900,480);">Resize</button>
+<button onclick="map.resize(1200,480);">Resize</button>
 <button onclick="image();">Image</button>
 <button onclick="data();">Data</button>
 <input onkeyup="search(this.value)"/><span id="res"></span>
