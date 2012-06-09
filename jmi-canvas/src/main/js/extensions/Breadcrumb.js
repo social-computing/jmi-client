@@ -216,7 +216,7 @@ JMI.extensions.Breadcrumb = ( function() {
 		getTitles: function(crumb,event) {
 			var res;
 			if( !crumb.self && !crumb.shortTitle) {
-				res = this.namingFunc(event,this.defaultNaming(event));
+				res = this.namingFunc ? this.namingFunc(event,this.defaultNaming(event)) : this.defaultNaming(event);
 				if( res.shortTitle) {
 					crumb.shortTitle = res.shortTitle;
 					crumb.longTitle = crumb.shortTitle;
