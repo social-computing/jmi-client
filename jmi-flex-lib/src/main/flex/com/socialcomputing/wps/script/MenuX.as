@@ -149,34 +149,33 @@ package com.socialcomputing.wps.script  {
          * @return			True if this item is not empty. This is used in the recursive process and is useless for the main call.
          * @throws UnsupportedEncodingException 
          */
-        private function parseItem( dst:ArrayCollection, zone:ActiveZone, j:int):Boolean {
+        private function parseItem( dst:ArrayCollection, zone:ActiveZone, k:int):Boolean {
             var parts:Array 	= getString( TEXT_VAL, zone.m_props ).split( SEP);
-            var title:String	= parts[0];
-            var url:String      = parts.length > 1? parts[1] : null;
-            var checked:String    = parts.length > 2? parts[2] : null;
+            var titlePart:String	= parts[0], i:int;
+            var urlPart:String      = parts.length > 1? parts[1] : null;
+            var checkedPart:String    = parts.length > 2? parts[2] : null;
             var font:TextFormat= this.getTextFormat( zone.m_props);
-            var titles:Vector.<String>	= parseString3( title, zone.m_props);
-            var urls:Vector.<String>   	= url != null && url.length > 0 ? parseString3( url, zone.m_props) : null;
-            var checkeds:Vector.<String>  = checked != null && checked.length > 0? parseString3( checked, zone.m_props) : null;
+            var titles:Vector.<String>	= parseString3( titlePart, zone.m_props);
+            var urls:Vector.<String>   	= urlPart != null && urlPart.length > 0 ? parseString3( urlPart, zone.m_props) : null;
+            var checkeds:Vector.<String>  = checkedPart != null && checkedPart.length > 0? parseString3( checkedPart, zone.m_props) : null;
+			var title:String, url:String, checked:String;
 
-            var i:int, n:int = titles.length, m:int = checkeds != null ? checkeds.length : 0;
-            
-            if ( j == -1)
-            {
-                for ( i = 0; i < n; i ++ )
-                {
+            if ( k == -1) {
+                for ( i = 0; i < titles.length; i ++ ) {
+					title = titles[i];
+					url = urls == null ? null : i > urls.length -1 ? urls[0] : urls[i];
+					checked = checkeds == null ? null : i> checkeds.length -1 ? checkeds[0] : checkeds[i];
                     addItem( dst, titles[i], urls != null ? urls[i] : null, checkeds != null ? checkeds[i] : null, font );
                 }
             }
-            else
-            {
-                i	= m - 1< j ? m - 1: j;
-                j	= n - 1< j ? n - 1: j;
-                if( i >= 0 && j >= 0)
-                    addItem( dst, titles[j], urls != null ? urls[i] : null, checkeds != null ? checkeds[i] : null, font );
+            else {
+				title = k > titles.length -1 ? titles[0] : titles[k];
+				url = urls == null ? null : k > urls.length -1 ? urls[0] : urls[k];
+				checked = checkeds == null ? null : k > checkeds.length -1 ? checkeds[0] : checkeds[k];
+                addItem( dst, title, url, checked, font );
             }
             
-            return n > 0;
+            return titles.length > 0;
         }
         
         /**
