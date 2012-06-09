@@ -69,9 +69,13 @@ JMI.components.MapRequester = (function() {
 				urlparams = this.addParameter( urlparams, p, parameters[p]);
 			}
 			try {
-				if( this.method === 'GET') {
-					//client.open( "GET", "/jmi-canvas/src/test/resources/Adisseo.json", true); 
-					client.open( 'GET', url + '?' + urlparams, true); 
+				if( this.method === 'GET' || parameters.debugFile) {
+					if( parameters.debugFile) {
+						client.open( 'GET', parameters.debugFile, true); 
+					}
+					else {
+						client.open( 'GET', url + '?' + urlparams, true); 
+					}
 					client.send();
 				}
 				else { // POST
