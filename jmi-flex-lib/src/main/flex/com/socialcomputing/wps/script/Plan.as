@@ -321,10 +321,12 @@ package com.socialcomputing.wps.script  {
                 m_curSat = curSat;
                 
 				// A new Zone is hovered, let's paint it!
-                if (m_curSat != null && (m_curZone != m_newZone)) {
-                    m_curZone = m_newZone;
-                    paintCurZone();              
-                    m_curSat.execute( m_applet, m_curZone, p, Satellite.HOVER_VAL);
+                if (m_curSat != null) {
+					if (m_curZone != m_newZone) {
+	                    m_curZone = m_newZone;
+	                    paintCurZone();              
+	                    m_curSat.execute( m_applet, m_curZone, p, Satellite.HOVER_VAL);
+					}
                     cursTyp = MouseCursor.HAND;   // Sets the cursor to a hand if the mouse entered a Zone
                 }
                 else {

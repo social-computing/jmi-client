@@ -291,10 +291,12 @@ JMI.script.Plan = ( function() {
 				this.curSat = cSat;
 
 				// A new Zone is hovered, let's paint it!
-				if(this.curSat !== null && (this.curZone !== this.newZone)) {
-					this.curZone = this.newZone;
-					this.paintCurZone();
-					this.curSat.execute(this.applet, this.curZone, p, JMI.script.Satellite.HOVER_VAL);
+				if(this.curSat !== null) {
+					if(this.curZone !== this.newZone) {
+						this.curZone = this.newZone;
+						this.paintCurZone();
+						this.curSat.execute(this.applet, this.curZone, p, JMI.script.Satellite.HOVER_VAL);
+					}
 					cursTyp = 'pointer';
 				} else {
 					this.curZone = this.newZone;
