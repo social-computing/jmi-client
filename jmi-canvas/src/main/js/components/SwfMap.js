@@ -145,7 +145,7 @@ JMI.components.SwfMap = (function() {
 					o = new JMI.components.Attribute(this,i);
 					swfO = this.swfmap.getJmiAttribute(i);
 					for(p in swfO) {
-						if(p && (p.charAt(0) !== '_')) {
+						if(p && (p.charAt(0) !== '_' || p === '_VERTICES')) {
 							o[p] = swfO[p]; 
 						}
 					}
@@ -156,7 +156,7 @@ JMI.components.SwfMap = (function() {
 					o = new JMI.components.Link(this,i);
 					swfO = this.swfmap.getLink(i);
 					for(p in swfO) {
-						if(p && (p.charAt(0) !== '_')) {
+						if(p && (p.charAt(0) !== '_' || p === '_VERTICES')) {
 							o[p] = swfO[p];
 						}
 					}

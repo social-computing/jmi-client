@@ -552,7 +552,7 @@ JMI.components.CanvasMap = (function() {
 				this.attributes.push( o2);
 				//o2.node = o1;
 				for(p in z.props) {
-					if(p && (p.charAt(0) !== '_')) {
+					if(p && (p.charAt(0) !== '_' || p === '_VERTICES')) {
 						o2[p] = z.props[p]; 
 					}
 				}
@@ -562,7 +562,7 @@ JMI.components.CanvasMap = (function() {
 				o1 = new JMI.components.Link(this,i);
 				this.links.push(o1);
 				for(p in z.props) {
-					if(p && (p.charAt(0) !== '_')) {
+					if(p && (p.charAt(0) !== '_' || p === '_VERTICES')) {
 						o1[p] = z.props[p]; 
 					}
 				}
