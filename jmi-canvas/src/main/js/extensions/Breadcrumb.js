@@ -71,6 +71,9 @@ JMI.extensions.Breadcrumb = ( function() {
 				delete crumb.self;
 			}
 			else {
+				if( crumb && (crumb.error || crumb.empty)) {
+					breadcrumb.crumbs.pop();
+				}
 				crumb = {};
 				crumb.params = {};
 				for (p in event.params) {
