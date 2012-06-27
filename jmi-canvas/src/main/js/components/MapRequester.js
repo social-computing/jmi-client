@@ -16,16 +16,16 @@ JMI.components.MapRequester = (function() {
 	MapRequester.prototype = {
 		constructor: JMI.components.MapRequester,
 		
+		isXDomainRequest: function() {
+			return false; //window.XDomainRequest && this.method === 'GET';
+		},
 		getMap: function(name, parameters) {
-
 			// http://blogs.msdn.com/b/ieinternals/archive/2010/05/13/xdomainrequest-restrictions-limitations-and-workarounds.aspx
-			// var client = window.XDomainRequest ? new XDomainRequest() : new XMLHttpRequest(),
-			// Trop de limitations: abandonné (pas de header, pas de cookie, etc...)
-			var client = new XMLHttpRequest(),
-				requester = this,
-				p, url, urlparams;
+			// Limitations: pas de header, pas de cookie, pas de 'application/x-www-form-urlencoded', etc...
+			var client, requester = this, p, url, urlparams;
 			document.body.style.cursor = 'wait';
-/*			if( window.XDomainRequest) {
+			if( this.isXDomainRequest()) {
+				client = new XDomainRequest();
 				client.onload = function() {
 					document.body.style.cursor = 'default';
 					requester.map.setData( client.responseText);
@@ -43,7 +43,8 @@ JMI.components.MapRequester = (function() {
 					},100);
 				};
 			}
-			else {*/
+			else {
+				client = new XMLHttpRequest();
 				client.onreadystatechange = function() {
 					if( this.readyState === 4) {
 						document.body.style.cursor = 'default';
@@ -57,7 +58,7 @@ JMI.components.MapRequester = (function() {
 						}
 					}
 				}; 
-//			}
+			}
 			url = this.jmiServerUrl;
 			if( url.charAt(url.length - 1) !== '/') {
 				url += '/';

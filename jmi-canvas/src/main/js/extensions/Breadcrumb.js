@@ -65,7 +65,7 @@ JMI.extensions.Breadcrumb = ( function() {
 		
 		var p, breadcrumb = this;
 		this.map.addEventListener(JMI.Map.event.START, function(event) {
-			var crumb = breadcrumb.crumbs.length > 0 ? breadcrumb.crumbs[breadcrumb.crumbs.length-1] : null;
+			var crumb = breadcrumb.last();
 			if( crumb && crumb.self) {
 				// Celui qui a été cliqué
 				delete crumb.self;
@@ -84,19 +84,19 @@ JMI.extensions.Breadcrumb = ( function() {
 			}
 		} );
 		this.map.addEventListener(JMI.Map.event.EMPTY, function(event) {
-			var crumb = breadcrumb.crumbs[breadcrumb.crumbs.length-1];
+			var crumb = breadcrumb.last();
 			breadcrumb.getTitles(crumb,event);
 			crumb.empty = true;
 			breadcrumb.display();
 		});
 		this.map.addEventListener(JMI.Map.event.ERROR, function(event) {
-			var crumb = breadcrumb.crumbs[breadcrumb.crumbs.length-1];
+			var crumb = breadcrumb.last();
 			breadcrumb.getTitles(crumb,event);
 			crumb.error = true;
 			breadcrumb.display();
 		});
 		this.map.addEventListener(JMI.Map.event.READY, function(event) {
-			var crumb = breadcrumb.crumbs[breadcrumb.crumbs.length-1];
+			var crumb = breadcrumb.last();
 			breadcrumb.getTitles(crumb,event);
 			setTimeout( function() {
 				breadcrumb.checkThumbnail(crumb);
@@ -109,7 +109,7 @@ JMI.extensions.Breadcrumb = ( function() {
 		constructor : JMI.extensions.Breadcrumb,
 
 		display: function() {
-			var i, lu = document.createElement('lu');
+			var i, lu = document.createElement('lu'), last = this.last();;
 			lu.className = 'jmi-breadcrumb';
 			for( i = 0; i < this.crumbs.length; ++i) {
 				lu.appendChild( this.getCrumb(this.crumbs[i], i === this.crumbs.length-1));
@@ -118,16 +118,16 @@ JMI.extensions.Breadcrumb = ( function() {
 				this.parent.removeChild(this.parent.firstChild);
 			}
 			this.parent.appendChild(lu);
-			if( !this.badIe && !this.crumbs[this.crumbs.length-1].error && !this.crumbs[this.crumbs.length-1].empty) {
+			if( !this.badIe && last && !last.error && !last.empty) {
 				this.parent.appendChild(this.getSnapshotButton());
 			}
-			if( this.map.type === JMI.Map.CANVAS && !this.crumbs[this.crumbs.length-1].error && !this.crumbs[this.crumbs.length-1].empty) {
+			if( this.map.type === JMI.Map.CANVAS && last && !last.error && !last.empty) {
 				this.parent.appendChild(this.getFullscreenButton());
 			}
-			if( !this.crumbs[this.crumbs.length-1].error && !this.crumbs[this.crumbs.length-1].empty) {
+			if( last && !last.error && !last.empty) {
 				//this.parent.appendChild(this.getReportButton());
 			}
-			if( !this.crumbs[this.crumbs.length-1].error && !this.crumbs[this.crumbs.length-1].empty) {
+			if( last && !last.error && !last.empty) {
 				for( command in this.commands) {
 					var a = document.createElement('a'),
 						img = document.createElement('img');
@@ -144,10 +144,10 @@ JMI.extensions.Breadcrumb = ( function() {
 				}
 			}
 		},
-		flush: function() {
+		reset: function() {
 			this.crumbs.length = 0;
 		},
-		current: function() {
+		last: function() {
 			return this.crumbs.length === 0 ? null : this.crumbs[this.crumbs.length-1];
 		},
 		getCrumb: function(crumb,last) {
