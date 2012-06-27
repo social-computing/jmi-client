@@ -66,7 +66,7 @@ JMI.extensions.Slideshow = ( function() {
 				slideShow.slides[i].style.left = 0;
 				slideShow.slides[i].style.top = 0;
 				slideShow.slides[i].style.listStyle = 'none';
-				slideShow.slides[i].style.zIndex = 1000;
+				slideShow.slides[i].style.zIndex = 100;
 			}
 		    // show first slide
 			slideShow.curSlide = 0;

@@ -3,7 +3,7 @@
 	font-size:12px;	
  	white-space:nowrap;
  	z-index:100;
-   }
+}
 
 ul.jmi-menu {
  	background:	#ffffff;
@@ -118,13 +118,14 @@ ul.jmi-menu {
  }
  
 .jmi-breadcrumb-thumbnail {
+ 	background:	#ffffff;
 	border-style:none;
 	padding-top: 1px;
-	}
+}
 
 .jmi-breadcrumb-thumbnail img {
 	border:1px solid #666;
-	}
+}
 	
 .jmi-snapshot { 
 	display:inline;
