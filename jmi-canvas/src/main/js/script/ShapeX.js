@@ -353,21 +353,33 @@ JMI.script.ShapeX = (function() {
                 	if( !applet.planContainer.map.env.badMedias[imageName]) {
                 		if (!applet.planContainer.map.env.loaders[imageName]) {
 		                    applet.planContainer.map.env.loaders[imageName] = true;
+		                    applet.planContainer.map.env.loaders.length++;
 		                    image = new Image();
-		                    var sh = this;
+		                    //var sh = this;
 		                    image.onload = function() {
 		                        applet.planContainer.map.env.medias[imageName] = image;
-		                    	applet.planContainer.map.env.loaders.splice(imageName,1);
-		                    	if( applet.planContainer.map.env.loaders.length === 0) {
-				                    //sh.drawLoadedImage(applet, image, gDrawingContext, zone, imageName, transfo, center, true);
-									applet.planContainer.map.plan.init();
-									applet.renderShape(applet.restDrawingCanvas, applet.size.width, applet.size.height);
+		                    	delete applet.planContainer.map.env.loaders[imageName];
+		                    	applet.planContainer.map.env.loaders.length--;
+			                    if( applet.planContainer.map.env.loaders.length === 0) {
+		                    		//setTimeout( function() {
+					                    //sh.drawLoadedImage(applet, image, gDrawingContext, zone, imageName, transfo, center, true);
+										applet.planContainer.map.plan.init();
+										applet.renderShape(applet.restDrawingCanvas, applet.size.width, applet.size.height);
+									//}, 1000);
 		                    	}
 		                    };
 		                    image.onerror = function() {
 		                    	applet.planContainer.map.env.badMedias[imageName] = true; 
-		                    	applet.planContainer.map.env.loaders.splice(imageName,1);
+		                    	delete applet.planContainer.map.env.loaders[imageName];
+		                    	applet.planContainer.map.env.loaders.length--;
 		                    	applet.log('Load image ' + imageName + ' failed');
+			                    if( applet.planContainer.map.env.loaders.length === 0) {
+		                    		//setTimeout( function() {
+					                    //sh.drawLoadedImage(applet, image, gDrawingContext, zone, imageName, transfo, center, true);
+										applet.planContainer.map.plan.init();
+										applet.renderShape(applet.restDrawingCanvas, applet.size.width, applet.size.height);
+									//}, 1000);
+		                    	}
 		                    };
 		                    image.src = imageName;   
 		                }

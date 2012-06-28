@@ -58,10 +58,10 @@ var breadcrumbTitles = { shortTitle: 'Carte principale', longTitle: '' };
 var map;
 function breadcrumbTitlesFunc(event) {
 	if( event.type === JMI.Map.event.EMPTY) {
-		return {shortTitle: 'Sorry, the map is empty. Does the feed contains categories?', longTitle: 'Sorry, the map is empty. Does the feed contains categories?'};
+		return {shortTitle: 'Sorry, the map is empty.', longTitle: 'Sorry, the map is empty.'};
 	}
 	if( event.type === JMI.Map.event.ERROR) {
-		return {shortTitle: 'Sorry, an error occured: '  + event.message, longTitle: 'Sorry, an error occured. Error: ' + event.message};
+		return {shortTitle: event.message, longTitle: event.message};
 	}
 	return breadcrumbTitles;
 };
@@ -101,7 +101,18 @@ function getPolyspot() {
 		jsessionid: ''
     }
 };
+function getAllocine() {
+	return {
+		map: 'Allocine',
+		inverted: 'false',
+    	allocineserverurl: 'http://labs.just-map-it.com',
+		kind: 'top:month',
+		filter: 'film_gender',
+		jsessionid: ''
+    }
+};
 function getParams() {
+	//var params = getAllocine();
 	var params = getFeeds();
 	//var params = getVisualization();
 	//var params = getPolyspot();

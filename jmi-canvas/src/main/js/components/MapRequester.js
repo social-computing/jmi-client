@@ -8,7 +8,7 @@ JMI.components.MapRequester = (function() {
 			throw('map component is not set');
 		}
 		this.map = map;
-		this.jmiServerUrl = jmiServerUrl || 'http://server.just-map-it.com/';
+		this.jmiServerUrl = jmiServerUrl || location.protocol + '//server.just-map-it.com/';
 		this.method = method;
 		this.clientId = clientId;
 	};

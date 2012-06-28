@@ -53,13 +53,13 @@ JMI.extensions.Breadcrumb = ( function() {
 		this.fullscreen.div.style.position = 'absolute';
 		this.fullscreen.div.style.visibility = 'hidden';
 		// Report
-		this.report = parameters.report || {};
+		/*this.report = parameters.report || {};
 		if( !this.report.img) {
 			this.report.img = this.map.clientUrl + '/images/report_icon.png';
 		}
 		if( !this.report.title) {
 			this.report.title = 'Report';
-		}
+		}*/
 		// Customs Commands
 		this.commands = parameters.commands || {};
 		
