@@ -55,8 +55,8 @@ JMI.Map = function(params) {
 	}
 
 	backgroundColor = params.backgroundColor || divParent.style.backgroundColor;
-	// server = params.server || location.protocol + '//server.just-map-it.com/';
-	server = params.server || 'http://server.just-map-it.com/';
+	server = params.server || location.protocol + '//server.just-map-it.com/';
+	//server = params.server || 'http://server.just-map-it.com/';
 	touchMenuDelay = params.touchMenuDelay || 1000;
 	clientUrl = params.clientUrl || '/jmi-client';
 	if( clientUrl.charAt(clientUrl.length-1) !== '/') {
