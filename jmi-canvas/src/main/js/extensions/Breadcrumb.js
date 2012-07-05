@@ -146,6 +146,7 @@ JMI.extensions.Breadcrumb = ( function() {
 		},
 		reset: function() {
 			this.crumbs.length = 0;
+			this.display();
 		},
 		last: function() {
 			return this.crumbs.length === 0 ? null : this.crumbs[this.crumbs.length-1];
