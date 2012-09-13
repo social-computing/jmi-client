@@ -22,6 +22,7 @@ JMI.extensions.Slideshow = ( function() {
 			// Built-in slideshow
 			this.slideshow = document.createElement("div");
 			this.slideshow.style.visibility = 'hidden';
+			this.slideshow.style.display = 'none';
 			this.slideshow.style.position = 'absolute';
 			var html= '<ul>';
 			for( i = 1; i <= 5; ++i) {
@@ -45,6 +46,7 @@ JMI.extensions.Slideshow = ( function() {
 			throw 'JMI slideshow: slides not set';
 		}
 		this.slideshow.style.visibility = 'hidden';
+		this.slideshow.style.display = 'none';		
 		this.slideshow.style.position = 'absolute';
 		this.slideshow.style.width = this.width;
 		this.slideshow.style.height = this.height;
@@ -62,6 +64,7 @@ JMI.extensions.Slideshow = ( function() {
 			slideShow.slideshow.style.top = Math.round((top + (slideShow.map.parent.offsetHeight - slideShow.height) / 2)) + 'px';
 			for( i = 0; i < slideShow.slides.length; ++i) {
 				slideShow.slides[i].style.visibility = 'hidden';
+				slideShow.slides[i].style.display = 'none';
 				slideShow.slides[i].style.position = 'absolute';
 				slideShow.slides[i].style.left = 0;
 				slideShow.slides[i].style.top = 0;
@@ -71,7 +74,9 @@ JMI.extensions.Slideshow = ( function() {
 		    // show first slide
 			slideShow.curSlide = 0;
 		    slideShow.slideshow.style.visibility = '';
+		    slideShow.slideshow.style.display = 'block';
 		    slideShow.slides[slideShow.curSlide].style.visibility = '';
+		    slideShow.slides[slideShow.curSlide].style.display = 'block';
 		    if( slideShow.slides.length > 1) {
 			    slideShow.timer = setInterval(function() {
 			    	var hide = slideShow.curSlide;
@@ -80,7 +85,9 @@ JMI.extensions.Slideshow = ( function() {
 				        slideShow.curSlide = 0;
 				    }
 			    	slideShow.slides[slideShow.curSlide].style.visibility = '';
+			    	slideShow.slides[slideShow.curSlide].style.display = 'block';
 			    	slideShow.slides[hide].style.visibility = 'hidden';
+			    	slideShow.slides[hide].style.display = 'none';
 			    }, slideShow.interval);
 			}
 		});
@@ -103,7 +110,9 @@ JMI.extensions.Slideshow = ( function() {
 				clearInterval(this.timer);
 				delete this.timer;
 			    this.slides[this.curSlide].style.visibility = 'hidden';
+			    this.slides[this.curSlide].style.display = 'none';
 		    	this.slideshow.style.visibility = 'hidden';
+		    	this.slideshow.style.display = 'none';
 			}
 		}
 	};

@@ -127,23 +127,13 @@ ul.jmi-menu {
 	border:1px solid #666;
 }
 	
-.jmi-snapshot { 
-	display:inline;
- 	margin: 0;
-}
-
-.jmi-snapshot a,img { 
+.jmi-snapshot img { 
  	padding: 0 5px 0 5px;
 	vertical-align:middle;
 	border:0;
 }
 
-.jmi-fullscreen { 
-	display:inline;
- 	margin: 0;
-}
-
-.jmi-fullscreen a,img { 
+.jmi-fullscreen img { 
  	padding: 0 5px 0 5px;
 	vertical-align:middle;
 	border:0;

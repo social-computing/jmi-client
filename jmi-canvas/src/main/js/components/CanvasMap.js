@@ -33,6 +33,7 @@ JMI.components.CanvasMap = (function() {
 		this.divMenu = document.createElement("div");
 		this.divMenu.className = 'jmi-menu';
 		this.divMenu.style.visibility = 'hidden';
+		this.divMenu.style.diplay = 'none';
 		this.divMenu.style.position = 'absolute';
 		document.body.appendChild(this.divMenu);
 	
@@ -345,6 +346,7 @@ JMI.components.CanvasMap = (function() {
 			if( this.divMenu.style.visibility === '') {
 				JMI.script.MenuX.hideSubMenu(this.divMenu.firstChild);
 				this.divMenu.style.visibility = 'hidden';
+				this.divMenu.style.display = 'none';	
 				if(this.divMenu.firstChild) {
 					this.divMenu.removeChild(this.divMenu.firstChild);
 				}

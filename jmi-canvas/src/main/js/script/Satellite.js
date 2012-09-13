@@ -313,6 +313,7 @@ JMI.script.Satellite = ( function() {
 								applet.divMenu.style.top = y + 'px';
 								applet.divMenu.style.left = x + 'px';
 								applet.divMenu.style.visibility = '';
+								applet.divMenu.style.display = 'block';
 							}
 						}
 

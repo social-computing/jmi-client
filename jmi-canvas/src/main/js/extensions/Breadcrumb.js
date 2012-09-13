@@ -1,4 +1,4 @@
-/*global define, JMI */
+/* global define, JMI */
 JMI.namespace("extensions.Breadcrumb");
 
 JMI.extensions.Breadcrumb = ( function() {
@@ -33,6 +33,7 @@ JMI.extensions.Breadcrumb = ( function() {
 			throw 'JMI breadcrumb: invalid map ' + map;
 		}
 		this.map = map;
+		
 		// Snapshot
 		this.snapshot = parameters.snapshot || {};
 		if( !this.snapshot.img) {
@@ -41,6 +42,7 @@ JMI.extensions.Breadcrumb = ( function() {
 		if( !this.snapshot.title) {
 			this.snapshot.title = 'Snapshot';
 		}
+		
 		// Fullscreen
 		this.fullscreen = parameters.fullscreen || {};
 		if( !this.fullscreen.img) {
@@ -49,9 +51,12 @@ JMI.extensions.Breadcrumb = ( function() {
 		if( !this.fullscreen.title) {
 			this.fullscreen.title = 'Full screen mode';
 		}
+		
 		this.fullscreen.div = document.createElement("div");
 		this.fullscreen.div.style.position = 'absolute';
 		this.fullscreen.div.style.visibility = 'hidden';
+		//this.fullscreen.div.style.display = 'none';
+		
 		// Report
 		/*this.report = parameters.report || {};
 		if( !this.report.img) {
@@ -194,6 +199,7 @@ JMI.extensions.Breadcrumb = ( function() {
 						crumb.thumbnail.style.top = (p.y + crumb.li.offsetHeight) + 'px';
 						crumb.thumbnail.style.left = p.x + 'px';
 						crumb.thumbnail.style.visibility = '';
+						crumb.thumbnail.style.display = 'block';
 					}
 				}, crumb);
 				JMI.util.EventManager.addEvent(c, 'mouseout', function(event) {
@@ -201,6 +207,7 @@ JMI.extensions.Breadcrumb = ( function() {
 					var crumb = event.target.crumb;
 					if( crumb && crumb.thumbnail) {
 						crumb.thumbnail.style.visibility = 'hidden';
+						crumb.thumbnail.style.display = 'none';
 					}
 				}, crumb);
 			}
@@ -241,6 +248,7 @@ JMI.extensions.Breadcrumb = ( function() {
 				div.className = 'jmi-breadcrumb-thumbnail';
 				div.style.position = 'absolute';
 				div.style.visibility = 'hidden';
+				div.style.display = 'none';
 				document.body.appendChild( div);
 				crumb.thumbnail = div;
 			}
@@ -260,7 +268,7 @@ JMI.extensions.Breadcrumb = ( function() {
 					w.document.write('<img src="'+crumb.map.getImage('image/png')+'"/>');
 				}
 			}, this);
-			s.className = 'jmi-snapshot';
+			a.className = 'jmi-snapshot';
 			a.appendChild(img);
 			return a;
 		},
@@ -297,6 +305,7 @@ JMI.extensions.Breadcrumb = ( function() {
 					crumb.map.parent.parentNode.removeChild(crumb.map.parent);
 					crumb.fullscreen.div.appendChild(crumb.map.parent);
 					crumb.fullscreen.div.style.visibility = '';
+					// crumb.fullscreen.div.style.display = 'block';
 
 					crumb.fullscreen.savedStyle.onkeydown = document.onkeydown;
 					JMI.util.EventManager.addEvent(crumb.map.parent, 'dblclick', JMI.extensions.Breadcrumb.restoreNormalScreen, crumb);
@@ -308,7 +317,7 @@ JMI.extensions.Breadcrumb = ( function() {
 					};					
 				}
 			}, this);
-			s.className = 'jmi-fullscreen';
+			a.className = 'jmi-fullscreen';
 			a.appendChild(img);
 			return a;
 		},
@@ -371,6 +380,8 @@ JMI.extensions.Breadcrumb.restoreNormalScreen = function(event, crumb) {
 	crumb.fullscreen.div.style.width = 0;
 	crumb.fullscreen.div.style.height = 0;
 	crumb.fullscreen.div.style.visibility = 'hidden';
+	//crumb.fullscreen.div.style.display = 'none';
+	
 	if( crumb.fullscreen.savedNextSibling == null) {
 		crumb.fullscreen.savedParent.appendChild(crumb.map.parent);
 	}

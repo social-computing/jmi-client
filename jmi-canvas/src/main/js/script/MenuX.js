@@ -56,6 +56,7 @@ JMI.script.MenuX = ( function() {
 					el1 = document.createElement("div");
 					el1.style.position = 'absolute';
 					el1.style.visibility = 'hidden';
+					el1.style.display = 'none';
 					subMenu = document.createElement("ul");
 					subMenu.className = 'jmi-menu';
 					el1.appendChild(subMenu);
@@ -80,7 +81,8 @@ JMI.script.MenuX = ( function() {
 						}
 						event.target.submenu.style.top = top + 'px';
 						event.target.submenu.style.left = left + 'px';
-						event.target.submenu.style.visibility = '';	
+						event.target.submenu.style.visibility = '';
+						event.target.submenu.style.display = 'block';
 						event.target.parentNode.parentNode.currentSubMenu = event.target.submenu;
 					}, false);
 					a.addEventListener('mouseout', function(event) {
@@ -262,9 +264,10 @@ JMI.script.MenuX.TEXT_VAL = 2;
 JMI.script.MenuX.ITEM_BIT = 0x01;
 
 JMI.script.MenuX.hideSubMenu=function(menu) {
-	if( menu && menu.currentSubMenu) {
+	if(menu && menu.currentSubMenu) {
 		JMI.script.MenuX.hideSubMenu( menu.currentSubMenu.firstChild);
 		menu.currentSubMenu.style.visibility = 'hidden';
+		menu.currentSubMenu.style.display = 'none';
 		delete menu.currentSubMenu;
 	}
 };
