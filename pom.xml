@@ -34,7 +34,19 @@
     <module>jmi-canvas</module>
   </modules>
 
-  <repositories>   
+  <repositories>
+    <repository>
+        <id>jmi-cloudbees-private</id>
+        <name>jmi-cloudbees-private</name>
+        <url>https://repository-wps.forge.cloudbees.com/private/</url>
+        <releases>
+            <enabled>true</enabled>
+        </releases>
+        <snapshots>
+            <enabled>true</enabled>
+        </snapshots>
+    </repository>
+   
     <repository>
       <id>sonatype-repository</id>
       <url>http://repository.sonatype.org/content/groups/public/</url>
