@@ -1,0 +1,22 @@
+# Eclipse / Flex Builder files #
+.classpath
+.settings/
+.project
+.actionScriptProperties
+.flexProperties
+.flexConfig.xml
+
+# Package Files #
+*.jar
+
+# Maven directories / Flex Builder #
+# Build and Release Folders
+bin/
+bin-debug/
+bin-release/
+libs/
+
+# Backup files / users specific #
+*~
+*.DS_Store
+*.orig
